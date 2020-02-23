@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Win32">
+      <Configuration>Profile</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D5FDA1EB-A041-3463-8ADA-5DF3482B8FD1}</ProjectGuid>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <ProjectName>Menu3D</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="..\..\..\..\..\..\Config\Common.props" />
+    <Import Project="..\..\..\..\..\..\Config\Debug\Debug.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="PropertySheets">
+    <Import Project="..\..\..\..\..\..\Config\Common.props" />
+    <Import Project="..\..\..\..\..\..\Config\Profile\Profile.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="..\..\..\..\..\..\Config\Common.props" />
+    <Import Project="..\..\..\..\..\..\Config\Release\Release.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <LibraryWPath>$(LibraryWPath)</LibraryWPath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x86\debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <OutDir>..\..\..\..\..\..\Bin\windows_x86\</OutDir>
+    <TargetName>Samples.Menu3D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\..\..\..\Bin\windows_x86\</OutDir>
+    <TargetName>Samples.Menu3D</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN32;_WINDOWS;NS_BUILD;NS_CONFIG=Debug;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;NS_DEBUG;NS_PROFILE;NS_MINIMUM_LOG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <SupportJustMyCode>true</SupportJustMyCode>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libfbxsdk-mt.lib;Noesis.lib;NoesisApp.lib;d3d11.lib;D3DCompiler.lib;Effects11d.lib;dxguid.lib;winmm.lib;comctl32.lib;usp10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\Lib\windows_x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\..\..\..\Lib\windows_x86\Samples.Menu3D.lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <TreatLinkerWarningAsErrors>false</TreatLinkerWarningAsErrors>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\App\ApplicationLauncher\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NS_BUILD;NS_CONFIG=Profile;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;NS_PROFILE;NS_MINIMUM_LOG_LEVEL=2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Noesis.lib;NoesisApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\Lib\windows_x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\..\..\..\Lib\windows_x86\Samples.Menu3D.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\App\ApplicationLauncher\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NS_BUILD;NS_CONFIG=Release;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Noesis.lib;NoesisApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\..\..\Lib\windows_x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\..\..\..\Lib\windows_x86\Samples.Menu3D.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp" />
+    <ClCompile Include="..\..\D3DCommon\Camera.cpp" />
+    <ClCompile Include="..\..\D3DCommon\d3dApp.cpp" />
+    <ClCompile Include="..\..\D3DCommon\d3dUtil.cpp" />
+    <ClCompile Include="..\..\D3DCommon\DDSTextureLoader.cpp" />
+    <ClCompile Include="..\..\D3DCommon\dxerr.cpp" />
+    <ClCompile Include="..\..\D3DCommon\Effects.cpp" />
+    <ClCompile Include="..\..\D3DCommon\GameTimer.cpp" />
+    <ClCompile Include="..\..\D3DCommon\GeometryGenerator.cpp" />
+    <ClCompile Include="..\..\D3DCommon\LightHelper.cpp" />
+    <ClCompile Include="..\..\D3DCommon\MathHelper.cpp" />
+    <ClCompile Include="..\..\D3DCommon\RenderStates.cpp" />
+    <ClCompile Include="..\..\D3DCommon\ShaderCompiler.cpp" />
+    <ClCompile Include="..\..\D3DCommon\TextureMgr.cpp" />
+    <ClCompile Include="..\..\D3DCommon\Vertex.cpp" />
+    <ClCompile Include="..\..\D3DCommon\Waves.cpp" />
+    <ClCompile Include="..\..\FBX\SoArray.cpp" />
+    <ClCompile Include="..\..\FBX\SoArrayUID.cpp" />
+    <ClCompile Include="..\..\FBX\SoCmdLineHelp.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DLogicFlowHelp.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DModelBase.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DModelFbx.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DModelKK.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DModelManager.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DShaderBase.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DShaderManager.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelFbx.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelKK.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelKKNoBone.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DTexture.cpp" />
+    <ClCompile Include="..\..\FBX\SoD3DTextureManager.cpp" />
+    <ClCompile Include="..\..\FBX\SoMath.cpp" />
+    <ClCompile Include="..\..\FBX\SoReadFile.cpp" />
+    <ClCompile Include="..\..\FBX\SoSimpleLoadFile.cpp" />
+    <ClCompile Include="..\..\FBX\SoSimpleLog.cpp" />
+    <ClCompile Include="..\..\FBX\SoStringHelp.cpp" />
+    <ClCompile Include="..\..\FBX\SoTimeHelp.cpp" />
+    <ClCompile Include="..\..\FBX\SoTinyString.cpp" />
+    <ClCompile Include="..\..\FBX\StFBXDefine.cpp" />
+    <ClCompile Include="..\..\FBX\StFBXManager.cpp" />
+    <ClCompile Include="..\..\FBX\StFBXModel.cpp" />
+    <ClCompile Include="..\..\FBX\StKKDefine.cpp" />
+    <ClCompile Include="..\..\FBX\StKKFileKkbRead.cpp" />
+    <ClCompile Include="..\..\FBX\StKKFileKkbWrite.cpp" />
+    <ClCompile Include="..\..\FBX\StKKFileKkfRead.cpp" />
+    <ClCompile Include="..\..\FBX\StKKFileKkfWrite.cpp" />
+    <ClCompile Include="..\..\FBX\StKKFileKkmRead.cpp" />
+    <ClCompile Include="..\..\FBX\StKKModel.cpp" />
+    <ClCompile Include="..\..\MenuGUI\App.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\GameGUI.cpp" />
+    <ClCompile Include="..\..\MenuGUI\MainMenu.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\MainWindow.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\MenuDescription.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\MultiplierConverter.cpp" />
+    <ClCompile Include="..\..\MenuGUI\OptionSelector.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\PasswordBox.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\SettingsMenu.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\StartMenu.xaml.cpp" />
+    <ClCompile Include="..\..\MenuGUI\ViewModel.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h" />
+    <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\Shaders.h" />
+    <ClInclude Include="..\..\D3DCommon\Camera.h" />
+    <ClInclude Include="..\..\D3DCommon\d3dApp.h" />
+    <ClInclude Include="..\..\D3DCommon\d3dUtil.h" />
+    <ClInclude Include="..\..\D3DCommon\d3dx11effect.h" />
+    <ClInclude Include="..\..\D3DCommon\DDSTextureLoader.h" />
+    <ClInclude Include="..\..\D3DCommon\dxerr.h" />
+    <ClInclude Include="..\..\D3DCommon\Effects.h" />
+    <ClInclude Include="..\..\D3DCommon\GameTimer.h" />
+    <ClInclude Include="..\..\D3DCommon\GeometryGenerator.h" />
+    <ClInclude Include="..\..\D3DCommon\LightHelper.h" />
+    <ClInclude Include="..\..\D3DCommon\MathHelper.h" />
+    <ClInclude Include="..\..\D3DCommon\RenderStates.h" />
+    <ClInclude Include="..\..\D3DCommon\ShaderCompiler.h" />
+    <ClInclude Include="..\..\D3DCommon\TextureMgr.h" />
+    <ClInclude Include="..\..\D3DCommon\Vertex.h" />
+    <ClInclude Include="..\..\D3DCommon\Waves.h" />
+    <ClInclude Include="..\..\FBX\SoArray.h" />
+    <ClInclude Include="..\..\FBX\SoArrayUID.h" />
+    <ClInclude Include="..\..\FBX\SoBitFlag.h" />
+    <ClInclude Include="..\..\FBX\SoCmdLineHelp.h" />
+    <ClInclude Include="..\..\FBX\SoD3DLogicFlowHelp.h" />
+    <ClInclude Include="..\..\FBX\SoD3DModelBase.h" />
+    <ClInclude Include="..\..\FBX\SoD3DModelFbx.h" />
+    <ClInclude Include="..\..\FBX\SoD3DModelKK.h" />
+    <ClInclude Include="..\..\FBX\SoD3DModelManager.h" />
+    <ClInclude Include="..\..\FBX\SoD3DShaderBase.h" />
+    <ClInclude Include="..\..\FBX\SoD3DShaderManager.h" />
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelFbx.h" />
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelKK.h" />
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelKKNoBone.h" />
+    <ClInclude Include="..\..\FBX\SoD3DTexture.h" />
+    <ClInclude Include="..\..\FBX\SoD3DTextureManager.h" />
+    <ClInclude Include="..\..\FBX\SoIntType.h" />
+    <ClInclude Include="..\..\FBX\SoMath.h" />
+    <ClInclude Include="..\..\FBX\SoReadFile.h" />
+    <ClInclude Include="..\..\FBX\SoSimpleLoadFile.h" />
+    <ClInclude Include="..\..\FBX\SoSimpleLog.h" />
+    <ClInclude Include="..\..\FBX\SoStringHelp.h" />
+    <ClInclude Include="..\..\FBX\SoTimeHelp.h" />
+    <ClInclude Include="..\..\FBX\SoTinyString.h" />
+    <ClInclude Include="..\..\FBX\StFBXDefine.h" />
+    <ClInclude Include="..\..\FBX\StFBXManager.h" />
+    <ClInclude Include="..\..\FBX\StFBXModel.h" />
+    <ClInclude Include="..\..\FBX\StFBXUserDefine.h" />
+    <ClInclude Include="..\..\FBX\StKKDefine.h" />
+    <ClInclude Include="..\..\FBX\StKKFileKkbRead.h" />
+    <ClInclude Include="..\..\FBX\StKKFileKkbWrite.h" />
+    <ClInclude Include="..\..\FBX\StKKFileKkfRead.h" />
+    <ClInclude Include="..\..\FBX\StKKFileKkfWrite.h" />
+    <ClInclude Include="..\..\FBX\StKKFileKkmRead.h" />
+    <ClInclude Include="..\..\FBX\StKKModel.h" />
+    <ClInclude Include="..\..\MenuGUI\app.h" />
+    <ClInclude Include="..\..\MenuGUI\App.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\GameGUI.h" />
+    <ClInclude Include="..\..\MenuGUI\MainMenu.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\MainWindow.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\MenuDescription.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\MultiplierConverter.h" />
+    <ClInclude Include="..\..\MenuGUI\OptionSelector.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\PasswordBox.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\SettingsMenu.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\StartMenu.xaml.h" />
+    <ClInclude Include="..\..\MenuGUI\ViewModel.h" />
+    <ResourceCompile Include="resources.rc" />
+    <None Include="Noesis.ico" />
+    <CustomBuild Include="..\..\Data\App.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MainWindow.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MenuResources.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MenuDescription.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MainMenu.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\StartMenu.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\SettingsMenu.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\OptionSelector.xaml">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\BackClouds.png">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\FrontClouds.png">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\FrontTrees.png">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\LakeAndMountains.png">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\SkyAndSun.jpg">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Fonts\weblysleekuisb.ttf">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Fonts\weblysleekuisl.ttf">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\SoundTrack.mp3">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\WaterDropBig.mp3">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\WaterDropSmall.mp3">
+      <FileType>Document</FileType>
+      <Command>..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Message>%(Filename)%(Extension)</Message>
+      <Outputs>$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Data\PasswordBox.xaml">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntermediateOutputPath)%(Filename)%(Extension).bin.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Data\Resources.xaml">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Data\Koala.jpg">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

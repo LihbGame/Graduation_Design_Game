@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{8d2fe950-6bd3-4c41-8d76-0f66eaab3a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{d6fd326a-93e6-4b4e-8084-a8973e0bf2b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MenuGUI">
+      <UniqueIdentifier>{bd87545d-f115-4a0b-b488-5cc2f8e46fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D3DCommon">
+      <UniqueIdentifier>{adcace34-1a83-4fc0-97d0-78e4af23a231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSources">
+      <UniqueIdentifier>{480b6d1c-2e8f-4cd8-9204-fcd25a1ffe64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FBX">
+      <UniqueIdentifier>{6d84734f-6a87-47d6-87ca-b78cb192f343}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <None Include="Noesis.ico">
+      <Filter>Resources</Filter>
+    </None>
+    <CustomBuild Include="..\..\Data\App.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MainWindow.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MenuResources.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MenuDescription.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\MainMenu.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\StartMenu.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\SettingsMenu.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\OptionSelector.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\BackClouds.png">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\FrontClouds.png">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\FrontTrees.png">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\LakeAndMountains.png">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\SkyAndSun.jpg">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Fonts\weblysleekuisb.ttf">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Fonts\weblysleekuisl.ttf">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\SoundTrack.mp3">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\WaterDropBig.mp3">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Sounds\WaterDropSmall.mp3">
+      <Filter>Data</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\D3DCommon\Camera.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\d3dApp.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\d3dUtil.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\d3dx11effect.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\DDSTextureLoader.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\dxerr.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\GameTimer.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\GeometryGenerator.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\LightHelper.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\MathHelper.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\RenderStates.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\ShaderCompiler.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\TextureMgr.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\Vertex.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\Waves.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\app.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\App.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\MainMenu.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\MainWindow.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\MenuDescription.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\MultiplierConverter.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\OptionSelector.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\SettingsMenu.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\StartMenu.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\ViewModel.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoArray.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoArrayUID.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoBitFlag.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoCmdLineHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DLogicFlowHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DModelBase.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DModelFbx.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DModelKK.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DModelManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DShaderBase.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DShaderManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelFbx.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelKK.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DShaderModelKKNoBone.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DTexture.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoD3DTextureManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoIntType.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoMath.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoReadFile.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoSimpleLoadFile.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoSimpleLog.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoStringHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoTimeHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\SoTinyString.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StFBXDefine.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StFBXManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StFBXModel.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StFBXUserDefine.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKDefine.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKFileKkbRead.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKFileKkbWrite.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKFileKkfRead.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKFileKkfWrite.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKFileKkmRead.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\StKKModel.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\GameGUI.h">
+      <Filter>GameSources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h">
+      <Filter>GameSources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\Shaders.h">
+      <Filter>GameSources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\D3DCommon\Effects.h">
+      <Filter>D3DCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MenuGUI\PasswordBox.xaml.h">
+      <Filter>MenuGUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\D3DCommon\Camera.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\d3dApp.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\d3dUtil.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\DDSTextureLoader.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\dxerr.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\GameTimer.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\GeometryGenerator.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\LightHelper.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\MathHelper.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\RenderStates.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\ShaderCompiler.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\TextureMgr.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\Vertex.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\Waves.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>GameSources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\App.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\MainMenu.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\MainWindow.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\MenuDescription.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\MultiplierConverter.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\OptionSelector.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\SettingsMenu.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\StartMenu.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\ViewModel.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoArray.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoArrayUID.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoCmdLineHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DLogicFlowHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DModelBase.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DModelFbx.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DModelKK.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DModelManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DShaderBase.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DShaderManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelFbx.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelKK.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DShaderModelKKNoBone.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DTexture.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoD3DTextureManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoMath.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoReadFile.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoSimpleLoadFile.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoSimpleLog.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoStringHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoTimeHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\SoTinyString.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StFBXDefine.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StFBXManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StFBXModel.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKDefine.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKFileKkbRead.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKFileKkbWrite.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKFileKkfRead.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKFileKkfWrite.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKFileKkmRead.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\StKKModel.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\GameGUI.cpp">
+      <Filter>GameSources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp">
+      <Filter>GameSources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\D3DCommon\Effects.cpp">
+      <Filter>D3DCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MenuGUI\PasswordBox.xaml.cpp">
+      <Filter>MenuGUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\Data\PasswordBox.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Resources.xaml">
+      <Filter>Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\Data\Koala.jpg">
+      <Filter>Data</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
