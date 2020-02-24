@@ -38,8 +38,8 @@ GameGUI::GameGUI()
 GameGUI::~GameGUI()
 {
     // Free GUI resources and shutdown kernel
-    //g_XamlView.Reset();
-    //Noesis::GUI::Shutdown();
+    g_XamlView.Reset();
+    Noesis::GUI::Shutdown();
 }
 
 void GameGUI::Init(ID3D11DeviceContext* device_context, int g_Width, int g_Height)

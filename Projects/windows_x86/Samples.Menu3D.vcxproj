@@ -36,6 +36,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -61,6 +62,7 @@
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
     <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x86\debug;$(LibraryPath)</LibraryPath>
+    <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <OutDir>..\..\..\..\..\..\Bin\windows_x86\</OutDir>
@@ -69,14 +71,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\..\..\..\Bin\windows_x86\</OutDir>
     <TargetName>Samples.Menu3D</TargetName>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.0\lib\vs2015\x86\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\AI_Path;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;_WINDOWS;NS_BUILD;NS_CONFIG=Debug;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;NS_DEBUG;NS_PROFILE;NS_MINIMUM_LOG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>true</SupportJustMyCode>
     </ClCompile>
     <Link>
@@ -84,8 +88,9 @@
       <AdditionalLibraryDirectories>..\..\..\..\..\..\Lib\windows_x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\..\..\..\..\Lib\windows_x86\Samples.Menu3D.lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>false</GenerateMapFile>
+      <GenerateMapFile>true</GenerateMapFile>
       <TreatLinkerWarningAsErrors>false</TreatLinkerWarningAsErrors>
+      <ProgramDatabaseFile>$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
@@ -101,19 +106,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\App\ApplicationLauncher\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\D3DCommon;..\..\MenuGUI;..\..\FBX;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\App\ApplicationLauncher\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NS_BUILD;NS_CONFIG=Release;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Noesis.lib;NoesisApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfbxsdk.lib;Noesis.lib;NoesisApp.lib;d3d11.lib;D3DCompiler.lib;Effects11.lib;dxguid.lib;winmm.lib;comctl32.lib;usp10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\..\..\Lib\windows_x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\..\..\..\..\Lib\windows_x86\Samples.Menu3D.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp" />
+    <ClCompile Include="..\..\AI_Path\CGameMapElement.cpp" />
     <ClCompile Include="..\..\D3DCommon\Camera.cpp" />
     <ClCompile Include="..\..\D3DCommon\d3dApp.cpp" />
     <ClCompile Include="..\..\D3DCommon\d3dUtil.cpp" />
@@ -175,6 +181,8 @@
     <ClCompile Include="Main.cpp" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\Shaders.h" />
+    <ClInclude Include="..\..\AI_Path\CGameMapElement.h" />
+    <ClInclude Include="..\..\AI_Path\GamePathFinder.h" />
     <ClInclude Include="..\..\D3DCommon\Camera.h" />
     <ClInclude Include="..\..\D3DCommon\d3dApp.h" />
     <ClInclude Include="..\..\D3DCommon\d3dUtil.h" />

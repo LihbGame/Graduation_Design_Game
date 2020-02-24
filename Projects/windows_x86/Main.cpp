@@ -14,13 +14,15 @@
 #include "Waves.h"
 #include "Camera.h"
 #include "SoD3DLogicFlowHelp.h"
+#include "CGameMapElement.h"
 
 
+//debug
 std::string str;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //model num
-#define Model_Num  7
+#define Model_Num  8
 #define Model1_Instance 5
 #define Model2_Instance 25
 #define Model3_Instance 200
@@ -28,6 +30,7 @@ std::string str;
 #define Model5_Instance 1
 #define Model6_Instance 4
 #define Model7_Instance 1
+#define Model8_Instance 1
 //map size
 #define Map_size  21
 #define Unit_MapOffset 16
@@ -132,13 +135,27 @@ private:
 
 	//box bounding
 	BoundingBox MapBox;
+	//Path end
+	XMINT2 Mapindex;
+	XMINT2 Endindex;
+	XMINT2 PlayerPositionIndex;
+
+	//Game map
+	CGameMap m_GameMap;
+	VPath m_Path;
+	DIRECT m_Dir;
+	ROT_DIR ROT;
+	bool first;
+
+	int unitlen;
 };
 
 
 GameApp::GameApp(HINSTANCE hInstance)
 	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0), mBoxVB(0), mBoxIB(0),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(Render_Options::TexturesAndFog),
-	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), mCamera(nullptr)
+	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), 
+	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(-1,-1), first(true), Endindex(0,0), unitlen(0)
 {
 	mMainWndCaption = L"Game Demo";
 	mEnable4xMsaa = true;
@@ -259,8 +276,8 @@ GameApp::~GameApp()
 	}
 
 	//gui release
-	//delete m_pGameGUI;
-	//m_pGameGUI = nullptr;
+	delete m_pGameGUI;
+	m_pGameGUI = nullptr;
 
 	//fbx model release
 	for (auto& e : m_Models)
@@ -277,6 +294,10 @@ bool GameApp::Init()
 		return false;
 	//初始化像机位置
 	mCamera->SetPosition(XMFLOAT3(50, 50, 50));
+
+
+	//转换地图
+	m_GameMap.ConvertMap();
 
 	//mWaves.Init(100, 100, 5.0f, 0.03f, 5.0f, 0.3f);
 
@@ -409,6 +430,16 @@ bool GameApp::Init()
 			m_ModeInfo[6].Mat_tansform_Translation[i] = XMMatrixTranslation(location_offset_x, -4.0f, location_offset_z + 5.0f);
 		}
 
+		//Model 8
+		m_ModeInfo[7].Model_Instance_Num = Model8_Instance;
+		m_ModeInfo[7].Mat_tansform_Rot_Scal.resize(Model8_Instance);
+		m_ModeInfo[7].Mat_tansform_Translation.resize(Model8_Instance);
+		for (int i = 0; i < Model8_Instance; ++i)
+		{
+			m_ModeInfo[7].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(0) * XMMatrixScaling(1, 1, 1);
+			m_ModeInfo[7].Mat_tansform_Translation[i] = XMMatrixTranslation(-65.0f, -5.0f, -60.0f);
+		}
+
 	}
 
 	if (m_Models[0])
@@ -466,6 +497,15 @@ bool GameApp::Init()
 		m_Models[6]->SetModelTansInfo(&m_ModeInfo[6]);
 	}
 
+	if (m_Models[7])
+	{
+		m_Models[7]->CreateFileFbx("model/TraumaGuard_Run.FBX");
+		m_Models[7]->CreateFileKkb("model/TraumaGuard_Run.kkb");
+		m_Models[7]->CreateFileKkf("model/TraumaGuard_Run.kkf");
+		m_Models[7]->CreateImage(L"model/TraumaGuard_Albedo.dds");
+		m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
+	}
+
 
 
 
@@ -503,6 +543,83 @@ void GameApp::OnResize()
 
 void GameApp::UpdateScene(float dt)
 {
+	if (!menu)
+	{
+		static float x = -65.0f;
+		static float z = -60.0f;
+		static bool findpath = false;
+		if (Mapindex.x >=0)
+		{
+			if (first || unitlen >= Unit_MapOffset)
+			{
+				findpath = m_GameMap.FindNextDirection(&m_Dir, PlayerPositionIndex.x, PlayerPositionIndex.y, Endindex.x, Endindex.y, ROT);
+				first = false;
+				
+				
+				if (findpath)
+				{
+					switch (m_Dir)
+					{
+					case MOVE_DOWN:
+						PlayerPositionIndex.x += 1.0f;
+						break;
+					case MOVE_LEFT:
+						PlayerPositionIndex.y -= 1.0f;
+						break;
+					case MOVE_RIGHT:
+						PlayerPositionIndex.y += 1.0f;
+						break;
+					case MOVE_UP:
+						PlayerPositionIndex.x -= 1.0f;
+						break;
+					default:
+						break;
+					}
+
+
+					if (ROT == TurnRight)
+					{
+						m_ModeInfo[7].Mat_tansform_Rot_Scal[0] *= XMMatrixRotationY(MathHelper::Pi / 2);
+
+					}
+					else if (ROT == TurnLeft)
+					{
+						m_ModeInfo[7].Mat_tansform_Rot_Scal[0] *= XMMatrixRotationY(-MathHelper::Pi / 2);
+					}
+					else if (ROT == BackWard)
+					{
+						m_ModeInfo[7].Mat_tansform_Rot_Scal[0] *= XMMatrixRotationY(MathHelper::Pi);
+					}
+				}
+				m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
+				unitlen = 0;
+			}
+			if (findpath)
+			{
+				switch (m_Dir)
+				{
+				case MOVE_DOWN:
+					x += 1.0f;
+					break;
+				case MOVE_LEFT:
+					z -= 1.0f;
+					break;
+				case MOVE_RIGHT:
+					z += 1.0f;
+					break;
+				case MOVE_UP:
+					x -= 1.0f;
+					break;
+				default:
+					break;
+				}
+				unitlen++;
+				m_ModeInfo[7].Mat_tansform_Translation[0] = XMMatrixTranslation(x, -5.0f, z);
+				m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
+			}
+		}
+	}
+
 	//// Convert Spherical to Cartesian coordinates.
 	//float x = mRadius * sinf(mPhi) * cosf(mTheta);
 	//float z = mRadius * sinf(mPhi) * sinf(mTheta);
@@ -595,21 +712,11 @@ void GameApp::UpdateScene(float dt)
 	//fbx update
 	if (m_Models[0])
 		m_Models[0]->Update(dt);
+	if (m_Models[7])
+		m_Models[7]->Update(dt);
 
 	//gui update
 	m_pGameGUI->Update(dt);
-
-	if (!menu)
-	{
-		XMINT2 Mapindex = RayTOModel((float)mLastMousePos.x, (float)mLastMousePos.y);
-
-
-
-		std::stringstream ss;
-		ss << "X:" << Mapindex.x << "Y:" << Mapindex.y << std::flush;
-
-		ss >> ::str;
-	}
 
 
 }
@@ -766,14 +873,7 @@ void GameApp::DrawScene()
 				return;
 		}
 	}
-	if (m_Models[1])
-	{
-		for (int i = 0; i < Model2_Instance; ++i)
-		{
-			if (!m_Models[1]->BeginRender(i))
-				return;
-		}
-	}
+	
 	if (m_Models[2])
 	{
 		for (int i = 0; i < Model3_Instance; ++i)
@@ -818,6 +918,25 @@ void GameApp::DrawScene()
 				return;
 		}
 	}
+
+	if (m_Models[1])
+	{
+		for (int i = 0; i < Model2_Instance; ++i)
+		{
+			if (!m_Models[1]->BeginRender(i))
+				return;
+		}
+	}
+
+	if (m_Models[7])
+	{
+		for (int i = 0; i < Model8_Instance; ++i)
+		{
+			if (!m_Models[7]->BeginRender(i))
+				return;
+		}
+	}
+
 	//reset input layout
 	md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
 
@@ -835,7 +954,28 @@ void GameApp::OnMouseDown(WPARAM btnState, int x, int y)
 	mLastMousePos.x = x;
 	mLastMousePos.y = y;
 
-	
+	if (!menu)
+	{
+		//记录鼠标选中的地图索引(以便寻路算法使用)
+		Mapindex = RayTOModel((float)mLastMousePos.x, (float)mLastMousePos.y);
+		
+		//重置寻路
+		if ((PlayerPositionIndex.x == Endindex.x) && (PlayerPositionIndex.y == Endindex.y))
+		{
+			if (Mapindex.x > 0&&(unitlen==0|| unitlen==Unit_MapOffset))
+			{
+				Endindex = Mapindex;
+				first = true;
+			}
+		}
+
+		std::stringstream ss;
+		ss << "X:" << Mapindex.x << "Y:" << Mapindex.y << std::flush;
+
+		ss >> ::str;
+
+
+	}    
 	
 
 	SetCapture(mhMainWnd);
@@ -1059,7 +1199,9 @@ XMINT2 GameApp::RayTOModel(float sx,float sy)
 	float vx = (+2.0f * sx / mClientWidth - 1.0f) / P(0, 0);
 	float vy = (-2.0f * sy / mClientHeight + 1.0f) / P(1, 1);
 
-	
+	// Ray definition in view space.
+	XMVECTOR rayOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+	XMVECTOR rayDir = XMVectorSet(vx, vy, 1.0f, 0.0f);
 
 	XMMATRIX V = Camera::Get()->View();
 	XMMATRIX invView = XMMatrixInverse(&XMMatrixDeterminant(V), V);
@@ -1073,8 +1215,8 @@ XMINT2 GameApp::RayTOModel(float sx,float sy)
 		for (int j = 0; j < Map_size; ++j)
 		{
 			// Ray definition in view space.
-			XMVECTOR rayOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
-			XMVECTOR rayDir = XMVectorSet(vx, vy, 1.0f, 0.0f);
+			 rayOrigin = XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f);
+			 rayDir = XMVectorSet(vx, vy, 1.0f, 0.0f);
 
 
 			XMMATRIX W = XMLoadFloat4x4(&mBoxWorld[i][j]);

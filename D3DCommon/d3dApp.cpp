@@ -460,6 +460,7 @@ bool D3DApp::InitMainWindow()
 		 }
 		 if (hWnd32 != nullptr)
 			 break;
+		 Sleep(10);
 	 } while (1);
 
 	mhMainWnd = CreateWindow(LPCSTR("D3DWndClassName"), LPCSTR(mMainWndCaption.c_str()),

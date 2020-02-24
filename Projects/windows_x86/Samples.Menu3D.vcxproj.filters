@@ -19,6 +19,9 @@
     <Filter Include="FBX">
       <UniqueIdentifier>{6d84734f-6a87-47d6-87ca-b78cb192f343}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI_Path">
+      <UniqueIdentifier>{884fbc6b-744a-4b05-bf96-053bc8f34b04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -278,6 +281,12 @@
     <ClInclude Include="..\..\MenuGUI\PasswordBox.xaml.h">
       <Filter>MenuGUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\AI_Path\CGameMapElement.h">
+      <Filter>AI_Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AI_Path\GamePathFinder.h">
+      <Filter>AI_Path</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -459,6 +468,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MenuGUI\PasswordBox.xaml.cpp">
       <Filter>MenuGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AI_Path\CGameMapElement.cpp">
+      <Filter>AI_Path</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
