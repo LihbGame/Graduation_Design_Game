@@ -42,6 +42,7 @@ void Model::Release()
 	}
 	if (g_pKKModel)
 	{
+		g_pKKModel->ClearAllAnimation();
 		delete g_pKKModel;
 		g_pKKModel = 0;
 	}
@@ -50,6 +51,9 @@ void Model::Release()
 		delete g_pD3DModelKK;
 		g_pD3DModelKK = 0;
 	}
+
+	
+
 	///////////////////////////////////////
 	StFBXManager::ReleaseFBXManager();
 	///////////////////////////////////////
@@ -60,7 +64,7 @@ void Model::Release()
 	///////////////////////////////////////
 }
 //----------------------------------------------------------------
-void Model::Update(float fDeltaTime)
+void Model::Update(float fDeltaTime,int nAnimID)
 {
 	if (g_pD3DModelFbx)
 	{
@@ -68,7 +72,7 @@ void Model::Update(float fDeltaTime)
 	}
 	if (g_pD3DModelKK)
 	{
-		g_pD3DModelKK->UpdateModel(fDeltaTime);
+		g_pD3DModelKK->UpdateModel(fDeltaTime, nAnimID);
 	}
 }
 //----------------------------------------------------------------
@@ -83,6 +87,22 @@ g_pKKModel(nullptr)
 {
 }
 //----------------------------------------------------------------
+bool Model::BeginRender(int Instance_num, int nAnimID)
+{
+	if (g_pD3DModelFbx)
+	{
+		g_pD3DModelFbx->RenderModel(&m_ModeInfo, Instance_num);
+	}
+
+	if (g_pD3DModelKK)
+	{
+		g_pD3DModelKK->RenderModel(&m_ModeInfo, Instance_num,nAnimID);
+	}
+
+	return true;
+}
+
+
 bool Model::BeginRender(int Instance_num)
 {
 	if (g_pD3DModelFbx)
@@ -92,11 +112,12 @@ bool Model::BeginRender(int Instance_num)
 
 	if (g_pD3DModelKK)
 	{
-		g_pD3DModelKK->RenderModel(&m_ModeInfo, Instance_num);
+		g_pD3DModelKK->RenderModel(&m_ModeInfo, Instance_num,1);
 	}
 
 	return true;
 }
+
 //----------------------------------------------------------------
 void SoD3DLogicFlowHelp_EndRender()
 {
@@ -307,17 +328,13 @@ void Model::CreateFileKkb(const char* szFileName)
 	
 }
 //----------------------------------------------------------------
-void Model::CreateFileKkf(const char* szFileName)
+void Model::CreateFileKkf(const char* szFileName,int nAnimID)
 {
 	if (g_pKKModel == NULL)
 	{
 		return;
 	}
-	//
-	g_pKKModel->ClearAllAnimation();
-	g_pKKModel->LoadKkfFile(szFileName);
-
-	
+	g_pKKModel->LoadKkfFile(szFileName, nAnimID);
 }
 //----------------------------------------------------------------
 void Model::CreateImage(const wchar_t* szFileName)

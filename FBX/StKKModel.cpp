@@ -27,7 +27,7 @@ bool StKKModel::LoadKkbFile(const char* szFileName)
 	return true;
 }
 //----------------------------------------------------------------
-bool StKKModel::LoadKkfFile(const char* szFileName)
+bool StKKModel::LoadKkfFile(const char* szFileName,int nAnimID)
 {
 	StKKModelAnimation* pAnim = new StKKModelAnimation;
 	if (StKKFileKkfRead::ReadKkf(szFileName, pAnim) == false)
@@ -36,8 +36,8 @@ bool StKKModel::LoadKkfFile(const char* szFileName)
 		return false;
 	}
 
-	pAnim->nAnimID = 1;
-	ReserveAnimCount(3);
+	pAnim->nAnimID = nAnimID;
+	ReserveAnimCount(5);
 	AddAnimation(pAnim);
 	return true;
 }

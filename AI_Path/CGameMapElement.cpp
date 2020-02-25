@@ -46,6 +46,10 @@ void CGameMap::FindPath(int startX, int startY, int targetX, int targetY, VPath 
 bool CGameMap::FindNextDirection(DIRECT* newdir, int startX, int startY, int targetX, int targetY,ROT_DIR &ROT) const
 {
 	VPath path;
+	if ((startX == targetX) && (startY == targetY))
+	{
+		return false;
+	}
 	FindPath(startX, startY, targetX, targetY, path);
 	if (path.empty()) {
 		return false;

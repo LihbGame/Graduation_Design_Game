@@ -21,8 +21,8 @@ public:
 	//重写基类的函数
 	bool InitModel(void* pInitParam);
 	void ClearModel();
-	void UpdateModel(float fDeltaTime);
-	void RenderModel(Model_Tansform_Info* mode_info, int instance_num);
+	void UpdateModel(float fDeltaTime, int nAnimID);
+	void RenderModel(Model_Tansform_Info* mode_info, int instance_num, int nAnimID);
 
 	void SetWorldMatrix(const XMFLOAT4X4* pMatWorld);
 	void SetTexture(const wchar_t* szFileName);

@@ -31,12 +31,15 @@ class Model
 public:
 	Model();
 	~Model() { Release(); };
+	//have animation
+	bool BeginRender(int Instance_num, int nAnimID);
+	//no animation
 	bool BeginRender(int Instance_num);
-	void Update(float fDeltaTime);
+	void Update(float fDeltaTime,int nAnimID);
 	void Release();
 	void CreateFileFbx(const char* szFileName);
 	void CreateFileKkb(const char* szFileName);
-	void CreateFileKkf(const char* szFileName);
+	void CreateFileKkf(const char* szFileName, int nAnimID);
 	void CreateImage(const wchar_t* szFileName);
 	void ConvertFbx2KK();
 	void LoadFbxAnim();

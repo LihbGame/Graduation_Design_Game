@@ -67,21 +67,21 @@ void SoD3DModelKK::ClearModel()
 	m_nCurrentKeyFrameIndex = 0;
 }
 //----------------------------------------------------------------
-void SoD3DModelKK::UpdateModel(float fDeltaTime)
+void SoD3DModelKK::UpdateModel(float fDeltaTime,int nAnimID)
 {
 	m_fAccTime += fDeltaTime;
 	if (m_pKKModel)
 	{
-		m_nCurrentKeyFrameIndex = m_pKKModel->GetKeyFrameIndexByID(1, m_fAccTime);
+		m_nCurrentKeyFrameIndex = m_pKKModel->GetKeyFrameIndexByID(nAnimID, m_fAccTime);
 	}
 }
 //----------------------------------------------------------------
-void SoD3DModelKK::RenderModel(Model_Tansform_Info* mode_info, int instance_num)
+void SoD3DModelKK::RenderModel(Model_Tansform_Info* mode_info, int instance_num, int nAnimID)
 {
 	XMMATRIX kWorld = mode_info->Mat_tansform_Rot_Scal[instance_num] * XMLoadFloat4x4(&m_matWorld) * mode_info->Mat_tansform_Translation[instance_num];
 	//
 	const StKKModelData* pModelData = m_pKKModel->GetModelData();
-	const StKKModelAnimation* pModelAnim = m_pKKModel->GetAnimByID(1);
+	const StKKModelAnimation* pModelAnim = m_pKKModel->GetAnimByID(nAnimID);
 	//
 	stShaderModelKKParam kParam;
 	kParam.pVB = pModelData->pVertexStructBuffer;

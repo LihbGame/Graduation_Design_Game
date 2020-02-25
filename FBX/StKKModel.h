@@ -10,7 +10,7 @@ public:
 	StKKModel();
 	~StKKModel();
 	bool LoadKkbFile(const char* szFileName);
-	bool LoadKkfFile(const char* szFileName);
+	bool LoadKkfFile(const char* szFileName,int nAnimID);
 	//
 	void SetModelData(StKKModelData* pModelData);
 	void ReserveAnimCount(int nAnimCount);
