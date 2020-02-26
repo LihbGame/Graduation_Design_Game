@@ -457,6 +457,7 @@ bool D3DApp::InitMainWindow()
 		 if (launcher.GetDisplay())
 		 {
 			 hWnd32 = (HWND__*)launcher.GetDisplay()->GetNativeHandle();
+			 
 		 }
 		 if (hWnd32 != nullptr)
 			 break;

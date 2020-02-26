@@ -1,9 +1,3 @@
-//***************************************************************************************
-// RenderStates.h by Frank Luna (C) 2011 All Rights Reserved.
-//   
-// Defines render state objects.  
-//***************************************************************************************
-
 #ifndef RENDERSTATES_H
 #define RENDERSTATES_H
 

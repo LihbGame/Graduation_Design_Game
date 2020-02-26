@@ -22,6 +22,12 @@
     <Filter Include="AI_Path">
       <UniqueIdentifier>{884fbc6b-744a-4b05-bf96-053bc8f34b04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SkyBox">
+      <UniqueIdentifier>{30b2be24-1eeb-465f-aab6-bcf4c3ff282e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{a71977e3-4275-4b74-934a-db886d62fb96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -287,6 +293,9 @@
     <ClInclude Include="..\..\AI_Path\GamePathFinder.h">
       <Filter>AI_Path</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\SkyBox\Sky.h">
+      <Filter>SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -330,9 +339,6 @@
     </ClCompile>
     <ClCompile Include="..\..\D3DCommon\Waves.cpp">
       <Filter>D3DCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>GameSources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MenuGUI\App.xaml.cpp">
       <Filter>MenuGUI</Filter>
@@ -472,6 +478,12 @@
     <ClCompile Include="..\..\AI_Path\CGameMapElement.cpp">
       <Filter>AI_Path</Filter>
     </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>GameSources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SkyBox\Sky.cpp">
+      <Filter>SkyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
@@ -483,5 +495,30 @@
     <CustomBuild Include="..\..\Data\Koala.jpg">
       <Filter>Data</Filter>
     </CustomBuild>
+    <CustomBuild Include="shader\Basic.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\modelfbx.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\modelkk.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\modelkk_nobone.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Sky.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\LightHelper.fx">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\sunsetcube1024.dds">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,9 +1,3 @@
-//***************************************************************************************
-// LightHelper.h by Frank Luna (C) 2011 All Rights Reserved.
-//
-// Helper classes for lighting.
-//***************************************************************************************
-
 #ifndef LIGHTHELPER_H
 #define LIGHTHELPER_H
 

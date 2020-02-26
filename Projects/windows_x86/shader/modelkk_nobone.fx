@@ -174,7 +174,7 @@ float4 ShaderPS(VertexOutputType input) : SV_TARGET
 	//	outputColor.w = 1.0f;
 	//}
 
-	Clip(outputColor.a-0.1f);
+	clip(outputColor.a-0.1f);
 	return outputColor;
 }
 //----------------------------------------------------------------

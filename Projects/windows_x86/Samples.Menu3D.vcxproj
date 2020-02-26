@@ -76,7 +76,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\AI_Path;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\SkyBox;..\..\AI_Path;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;_WINDOWS;NS_BUILD;NS_CONFIG=Debug;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;NS_DEBUG;NS_PROFILE;NS_MINIMUM_LOG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -178,7 +178,8 @@
     <ClCompile Include="..\..\MenuGUI\SettingsMenu.xaml.cpp" />
     <ClCompile Include="..\..\MenuGUI\StartMenu.xaml.cpp" />
     <ClCompile Include="..\..\MenuGUI\ViewModel.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="..\..\SkyBox\Sky.cpp" />
+    <ClCompile Include="GameMain.cpp" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\Shaders.h" />
     <ClInclude Include="..\..\AI_Path\CGameMapElement.h" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\..\MenuGUI\SettingsMenu.xaml.h" />
     <ClInclude Include="..\..\MenuGUI\StartMenu.xaml.h" />
     <ClInclude Include="..\..\MenuGUI\ViewModel.h" />
+    <ClInclude Include="..\..\SkyBox\Sky.h" />
     <ResourceCompile Include="resources.rc" />
     <None Include="Noesis.ico" />
     <CustomBuild Include="..\..\Data\App.xaml">
@@ -376,6 +378,39 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\..\..\Tools\Bin2h\bin2h.exe "%(FullPath)" &gt; "$(IntermediateOutputPath)%(Filename)%(Extension).bin.h"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntermediateOutputPath)%(Filename)%(Extension).bin.h</Outputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shader\Basic.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+    <None Include="shader\LightHelper.fx">
+      <FileType>Document</FileType>
+    </None>
+    <CustomBuild Include="shader\modelfbx.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shader\modelkk.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shader\modelkk_nobone.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shader\Sky.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\sunsetcube1024.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,3 @@
-//***************************************************************************************
-// d3dUtil.cpp by Frank Luna (C) 2011 All Rights Reserved.
-//***************************************************************************************
-
 #include "d3dUtil.h"
 
 ID3D11ShaderResourceView* d3dHelper::CreateRandomTexture1DSRV(ID3D11Device* device)

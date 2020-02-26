@@ -75,17 +75,38 @@ BasicEffect::~BasicEffect()
 }
 #pragma endregion
 
+
+#pragma region SkyEffect
+SkyEffect::SkyEffect(ID3D11Device* device, const std::wstring& filename)
+	: GEffect(device, filename)
+{
+	SkyTech = mFX->GetTechniqueByName("SkyTech");
+	WorldViewProj = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
+	CubeMap = mFX->GetVariableByName("gCubeMap")->AsShaderResource();
+}
+
+SkyEffect::~SkyEffect()
+{
+}
+#pragma endregion
+
+
+
+
 #pragma region Effects
 
 BasicEffect* Effects::BasicFX = 0;
+SkyEffect* Effects::SkyFX = 0;
 
 void Effects::InitAll(ID3D11Device* device)
 {
-	BasicFX = new BasicEffect(device, L"FX/Basic.fxo");
+	BasicFX = new BasicEffect(device, L"shader/Basic.fxo");
+	SkyFX = new SkyEffect(device, L"shader/Sky.fxo");
 }
 
 void Effects::DestroyAll()
 {
 	SafeDelete(BasicFX);
+	SafeDelete(SkyFX);
 }
 #pragma endregion
