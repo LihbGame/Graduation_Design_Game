@@ -90,8 +90,8 @@ SamplerState samAnisotropic
 	Filter = ANISOTROPIC;
 	MaxAnisotropy = 16;
 
-	AddressU = Wrap;
-	AddressV = Wrap;
+	AddressU = MIRROR;
+	AddressV = MIRROR;
 };
 
 struct VertexIn

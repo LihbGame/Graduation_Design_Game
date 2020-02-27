@@ -76,7 +76,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\SkyBox;..\..\AI_Path;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Terrain;..\..\SkyBox;..\..\AI_Path;..\..\..\..\Render\D3D11RenderDevice\Src;..\..\FBX;..\..\MenuGUI;..\..\D3DCommon;D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\build\Debug;..\..\..\..\App\Display\Include;..\..\..\..\Core\Kernel\Include;..\..\..\..\Samples\Menu3D\Include;..\..\..\..\..\..\Include;..\..\..\..\Gui\DependencySystem\Include;..\..\..\..\Gui\Providers\Include;..\..\..\..\Core\Nullable\Include;..\..\..\..\Gui\Animation\Include;..\..\..\..\Math\Utils\Include;..\..\..\..\Gui\Core\Include;..\..\..\..\App\DisplayLauncher\Include;..\..\..\..\..\..\3rdParty\EASTL\local\include;..\..\..\..\Math\VectorMath\Include;..\..\..\..\Core\TypeConverter\Include;..\..\..\..\App\Interactivity\Include;..\..\..\..\App\Launcher\Include;..\..\..\..\Drawing\Types\Include;..\..\..\..\Core\NSTL\Include;..\..\..\..\Gui\CachedFontProvider\Include;..\..\..\..\App\Providers\Include;..\..\..\..\App\ApplicationLauncher\Include;C:\Program Files\Windows Kits\10\Include\10.0.18362.0\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;_WINDOWS;NS_BUILD;NS_CONFIG=Debug;NS_VERSION=2.2.6;NS_APP_FRAMEWORK;NS_DEBUG;NS_PROFILE;NS_MINIMUM_LOG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -179,6 +179,7 @@
     <ClCompile Include="..\..\MenuGUI\StartMenu.xaml.cpp" />
     <ClCompile Include="..\..\MenuGUI\ViewModel.cpp" />
     <ClCompile Include="..\..\SkyBox\Sky.cpp" />
+    <ClCompile Include="..\..\Terrain\Terrain.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h" />
     <ClInclude Include="..\..\..\..\Render\D3D11RenderDevice\Src\Shaders.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="..\..\MenuGUI\StartMenu.xaml.h" />
     <ClInclude Include="..\..\MenuGUI\ViewModel.h" />
     <ClInclude Include="..\..\SkyBox\Sky.h" />
+    <ClInclude Include="..\..\Terrain\Terrain.h" />
     <ResourceCompile Include="resources.rc" />
     <None Include="Noesis.ico" />
     <CustomBuild Include="..\..\Data\App.xaml">
@@ -411,6 +413,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\sunsetcube1024.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shader\InstancedBasic.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

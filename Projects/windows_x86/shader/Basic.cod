@@ -30,8 +30,8 @@ SamplerState samAnisotropic
 {
     Filter   = uint(ANISOTROPIC /* 85 */);
     MaxAnisotropy = uint(16);
-    AddressU = uint(WRAP /* 1 */);
-    AddressV = uint(WRAP /* 1 */);
+    AddressU = uint(MIRROR /* 2 */);
+    AddressV = uint(MIRROR /* 2 */);
 };
 
 //

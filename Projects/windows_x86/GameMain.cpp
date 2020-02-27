@@ -16,6 +16,8 @@
 #include "SoD3DLogicFlowHelp.h"
 #include "CGameMapElement.h"
 #include "Sky.h"
+#include "Terrain.h"
+
 
 //debug
 std::string str;
@@ -23,14 +25,14 @@ std::string str;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //model num
 #define Model_Num  8
-#define Model1_Instance 5
-#define Model2_Instance 25
-#define Model3_Instance 200
-#define Model4_Instance 20
-#define Model5_Instance 1
-#define Model6_Instance 4
-#define Model7_Instance 1
-#define Model8_Instance 1
+#define Model1_Instance 0
+#define Model2_Instance 0
+#define Model3_Instance 0
+#define Model4_Instance 0
+#define Model5_Instance 0
+#define Model6_Instance 0
+#define Model7_Instance 0
+#define Model8_Instance 0
 //map size
 #define Map_size  21
 #define Unit_MapOffset 16
@@ -88,7 +90,7 @@ private:
 	XMFLOAT3 GetHillNormal(float x, float z)const;
 	void BuildLandGeometryBuffers();
 	void BuildWaveGeometryBuffers();
-	void BuildCrateGeometryBuffers();
+	
 
 	XMINT2 RayTOModel(float sx, float sy);
 	void FindPath();
@@ -108,9 +110,6 @@ private:
 	ID3D11Buffer* mWavesVB;
 	ID3D11Buffer* mWavesIB;
 
-	ID3D11Buffer* mBoxVB;
-	ID3D11Buffer* mBoxIB;
-
 	ID3D11ShaderResourceView* mSRV[6];
 
 	Waves mWaves;
@@ -124,8 +123,7 @@ private:
 	XMFLOAT4X4 mWaterTexTransform;
 	XMFLOAT4X4 mLandWorld;
 	XMFLOAT4X4 mWavesWorld;
-	XMFLOAT4X4 mBoxWorld[Map_size][Map_size];
-	int texture_index[Map_size][Map_size];
+	
 	XMFLOAT4X4 mView;
 	XMFLOAT4X4 mProj;
 	//camera
@@ -171,11 +169,13 @@ private:
 	XMFLOAT3 PlayerWorldPosition;
 	//sky box
 	Sky* mSkyBox;
+	//Terrain
+	Terrain mTerrain;
 };
 
 
 GameApp::GameApp(HINSTANCE hInstance)
-	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0), mBoxVB(0), mBoxIB(0),
+	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(Render_Options::TexturesAndFog),
 	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), 
 	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(0,0), First(true), Endindex(0,0), unitlen(0),isMove(false), PlayerWorldPosition(-65.0f, -5.0f, -60.0f)
@@ -201,21 +201,10 @@ GameApp::GameApp(HINSTANCE hInstance)
 
 	
 
-	XMMATRIX boxScale = XMMatrixScaling(15.0f, 15.0f, 15.0f);
+	
 	MapBox.Center=XMFLOAT3(0.0f,0.0f,0.0f);
 	MapBox.Extents= XMFLOAT3(0.5f, 0.5f, 0.5f);
-	XMMATRIX boxOffset = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	
-	float offset_border = -7.5f;
-	for (int i = 0; i < Map_size; ++i)
-	{
-		for (int j = 0; j < Map_size; ++j)
-		{
-			boxOffset = XMMatrixTranslation((i * Unit_MapOffset - 60.0), offset_border, (j * Unit_MapOffset - 60.0));
-			XMStoreFloat4x4(&mBoxWorld[i][j], boxScale * boxOffset);
-			texture_index[i][j] = rand() % 5;
-		}
-	}
 
 	XMMATRIX grassTexScale = XMMatrixScaling(100.0f, 100.0f, 0.0f);
 	XMStoreFloat4x4(&mGrassTexTransform, grassTexScale);
@@ -268,8 +257,8 @@ GameApp::~GameApp()
 	ReleaseCOM(mLandIB);
 	ReleaseCOM(mWavesVB);
 	ReleaseCOM(mWavesIB);
-	ReleaseCOM(mBoxVB);
-	ReleaseCOM(mBoxIB);
+	//ReleaseCOM(mBoxVB);
+	//ReleaseCOM(mBoxIB);
 	for (int i = 0; i < 6; ++i)
 	{
 		ReleaseCOM(mSRV[i]);
@@ -304,6 +293,9 @@ bool GameApp::Init()
 	if (!D3DApp::Init())
 		return false;
 
+	//Terrain Init
+	mTerrain.Init(md3dDevice,Map_size,Unit_MapOffset);
+
 	//转换地图
 	m_GameMap.ConvertMap();
 
@@ -320,7 +312,7 @@ bool GameApp::Init()
 
 	//Build Geometry Buffers
 	BuildLandGeometryBuffers();
-	BuildCrateGeometryBuffers();
+	//BuildCrateGeometryBuffers();
 
 
 	//FBX Create
@@ -331,8 +323,8 @@ bool GameApp::Init()
 	InitFbxModel();
 
 	//初始化像机
-	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x - 100, 100, PlayerWorldPosition.z - 100));
-	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x - 100, 100, PlayerWorldPosition.z - 100), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
+	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50));
+	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
 
 	//Create Blend State
 	CreateBlendState();
@@ -366,20 +358,11 @@ void GameApp::UpdateScene(float dt)
 	}
 
 	
-	
 	//每帧寻路
 	FindPath();
 
 
-	
-
-
-	//// Convert Spherical to Cartesian coordinates.
-	//float x = mRadius * sinf(mPhi) * cosf(mTheta);
-	//float z = mRadius * sinf(mPhi) * sinf(mTheta);
-	//float y = mRadius * cosf(mPhi);
-
-	mCamera->SetPosition(PlayerWorldPosition.x - 100, 100, PlayerWorldPosition.z - 100);
+	mCamera->SetPosition(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50);
 
 	mEyePosW = mCamera->GetPosition();
 
@@ -463,40 +446,46 @@ void GameApp::DrawScene()
 
 		D3DX11_TECHNIQUE_DESC techDesc;
 
+
+
+
 		//
 		// Draw the LAND with alpha clipping.
 		// 
 
-		boxTech->GetDesc(&techDesc);
-		for (UINT p = 0; p < techDesc.Passes; ++p)
-		{
-			md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
-			md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
+		mTerrain.Render(md3dImmediateContext);
+		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
 
-			//Set per object constants.
-			for (int i = 0; i < Map_size; ++i)
-			{
-				for (int j = 0; j < Map_size; ++j)
-				{
-					XMMATRIX world = XMLoadFloat4x4(&mBoxWorld[i][j]);
-					XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-					XMMATRIX worldViewProj = world * view * proj;
+		//boxTech->GetDesc(&techDesc);
+		//for (UINT p = 0; p < techDesc.Passes; ++p)
+		//{
+		//	md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
+		//	md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
 
-					Effects::BasicFX->SetWorld(world);
-					Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-					Effects::BasicFX->SetWorldViewProj(worldViewProj);
-					Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
-					Effects::BasicFX->SetMaterial(mBoxMat);
-					Effects::BasicFX->SetDiffuseMap(mSRV[texture_index[i][j]]);
-					Effects::BasicFX->SetWave(false);
-					md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
-					boxTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-					md3dImmediateContext->DrawIndexed(36, 0, 0);
-				}
-			}
-			// Restore default render state.
-			//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
-		}
+		//	//Set per object constants.
+		//	for (int i = 0; i < Map_size; ++i)
+		//	{
+		//		for (int j = 0; j < Map_size; ++j)
+		//		{
+		//			XMMATRIX world = XMLoadFloat4x4(&mBoxWorld[i][j]);
+		//			XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
+		//			XMMATRIX worldViewProj = world * view * proj;
+
+		//			Effects::BasicFX->SetWorld(world);
+		//			Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
+		//			Effects::BasicFX->SetWorldViewProj(worldViewProj);
+		//			Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
+		//			Effects::BasicFX->SetMaterial(mBoxMat);
+		//			Effects::BasicFX->SetDiffuseMap(mSRV[texture_index[i][j]]);
+		//			Effects::BasicFX->SetWave(false);
+		//			md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+		//			boxTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+		//			md3dImmediateContext->DrawIndexed(36, 0, 0);
+		//		}
+		//	}
+		//	// Restore default render state.
+		//	//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+		//}
 
 		//
 		// Draw the  water with texture and fog (no alpha clipping needed).
@@ -726,51 +715,7 @@ void GameApp::BuildWaveGeometryBuffers()
 	HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mWavesIB));
 }
 
-void GameApp::BuildCrateGeometryBuffers()
-{
-	GeometryGenerator::MeshData box;
 
-	GeometryGenerator geoGen;
-	geoGen.CreateBox(1.0f, 1.0f, 1.0f, box);
-
-	//
-	// Extract the vertex elements we are interested in and pack the
-	// vertices of all the meshes into one vertex buffer.
-	//
-
-	std::vector<Vertex::Basic32> vertices(box.Vertices.size());
-
-	for (UINT i = 0; i < box.Vertices.size(); ++i)
-	{
-		vertices[i].Pos = box.Vertices[i].Position;
-		vertices[i].Normal = box.Vertices[i].Normal;
-		vertices[i].Tex = box.Vertices[i].TexC;
-	}
-
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex::Basic32) * box.Vertices.size();
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &vertices[0];
-	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mBoxVB));
-
-	//
-	// Pack the indices of all the meshes into one index buffer.
-	//
-
-	D3D11_BUFFER_DESC ibd;
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(UINT) * box.Indices.size();
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA iinitData;
-	iinitData.pSysMem = &box.Indices[0];
-	HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mBoxIB));
-}
 
 XMINT2 GameApp::RayTOModel(float sx,float sy)
 {
@@ -801,7 +746,7 @@ XMINT2 GameApp::RayTOModel(float sx,float sy)
 			 rayDir = XMVectorSet(vx, vy, 1.0f, 0.0f);
 
 
-			XMMATRIX W = XMLoadFloat4x4(&mBoxWorld[i][j]);
+			XMMATRIX W = XMLoadFloat4x4(&mTerrain.mInstance[i*Map_size+j].World);
 			XMMATRIX invWorld = XMMatrixInverse(&XMMatrixDeterminant(W), W);
 			
 			// Tranform ray to vi space of Mesh.

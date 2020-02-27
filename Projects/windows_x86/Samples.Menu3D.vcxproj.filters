@@ -4,9 +4,6 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{8d2fe950-6bd3-4c41-8d76-0f66eaab3a85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data">
-      <UniqueIdentifier>{d6fd326a-93e6-4b4e-8084-a8973e0bf2b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MenuGUI">
       <UniqueIdentifier>{bd87545d-f115-4a0b-b488-5cc2f8e46fa3}</UniqueIdentifier>
     </Filter>
@@ -28,6 +25,12 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{a71977e3-4275-4b74-934a-db886d62fb96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Terrain">
+      <UniqueIdentifier>{c57e668b-e745-474d-9f8d-3da2208df9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIData">
+      <UniqueIdentifier>{d6fd326a-93e6-4b4e-8084-a8973e0bf2b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -37,58 +40,58 @@
       <Filter>Resources</Filter>
     </None>
     <CustomBuild Include="..\..\Data\App.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\MainWindow.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\MenuResources.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\MenuDescription.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\MainMenu.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\StartMenu.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\SettingsMenu.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\OptionSelector.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Images\BackClouds.png">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Images\FrontClouds.png">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Images\FrontTrees.png">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Images\LakeAndMountains.png">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Images\SkyAndSun.jpg">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Fonts\weblysleekuisb.ttf">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Fonts\weblysleekuisl.ttf">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Sounds\SoundTrack.mp3">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Sounds\WaterDropBig.mp3">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Sounds\WaterDropSmall.mp3">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +299,9 @@
     <ClInclude Include="..\..\SkyBox\Sky.h">
       <Filter>SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Terrain\Terrain.h">
+      <Filter>Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -484,16 +490,19 @@
     <ClCompile Include="..\..\SkyBox\Sky.cpp">
       <Filter>SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Terrain\Terrain.cpp">
+      <Filter>Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Resources.xaml">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="..\..\Data\Koala.jpg">
-      <Filter>Data</Filter>
+      <Filter>UIData</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\Basic.fx">
       <Filter>Shader</Filter>
@@ -508,6 +517,9 @@
       <Filter>Shader</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\Sky.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\InstancedBasic.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
   </ItemGroup>
