@@ -25,17 +25,20 @@ std::string str;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //model num
 #define Model_Num  8
-#define Model1_Instance 0
-#define Model2_Instance 0
-#define Model3_Instance 0
-#define Model4_Instance 0
-#define Model5_Instance 0
-#define Model6_Instance 0
-#define Model7_Instance 0
-#define Model8_Instance 0
+#define Model1_Instance 5
+#define Model2_Instance 25
+#define Model3_Instance 1
+#define Model4_Instance 20
+#define Model5_Instance 1
+#define Model6_Instance 4
+#define Model7_Instance 1
+#define Model8_Instance 1
 //map size
 #define Map_size  21
 #define Unit_MapOffset 16
+
+#define PlayerPositionX -60.0f 
+#define PlayerPositionY -60.0f
 
 AppLauncher launcher;
 bool menu = true;
@@ -103,12 +106,21 @@ private:
 	void CreateBlendState();
 	//Load Texture
 	void LoadTexture();
+	//build  shadow instance data
+
+	//static
+	void BuildStaticInstanceData();
+	//dynamic
+	void BuildDynamicInstanceData();
 private:
 	ID3D11Buffer* mLandVB;
 	ID3D11Buffer* mLandIB;
 
 	ID3D11Buffer* mWavesVB;
 	ID3D11Buffer* mWavesIB;
+
+	//instance buffer data
+	ID3D11Buffer* mFBXInstanceBuffer[Model_Num];
 
 	ID3D11ShaderResourceView* mSRV[6];
 
@@ -145,6 +157,10 @@ private:
 
 	ID3D11BlendState* m_pBlendState;
 
+	//全局直线光(目前只有一个) 在游戏初始化函数中初始化
+	DirectionalLight gDirLights;
+
+
 	//FBX Models
 	std::vector<Model*> m_Models;
 	Model_Tansform_Info m_ModeInfo[Model_Num];
@@ -178,7 +194,7 @@ GameApp::GameApp(HINSTANCE hInstance)
 	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(Render_Options::TexturesAndFog),
 	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), 
-	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(0,0), First(true), Endindex(0,0), unitlen(0),isMove(false), PlayerWorldPosition(-65.0f, -5.0f, -60.0f)
+	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(0,0), First(true), Endindex(0,0), unitlen(0),isMove(false), PlayerWorldPosition(PlayerPositionX, 0.0f, PlayerPositionY)
 {
 	mMainWndCaption = L"Game Demo";
 	mEnable4xMsaa = true;
@@ -220,23 +236,14 @@ GameApp::GameApp(HINSTANCE hInstance)
 	//GUI init
 	m_pGameGUI = new GameGUI;
 
+	//Direction light init
+	gDirLights.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	gDirLights.Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	gDirLights.Specular = XMFLOAT4(0.2f, 0.2f, 0.5f, 1.0f);
+	gDirLights.Direction = XMFLOAT3(0.57735f, -0.57735f, -0.57735f);
 
 
-	mDirLights[0].Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mDirLights[0].Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	mDirLights[0].Specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	mDirLights[0].Direction = XMFLOAT3(0.57735f, -0.57735f, 0.57735f);
-
-	mDirLights[1].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
-	mDirLights[1].Diffuse = XMFLOAT4(0.20f, 0.20f, 0.20f, 1.0f);
-	mDirLights[1].Specular = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
-	mDirLights[1].Direction = XMFLOAT3(-0.57735f, -0.57735f, 0.57735f);
-
-	mDirLights[2].Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
-	mDirLights[2].Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mDirLights[2].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
-	mDirLights[2].Direction = XMFLOAT3(0.0f, -0.707f, -0.707f);
-
+	//mat init
 	mLandMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	mLandMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mLandMat.Specular = XMFLOAT4(0.2f, 0.2f, 0.2f, 16.0f);
@@ -245,9 +252,7 @@ GameApp::GameApp(HINSTANCE hInstance)
 	mWavesMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.1f);
 	mWavesMat.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 32.0f);
 
-	mBoxMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	mBoxMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	mBoxMat.Specular = XMFLOAT4(0.4f, 0.4f, 0.4f, 16.0f);
+	
 }
 
 GameApp::~GameApp()
@@ -321,10 +326,13 @@ bool GameApp::Init()
 
 	//FBX Init and Load
 	InitFbxModel();
+	// 在InitFbxModel()之后调用
+	BuildStaticInstanceData();
+	BuildDynamicInstanceData();
 
 	//初始化像机
-	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50));
-	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
+	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60));
+	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z -60), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
 
 	//Create Blend State
 	CreateBlendState();
@@ -342,7 +350,7 @@ void GameApp::OnResize()
 
 void GameApp::UpdateScene(float dt)
 {
-
+	
 	//判断动画状态
 	if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y)&&!isMove)
 	{
@@ -361,8 +369,10 @@ void GameApp::UpdateScene(float dt)
 	//每帧寻路
 	FindPath();
 
+	//更新动态模型实例化buffer
+	BuildDynamicInstanceData();
 
-	mCamera->SetPosition(PlayerWorldPosition.x - 50, 50, PlayerWorldPosition.z - 50);
+	//mCamera->SetPosition(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60);
 
 	mEyePosW = mCamera->GetPosition();
 
@@ -419,7 +429,6 @@ void GameApp::DrawScene()
 		XMMATRIX viewProj = view * proj;
 
 		// Set per frame constants.
-		Effects::BasicFX->SetDirLights(mDirLights);
 		Effects::BasicFX->SetEyePosW(mEyePosW);
 		Effects::BasicFX->SetFogColor(GColors::Silver);
 		Effects::BasicFX->SetFogStart(mTimer.TotalTime());
@@ -453,36 +462,10 @@ void GameApp::DrawScene()
 		// Draw the LAND with alpha clipping.
 		// 
 
-		mTerrain.Render(md3dImmediateContext);
+		mTerrain.Render(md3dImmediateContext,gDirLights);
 		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
+		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
-		//boxTech->GetDesc(&techDesc);
-		//for (UINT p = 0; p < techDesc.Passes; ++p)
-		//{
-		//	md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
-		//	md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
-
-		//	//Set per object constants.
-		//	for (int i = 0; i < Map_size; ++i)
-		//	{
-		//		for (int j = 0; j < Map_size; ++j)
-		//		{
-		//			XMMATRIX world = XMLoadFloat4x4(&mBoxWorld[i][j]);
-		//			XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-		//			XMMATRIX worldViewProj = world * view * proj;
-
-		//			Effects::BasicFX->SetWorld(world);
-		//			Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		//			Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		//			Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
-		//			Effects::BasicFX->SetMaterial(mBoxMat);
-		//			Effects::BasicFX->SetDiffuseMap(mSRV[texture_index[i][j]]);
-		//			Effects::BasicFX->SetWave(false);
-		//			md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
-		//			boxTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		//			md3dImmediateContext->DrawIndexed(36, 0, 0);
-		//		}
-		//	}
 		//	// Restore default render state.
 		//	//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 		//}
@@ -790,8 +773,8 @@ void GameApp::FindPath()
 		}
 
 
-		static float x = -65.0f;
-		static float z = -60.0f;
+		static float x = PlayerPositionX;
+		static float z = PlayerPositionY;
 		static bool findpath = false;
 		if (Mapindex.x >= 0)
 		{
@@ -836,7 +819,7 @@ void GameApp::FindPath()
 						m_ModeInfo[7].Mat_tansform_Rot_Scal[0] *= XMMatrixRotationY(MathHelper::Pi);
 					}
 				}
-				m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
+				
 				
 			}
 			if (findpath)
@@ -868,10 +851,9 @@ void GameApp::FindPath()
 				{
 					isMove = true;
 				}
-				m_ModeInfo[7].Mat_tansform_Translation[0] = XMMatrixTranslation(x, -5.0f, z);
+				m_ModeInfo[7].Mat_tansform_Translation[0] = XMMatrixTranslation(x, 00.0f, z);
 				//更新玩家位置信息
-				PlayerWorldPosition = XMFLOAT3(x, -5.0f, z);
-				m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
+				PlayerWorldPosition = XMFLOAT3(x, 0.0f, z);
 			}
 		}
 	}
@@ -894,7 +876,7 @@ void GameApp::RenderFbxModel()
 	{
 		for (int i = 0; i < Model3_Instance; ++i)
 		{
-			if (!m_Models[2]->BeginRender(i))
+			if (!m_Models[2]->BeginRender(i, Anim_State::Idle))
 				return;
 		}
 	}
@@ -975,6 +957,9 @@ void GameApp::UpdateFbxAnimation(float dt)
 	//fbx update
 	if (m_Models[0])
 		m_Models[0]->Update(dt,Anim_State::Idle);
+
+	if (m_Models[2])
+		m_Models[2]->Update(dt,Anim_State::Idle);
 	//player model update
 	if (m_Models[7])
 	{
@@ -993,7 +978,7 @@ void GameApp::UpdateFbxAnimation(float dt)
 void GameApp::GetKeyState(float dt)
 {
 	// Switch the render mode based in key input.
-	/*if (GetAsyncKeyState('W') & 0x8000)
+	if (GetAsyncKeyState('W') & 0x8000)
 		mCamera->Walk(2.0f);
 
 	if (GetAsyncKeyState('S') & 0x8000)
@@ -1003,7 +988,7 @@ void GameApp::GetKeyState(float dt)
 		mCamera->Strafe(-2.0f);
 
 	if (GetAsyncKeyState('D') & 0x8000)
-		mCamera->Strafe(2.0f);*/
+		mCamera->Strafe(2.0f);
 
 	//更新像机视图矩阵
 	mCamera->UpdateViewMatrix();
@@ -1013,7 +998,7 @@ void GameApp::InitFbxModel()
 {
 	///fbx model tansform information initialization(与模型下标统一)
 	{
-		//Model 1
+		//Model 1  (蜘蛛怪)
 		m_ModeInfo[0].Model_Instance_Num = Model1_Instance;
 		m_ModeInfo[0].Mat_tansform_Rot_Scal.resize(Model1_Instance);
 		m_ModeInfo[0].Mat_tansform_Translation.resize(Model1_Instance);
@@ -1021,93 +1006,97 @@ void GameApp::InitFbxModel()
 		{
 			int location_offset_x = (int)MathHelper::RandF(-2.0f, 19.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-2.0f, 19.0f) * Unit_MapOffset;
-			m_ModeInfo[0].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(3.2f, 3.2f, 3.2f);
-			m_ModeInfo[0].Mat_tansform_Translation[i] = XMMatrixTranslation(-1.5f + location_offset_x, -4.0f, 3.0f + location_offset_z);
+			m_ModeInfo[0].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f);
+			m_ModeInfo[0].Mat_tansform_Translation[i] = XMMatrixTranslation(location_offset_x+4.5f, 0.0f, 3.0f + location_offset_z);
 		}
 
-		//Model 2
+		//Model 2 (树)
 		m_ModeInfo[1].Model_Instance_Num = Model2_Instance;
-		m_ModeInfo[1].Mat_tansform_Rot_Scal.resize(Model2_Instance);
-		m_ModeInfo[1].Mat_tansform_Translation.resize(Model2_Instance);
+		m_ModeInfo[1].Mat_World.resize(Model2_Instance);
 		for (int i = 0; i < Model2_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-			m_ModeInfo[1].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(location_offset_x % 3) * XMMatrixScaling(6.0f, 6.0f, 6.0f);
-			m_ModeInfo[1].Mat_tansform_Translation[i] = XMMatrixTranslation(-2.0f + location_offset_x, -4.0f, 5.0f + location_offset_z);
+			m_ModeInfo[1].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
+				* XMMatrixRotationY(location_offset_x % 3) 
+				* XMMatrixScaling(0.15f, 0.15f, 0.15f)
+				*XMMatrixTranslation(-13.0f + location_offset_x, 0.0f, 5.0f + location_offset_z);
 		}
 
 
-		//Model 3
+		//Model 3 (白鹤)
 		m_ModeInfo[2].Model_Instance_Num = Model3_Instance;
-		m_ModeInfo[2].Mat_tansform_Rot_Scal.resize(Model3_Instance);
-		m_ModeInfo[2].Mat_tansform_Translation.resize(Model3_Instance);
+		m_ModeInfo[2].Mat_World.resize(Model3_Instance);
 		for (int i = 0; i < Model3_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-1.0f, 64.0f) * 4;
 			int location_offset_z = (int)MathHelper::RandF(-1.0f, 64.0f) * 4;
-			m_ModeInfo[2].Mat_tansform_Rot_Scal[i] = XMMatrixRotationY(location_offset_x % 3) * XMMatrixScaling(.8f, .8f, .8f);
-			m_ModeInfo[2].Mat_tansform_Translation[i] = XMMatrixTranslation(-2.0f + location_offset_x, -4.0f, 5.0f + location_offset_z);
+			m_ModeInfo[2].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
+				* XMMatrixScaling(5.2f, 5.2f,5.2f)
+				* XMMatrixTranslation(20.0f + location_offset_x, 70.0f, 5.0f + location_offset_z);
 		}
 
 
-		//Model 4
+		//Model 4 (石山)
 		m_ModeInfo[3].Model_Instance_Num = Model4_Instance;
-		m_ModeInfo[3].Mat_tansform_Rot_Scal.resize(Model4_Instance);
-		m_ModeInfo[3].Mat_tansform_Translation.resize(Model4_Instance);
+		m_ModeInfo[3].Mat_World.resize(Model4_Instance);
 		for (int i = 0; i < Model4_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-			m_ModeInfo[3].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(MathHelper::Pi / 2) * XMMatrixRotationY(location_offset_x % 3) * XMMatrixScaling(4, 4, 4);
-			m_ModeInfo[3].Mat_tansform_Translation[i] = XMMatrixTranslation(0.0f + location_offset_x, -3.0f, 0.0f + location_offset_z);
+			m_ModeInfo[3].Mat_World[i] = XMMatrixRotationX(MathHelper::Pi / 2) 
+				* XMMatrixRotationY(location_offset_x % 3) 
+				* XMMatrixScaling(0.007f, 0.007f, 0.007f)
+				* XMMatrixTranslation(5.0f + location_offset_x, -4.0f, -9.0f + location_offset_z);
 		}
 
 
-		//Model 5
+		//Model 5  (房屋1)
 		m_ModeInfo[4].Model_Instance_Num = Model5_Instance;
-		m_ModeInfo[4].Mat_tansform_Rot_Scal.resize(Model5_Instance);
-		m_ModeInfo[4].Mat_tansform_Translation.resize(Model5_Instance);
+		m_ModeInfo[4].Mat_World.resize(Model5_Instance);
 		for (int i = 0; i < Model5_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-50.0f, 50.0f) * 4;
 			int location_offset_z = (int)MathHelper::RandF(-50.0f, 50.0f) * 4;
-			m_ModeInfo[4].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(5, 5, 5);
-			m_ModeInfo[4].Mat_tansform_Translation[i] = XMMatrixTranslation(20.0f + location_offset_x, -4.0f, 100.0f + location_offset_z);
+			m_ModeInfo[4].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
+				* XMMatrixScaling(2.0f, 2.0f, 2.0f)
+				* XMMatrixTranslation(20.0f + location_offset_x, 0.0f, 100.0f + location_offset_z);
 		}
 
-		//Model 6
+		//Model 6 (神像)
 		m_ModeInfo[5].Model_Instance_Num = Model6_Instance;
-		m_ModeInfo[5].Mat_tansform_Rot_Scal.resize(Model6_Instance);
-		m_ModeInfo[5].Mat_tansform_Translation.resize(Model6_Instance);
+		m_ModeInfo[5].Mat_World.resize(Model6_Instance);
 		for (int i = 0; i < Model6_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-			m_ModeInfo[5].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(location_offset_x % 3) * XMMatrixScaling(4, 4, 4);
-			m_ModeInfo[5].Mat_tansform_Translation[i] = XMMatrixTranslation(location_offset_x, -4.0f, location_offset_z + 5.0f);
+			m_ModeInfo[5].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
+				* XMMatrixRotationY(location_offset_x % 3) 
+				* XMMatrixScaling(5.0f, 5.0f, 5.0f)
+				* XMMatrixTranslation(location_offset_x+5.0f, 0.0f, location_offset_z + 5.0f);
 		}
 
-		//Model 7
+		//Model 7 (小孩石像)
 		m_ModeInfo[6].Model_Instance_Num = Model7_Instance;
-		m_ModeInfo[6].Mat_tansform_Rot_Scal.resize(Model7_Instance);
-		m_ModeInfo[6].Mat_tansform_Translation.resize(Model7_Instance);
+		m_ModeInfo[6].Mat_World.resize(Model7_Instance);
 		for (int i = 0; i < Model7_Instance; ++i)
 		{
 			int location_offset_x = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-			m_ModeInfo[6].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(location_offset_x % 3) * XMMatrixScaling(2, 2, 2);
-			m_ModeInfo[6].Mat_tansform_Translation[i] = XMMatrixTranslation(location_offset_x, -4.0f, location_offset_z + 5.0f);
+			m_ModeInfo[6].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
+				* XMMatrixRotationY(location_offset_x % 3) 
+				* XMMatrixScaling(6.0f, 6.0f, 6.0f)
+				* XMMatrixTranslation(location_offset_x+5.0f, 0.0f, location_offset_z + 5.0f);
 		}
 
-		//Model 8
+		//Model 8 PLAYER MODEL
 		m_ModeInfo[7].Model_Instance_Num = Model8_Instance;
 		m_ModeInfo[7].Mat_tansform_Rot_Scal.resize(Model8_Instance);
 		m_ModeInfo[7].Mat_tansform_Translation.resize(Model8_Instance);
 		for (int i = 0; i < Model8_Instance; ++i)
 		{
-			m_ModeInfo[7].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(0) * XMMatrixScaling(1, 1, 1);
-			m_ModeInfo[7].Mat_tansform_Translation[i] = XMMatrixTranslation(-65.0f, -5.0f, -60.0f);
+			m_ModeInfo[7].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(0) * XMMatrixScaling(0.002f ,0.002f, 0.002f);
+			m_ModeInfo[7].Mat_tansform_Translation[i] = XMMatrixTranslation(PlayerPositionX, 0.0f, PlayerPositionY);
 		}
 
 	}
@@ -1130,9 +1119,10 @@ void GameApp::InitFbxModel()
 
 	if (m_Models[2])
 	{
-		m_Models[2]->CreateFileFbx("model/modelFlower_blue.FBX");
-		m_Models[2]->CreateFileKkb("model/modelFlower_blue.kkb");
-		m_Models[2]->CreateImage(L"model/Tx_flower_blue.dds");
+		m_Models[2]->CreateFileFbx("model/BaiLu_Fei_Loop.FBX");
+		m_Models[2]->CreateFileKkb("model/BaiLu_Fei_Loop.kkb");
+		m_Models[2]->CreateFileKkf("model/BaiLu_Fei_Loop.kkf",Anim_State::Idle);
+		m_Models[2]->CreateImage(L"model/bailu.dds");
 		m_Models[2]->SetModelTansInfo(&m_ModeInfo[2]);
 	}
 	if (m_Models[3])
@@ -1169,11 +1159,11 @@ void GameApp::InitFbxModel()
 	//player model
 	if (m_Models[7])
 	{
-		m_Models[7]->CreateFileFbx("model/TraumaGuard_Run.FBX");
-		m_Models[7]->CreateFileKkb("model/TraumaGuard_Run.kkb");
-		m_Models[7]->CreateFileKkf("model/TraumaGuard_Run.kkf", Anim_State::Run);
-		m_Models[7]->CreateFileKkf("model/TraumaGuard_ActiveIdleLoop.kkf", Anim_State::Idle);
-		m_Models[7]->CreateImage(L"model/TraumaGuard_Albedo.dds");
+		m_Models[7]->CreateFileFbx("model/MercFemale.FBX");
+		m_Models[7]->CreateFileKkb("model/MercFemale.kkb");
+		m_Models[7]->CreateFileKkf("model/MercFemale_Run.kkf", Anim_State::Run);
+		m_Models[7]->CreateFileKkf("model/MercFemale_IdleLoop.kkf", Anim_State::Idle);
+		m_Models[7]->CreateImage(L"model/MercFemale_Albedo.dds");
 		m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
 	}
 
@@ -1209,25 +1199,69 @@ void GameApp::LoadTexture()
 		L"Textures/water3.dds", &texResource, &mSRV[0]));
 	ReleaseCOM(texResource); // view saves reference
 
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/2.dds", &texResource, &mSRV[1]));
-	ReleaseCOM(texResource); // view saves reference
+}
 
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/3.dds", &texResource, &mSRV[2]));
-	ReleaseCOM(texResource); // view saves reference
+//初始化调用
+void GameApp::BuildStaticInstanceData()
+{
+	for (int i = 0; i < Model_Num; ++i)
+	{
+		//判断是否为静态模型
+		if(m_ModeInfo[i].Mat_tansform_Rot_Scal.size()==0)
+		{
 
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/4.dds", &texResource, &mSRV[3]));
-	ReleaseCOM(texResource); // view saves reference
+			D3D11_BUFFER_DESC vbd;
+			vbd.Usage = D3D11_USAGE_DYNAMIC;
+			vbd.ByteWidth = sizeof(XMMATRIX) * m_ModeInfo[i].Mat_World.size();
+			vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			vbd.MiscFlags = 0;
+			vbd.StructureByteStride = 0;
+			D3D11_SUBRESOURCE_DATA vinitData;
+			vinitData.pSysMem = &m_ModeInfo[i].Mat_World[0];
+			HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mFBXInstanceBuffer[i]));
+		}
+	}
 
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/5.dds", &texResource, &mSRV[4]));
-	ReleaseCOM(texResource); // view saves reference
 
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/6.dds", &texResource, &mSRV[5]));
-	ReleaseCOM(texResource); // view saves reference
+
+}
+
+
+//每帧调用
+void GameApp::BuildDynamicInstanceData()
+{
+	for (int i = 0; i < Model_Num; ++i)
+	{
+		//判断是否为动态模型
+		if (m_ModeInfo[i].Mat_tansform_Rot_Scal.size ()!= 0)
+		{
+			//更新world矩阵
+			int size = m_ModeInfo[i].Mat_tansform_Rot_Scal.size();
+			m_ModeInfo[i].Mat_World.resize(size);
+			for (int j=0;j< size;++j)
+			{
+				m_ModeInfo[i].Mat_World[j] = m_ModeInfo[i].Mat_tansform_Rot_Scal[j]
+					* m_ModeInfo[i].Mat_tansform_Translation[j];
+			}
+
+			m_Models[i]->SetModelTansInfo(&m_ModeInfo[i]);
+
+			//创建buffer
+			D3D11_BUFFER_DESC vbd;
+			vbd.Usage = D3D11_USAGE_DYNAMIC;
+			vbd.ByteWidth = sizeof(XMMATRIX) * m_ModeInfo[i].Mat_World.size();
+			vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			vbd.MiscFlags = 0;
+			vbd.StructureByteStride = 0;
+			D3D11_SUBRESOURCE_DATA vinitData;
+			vinitData.pSysMem = &m_ModeInfo[i].Mat_World[0];
+			HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mFBXInstanceBuffer[i]));
+		}
+	}
+
+
 }
 
 

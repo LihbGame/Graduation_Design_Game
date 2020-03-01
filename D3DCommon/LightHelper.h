@@ -69,4 +69,10 @@ struct Material
 	XMFLOAT4 Reflect;
 };
 
+
+
+
+
+
+
 #endif // LIGHTHELPER_H

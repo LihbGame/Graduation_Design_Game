@@ -27,6 +27,9 @@ public:
 	void SetWorldMatrix(const XMFLOAT4X4* pMatWorld);
 	void SetTexture(const wchar_t* szFileName);
 
+	//世界坐标系矩阵变换。
+	XMFLOAT4X4 m_matWorld;
+
 private:
 	bool CreateTexture(const wchar_t* szFileName);
 	void ReleaseTexture();
@@ -35,8 +38,7 @@ private:
 	const StKKModel* m_pKKModel;
 	SoD3DShaderBase* m_pShader;
 	SoD3DTexture* m_pTexture;
-	//世界坐标系矩阵变换。
-	XMFLOAT4X4 m_matWorld;
+	
 	float m_fAccTime;
 	int m_nCurrentKeyFrameIndex;
 

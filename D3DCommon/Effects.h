@@ -120,9 +120,16 @@ public:
 	void SetFogColor(const FXMVECTOR v) { FogColor->SetFloatVector(reinterpret_cast<const float*>(&v)); }
 	void SetFogStart(float f) { FogStart->SetFloat(f); }
 	void SetFogRange(float f) { FogRange->SetFloat(f); }
-	void SetDirLights(const DirectionalLight* lights) { DirLights->SetRawValue(lights, 0, 3 * sizeof(DirectionalLight)); }
+	void SetDirLights(const DirectionalLight& lights) { DirLights->SetRawValue(&lights, 0, sizeof(DirectionalLight)); }
 	void SetMaterial(const Material& mat) { Mat->SetRawValue(&mat, 0, sizeof(Material)); }
-	void SetDiffuseMap(ID3D11ShaderResourceView* tex) { DiffuseMap->SetResource(tex); }
+	//texture maps 5
+	void SetDiffuseMap(ID3D11ShaderResourceView** tex) 
+	{ 
+		for (int i = 0; i < 5; ++i)
+		{
+			DiffuseMap[i]->SetResource(tex[i]);
+		}
+	}
 
 	ID3DX11EffectTechnique* Light1Tech;
 	ID3DX11EffectTechnique* Light2Tech;
@@ -163,7 +170,7 @@ public:
 	ID3DX11EffectVariable* DirLights;
 	ID3DX11EffectVariable* Mat;
 
-	ID3DX11EffectShaderResourceVariable* DiffuseMap;
+	ID3DX11EffectShaderResourceVariable* DiffuseMap[5];
 };
 #pragma endregion
 

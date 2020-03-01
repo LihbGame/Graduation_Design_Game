@@ -159,6 +159,14 @@ void Model::SetModelTansInfo(Model_Tansform_Info *ModeInfo)
 	{
 		m_ModeInfo.Mat_tansform_Translation[i]=ModeInfo->Mat_tansform_Translation[i];
 	}
+
+
+	Mat_size = ModeInfo->Mat_World.size();
+	m_ModeInfo.Mat_World.resize(Mat_size);
+	for (int i = 0; i < Mat_size; ++i)
+	{
+		m_ModeInfo.Mat_World[i] = ModeInfo->Mat_World[i];
+	}
 	
 }
 //----------------------------------------------------------------
@@ -216,35 +224,35 @@ void Model::CreateFileFbx(const char* szFileName)
 	g_pD3DModelFbx->InitModel(&FbxParam);
 
 
-	//以地表为参照物，把模型缩放到合适的大小。
-	const float fTerrainWidth = 10.0f;
-	//const float fTerrainHeight = 10.0f;
-	const float fAdjustScale = 0.5f;
-	SoMathFloat3 kMinPos;
-	SoMathFloat3 kMaxPos;
-	g_pFbxModel->CalculateMeshBoundingBox(&kMinPos, &kMaxPos);
-	float fScale = 0.01f;
-	if (SoMath_IsFloatZero(kMaxPos.x - kMinPos.x) == false)
-	{
-		fScale = fTerrainWidth / (kMaxPos.x - kMinPos.x);
-		fScale *= fAdjustScale;
-	}
+	////以地表为参照物，把模型缩放到合适的大小。
+	//const float fTerrainWidth = 10.0f;
+	////const float fTerrainHeight = 10.0f;
+	//const float fAdjustScale = 0.5f;
+	//SoMathFloat3 kMinPos;
+	//SoMathFloat3 kMaxPos;
+	//g_pFbxModel->CalculateMeshBoundingBox(&kMinPos, &kMaxPos);
+	//float fScale = 0.01f;
+	//if (SoMath_IsFloatZero(kMaxPos.x - kMinPos.x) == false)
+	//{
+	//	fScale = fTerrainWidth / (kMaxPos.x - kMinPos.x);
+	//	fScale *= fAdjustScale;
+	//}
 
-	//模型的最低点位于怎样的高度
-	const float fModelRootPosZ = 0.0f;
-	float fPosZ = (fModelRootPosZ - kMinPos.z) * fScale;
+	////模型的最低点位于怎样的高度
+	//const float fModelRootPosZ = 0.0f;
+	//float fPosZ = (fModelRootPosZ - kMinPos.z) * fScale;
 
-	float fPosX = 5.0f;
-	float fPosY = 5.0f;
-	XMMATRIX matRotate = XMMatrixRotationZ(0.0f);
-	XMMATRIX matScale = XMMatrixScaling(fScale, fScale, fScale);
-	XMMATRIX matTranslate = XMMatrixTranslation(fPosX, fPosY, fPosZ);
-	XMMATRIX matWorld = XMMatrixMultiply(matRotate, matScale);
-	matWorld = XMMatrixMultiply(matWorld, matTranslate);
-	XMFLOAT4X4 kMatWorld;
-	XMStoreFloat4x4(&kMatWorld, matWorld);
+	//float fPosX = 5.0f;
+	//float fPosY = 5.0f;
+	//XMMATRIX matRotate = XMMatrixRotationZ(0.0f);
+	//XMMATRIX matScale = XMMatrixScaling(fScale, fScale, fScale);
+	//XMMATRIX matTranslate = XMMatrixTranslation(fPosX, fPosY, fPosZ);
+	//XMMATRIX matWorld = XMMatrixMultiply(matRotate, matScale);
+	//matWorld = XMMatrixMultiply(matWorld, matTranslate);
+	//XMFLOAT4X4 kMatWorld;
+	//XMStoreFloat4x4(&kMatWorld, matWorld);
 
-	g_pD3DModelFbx->SetWorldMatrix(&kMatWorld);
+	//g_pD3DModelFbx->SetWorldMatrix(&kMatWorld);
 
 	
 }
@@ -288,35 +296,35 @@ void Model::CreateFileKkb(const char* szFileName)
 	g_pD3DModelKK->InitModel(&KKParam);
 
 
-	//以地表为参照物，把模型缩放到合适的大小。
-	const float fTerrainWidth = 10.0f;
-	//const float fTerrainHeight = 10.0f;
-	const float fAdjustScale = 0.5f;
-	SoMathFloat3 kMinPos;
-	SoMathFloat3 kMaxPos;
-	g_pKKModel->GetMeshBoundingBox(&kMinPos, &kMaxPos);
-	float fScale = 0.01f;
-	if (SoMath_IsFloatZero(kMaxPos.x - kMinPos.x) == false)
-	{
-		fScale = fTerrainWidth / (kMaxPos.x - kMinPos.x);
-		fScale *= fAdjustScale;
-	}
+	////以地表为参照物，把模型缩放到合适的大小。
+	//const float fTerrainWidth = 10.0f;
+	////const float fTerrainHeight = 10.0f;
+	//const float fAdjustScale = 0.5f;
+	//SoMathFloat3 kMinPos;
+	//SoMathFloat3 kMaxPos;
+	//g_pKKModel->GetMeshBoundingBox(&kMinPos, &kMaxPos);
+	//float fScale = 0.01f;
+	//if (SoMath_IsFloatZero(kMaxPos.x - kMinPos.x) == false)
+	//{
+	//	fScale = fTerrainWidth / (kMaxPos.x - kMinPos.x);
+	//	fScale *= fAdjustScale;
+	//}
 
-	//模型的最低点位于怎样的高度
-	const float fModelRootPosZ = 0.0f;
-	float fPosZ = (fModelRootPosZ - kMinPos.z) * fScale;
+	////模型的最低点位于怎样的高度
+	//const float fModelRootPosZ = 0.0f;
+	//float fPosZ = (fModelRootPosZ - kMinPos.z) * fScale;
 
-	float fPosX = 5.0f;
-	float fPosY = 5.0f;
-	XMMATRIX matRotate = XMMatrixRotationZ(0.0f);
-	XMMATRIX matScale = XMMatrixScaling(fScale, fScale, fScale);
-	XMMATRIX matTranslate = XMMatrixTranslation(fPosX, fPosY, fPosZ);
-	XMMATRIX matWorld = XMMatrixMultiply(matRotate, matScale);
-	matWorld = XMMatrixMultiply(matWorld, matTranslate);
-	XMFLOAT4X4 kMatWorld;
-	XMStoreFloat4x4(&kMatWorld, matWorld);
+	//float fPosX = 5.0f;
+	//float fPosY = 5.0f;
+	//XMMATRIX matRotate = XMMatrixRotationZ(0.0f);
+	//XMMATRIX matScale = XMMatrixScaling(fScale, fScale, fScale);
+	//XMMATRIX matTranslate = XMMatrixTranslation(fPosX, fPosY, fPosZ);
+	//XMMATRIX matWorld = XMMatrixMultiply(matRotate, matScale);
+	//matWorld = XMMatrixMultiply(matWorld, matTranslate);
+	//XMFLOAT4X4 kMatWorld;
+	//XMStoreFloat4x4(&kMatWorld, matWorld);
 
-	g_pD3DModelKK->SetWorldMatrix(&kMatWorld);
+	//g_pD3DModelKK->SetWorldMatrix(&kMatWorld);
 
 
 	float fTimeLen = 0.0f;

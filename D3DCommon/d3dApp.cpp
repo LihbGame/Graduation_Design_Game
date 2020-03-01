@@ -108,9 +108,6 @@ int D3DApp::Run()
 				CalculateFrameStats();
 				UpdateScene(mTimer.DeltaTime());	
 				DrawScene();
-				//UI
-				name.SetFirst("50/100");
-				name.SetLast("40/100");
 			}
         }
 		

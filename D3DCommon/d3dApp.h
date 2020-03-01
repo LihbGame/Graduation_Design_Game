@@ -12,8 +12,11 @@
 struct Model_Tansform_Info
 {
 	int Model_Instance_Num;
+	//如果是动态模型使用以下两个属性
 	std::vector<XMMATRIX> Mat_tansform_Rot_Scal;
 	std::vector<XMMATRIX> Mat_tansform_Translation;
+
+	std::vector<XMMATRIX> Mat_World;
 };
 
 

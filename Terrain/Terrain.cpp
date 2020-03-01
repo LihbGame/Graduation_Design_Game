@@ -5,6 +5,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "RenderStates.h"
+
 using namespace std;
 
 Terrain::Terrain():mBoxVB(0), mBoxIB(0)
@@ -52,15 +53,17 @@ void Terrain::Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset)
 	BuildCrateGeometryBuffers(md3dDevice);
 	//Visible Object Count
 	mVisibleObjectCount = mInstance.size();
-
-
-	ID3D11Resource* texResource = nullptr;
-	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/6.dds", &texResource, &texview));
-	ReleaseCOM(texResource); // view saves reference
+	//LOAD TEXTRUE
+	LoadTexture(md3dDevice);
+	//mai init
+	mTerrainMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	mTerrainMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	mTerrainMat.Specular = XMFLOAT4(0.9f, 0.9f, 0.9f, 16.0f);
 }
 
-void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext)
+
+
+void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight& DirLight)
 {
 	md3dImmediateContext->IASetInputLayout(InputLayouts::InstancedBasic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -75,9 +78,9 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext)
 	XMMATRIX viewProj = Camera::Get()->ViewProj();
 
 	// Set per frame constants.
-	//Effects::InstancedBasicFX->SetDirLights(mDirLights);
+	Effects::InstancedBasicFX->SetDirLights(DirLight);
 	Effects::InstancedBasicFX->SetEyePosW(Camera::Get()->GetPosition());
-
+	
 
 	ID3DX11EffectTechnique* activeTech = Effects::InstancedBasicFX->Light1TexTech;
 
@@ -90,19 +93,12 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext)
 		md3dImmediateContext->IASetVertexBuffers(0, 2, vbs, stride, offset);
 		md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
 
-		XMMATRIX world = XMMatrixIdentity();
-		XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-
-		Effects::InstancedBasicFX->SetWorld(world);
-		Effects::InstancedBasicFX->SetWorldInvTranspose(worldInvTranspose);
 		Effects::InstancedBasicFX->SetViewProj(viewProj);
 		Effects::InstancedBasicFX->SetMaterial(mTerrainMat);
-		Effects::InstancedBasicFX->SetDiffuseMap(texview);
+		Effects::InstancedBasicFX->SetDiffuseMap(mSRV);
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexedInstanced(mIndexCount, mVisibleObjectCount, 0, 0, 0);
 	}
-
-
 }
 
 
@@ -153,4 +149,28 @@ void Terrain::BuildCrateGeometryBuffers(ID3D11Device* md3dDevice)
 
 	//index count
 	mIndexCount = box.Indices.size();
+}
+
+void Terrain::LoadTexture(ID3D11Device* md3dDevice)
+{
+	ID3D11Resource* texResource = nullptr;
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/2.dds", &texResource, &mSRV[0]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/3.dds", &texResource, &mSRV[1]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/4.dds", &texResource, &mSRV[2]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/5.dds", &texResource, &mSRV[3]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/6.dds", &texResource, &mSRV[4]));
+	ReleaseCOM(texResource); // view saves reference
 }

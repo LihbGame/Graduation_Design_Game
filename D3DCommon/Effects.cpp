@@ -133,7 +133,18 @@ InstancedBasicEffect::InstancedBasicEffect(ID3D11Device* device, const std::wstr
 	FogRange = mFX->GetVariableByName("gFogRange")->AsScalar();
 	DirLights = mFX->GetVariableByName("gDirLights");
 	Mat = mFX->GetVariableByName("gMaterial");
-	DiffuseMap = mFX->GetVariableByName("gDiffuseMap")->AsShaderResource();
+
+
+	std::string str;
+	for (int i = 0; i < 5; ++i)
+	{
+		char* chr;
+		itoa(i,chr,10);
+		str += "gDiffuseMap";
+		str += chr;
+		DiffuseMap[i] = mFX->GetVariableByName(str.c_str())->AsShaderResource();
+		str.clear();
+	}
 }
 
 InstancedBasicEffect::~InstancedBasicEffect()

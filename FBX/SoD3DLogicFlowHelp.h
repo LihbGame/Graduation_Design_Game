@@ -45,11 +45,13 @@ public:
 	void LoadFbxAnim();
 	void SetModelTansInfo(Model_Tansform_Info *ModeInfo);
 
-private:
+
+
 	SoD3DModelFbx* g_pD3DModelFbx = 0;
 	StFBXModel* g_pFbxModel = 0;
 	SoD3DModelKK* g_pD3DModelKK = 0;
 	StKKModel* g_pKKModel = 0;
+private:
 	char g_buff[512] = "";
 	Model_Tansform_Info m_ModeInfo;
 };

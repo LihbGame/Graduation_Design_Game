@@ -19,9 +19,9 @@ public:
 	Terrain();
 	~Terrain();
 	void Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset);
-	void Render(ID3D11DeviceContext* DeviceContext);
+	void Render(ID3D11DeviceContext* DeviceContext, DirectionalLight& DirLight);
 	void BuildCrateGeometryBuffers(ID3D11Device* md3dDevice);
-
+	void LoadTexture(ID3D11Device* md3dDevice);
 
 	std::vector<InstancedData> mInstance;
 private:
@@ -31,7 +31,7 @@ private:
 	Material mTerrainMat;
 	int mIndexCount;
 	int mVisibleObjectCount;
-	ID3D11ShaderResourceView* texview;
+	ID3D11ShaderResourceView* mSRV[5];
 };
 
 
