@@ -20,11 +20,8 @@ cbuffer cbPerObject
 }; 
 
 // Nonnumeric values cannot be added to a cbuffer.
-Texture2D gDiffuseMap0;
-Texture2D gDiffuseMap1;
-Texture2D gDiffuseMap2;
-Texture2D gDiffuseMap3;
-Texture2D gDiffuseMap4;
+Texture2D gDiffuseMap[5];
+Texture2D gNormalMap[5];
 
 
 SamplerState samAnisotropic
@@ -36,12 +33,28 @@ SamplerState samAnisotropic
 	AddressV = WRAP;
 };
 
+
+SamplerState SampleLinear
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+    AddressW = WRAP;
+    MipLODBias = 0.0f;
+    MaxAnisotropy = 1;
+
+    ComparisonFunc = ALWAYS;
+ 
+};
+
+
 struct VertexIn
 {
 	float3 PosL     : POSITION;
 	float3 NormalL  : NORMAL;
 	float2 Tex      : TEXCOORD;
-	row_major float4x4 World  : WORLD;
+    float3 TangentL : TANGENT;
+    row_major float4x4 World  : WORLD;//instance world data
 	uint TexIndex    : INDEX;
 	uint InstanceId : SV_InstanceID;
 };
@@ -52,6 +65,7 @@ struct VertexOut
     float3 PosW    : POSITION;
     float3 NormalW : NORMAL;
 	float2 Tex     : TEXCOORD;
+    float3 TangentW : TANGENT;
     uint TexIndex    : INDEX;
 };
 
@@ -62,7 +76,7 @@ VertexOut VS(VertexIn vin)
 	// Transform to world space space.
 	vout.PosW    = mul(float4(vin.PosL, 1.0f), vin.World).xyz;
 	vout.NormalW = mul(vin.NormalL, (float3x3)vin.World);
-		
+    vout.TangentW = mul(vin.TangentL, (float3x3)vin.World);
 	// Transform to homogeneous clip space.
 	vout.PosH = mul(float4(vout.PosW, 1.0f), gViewProj);
 	
@@ -87,6 +101,9 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 	// Normalize.
 	toEye /= distToEye;
 	
+
+
+
     // Default to multiplicative identity.
     float4 texColor = float4(1, 1, 1, 1);
     if(gUseTexure)
@@ -95,19 +112,19 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
         switch(pin.TexIndex)
         {
         case 0:
-            texColor = gDiffuseMap0.Sample(samAnisotropic, pin.Tex);
+            texColor = gDiffuseMap[0].Sample(samAnisotropic, pin.Tex);
             break;
         case 1:
-            texColor = gDiffuseMap1.Sample(samAnisotropic, pin.Tex);
+            texColor = gDiffuseMap[1].Sample(samAnisotropic, pin.Tex);
             break;
         case 2:
-            texColor = gDiffuseMap2.Sample(samAnisotropic, pin.Tex);
+            texColor = gDiffuseMap[2].Sample(samAnisotropic, pin.Tex);
             break;
         case 3:
-            texColor = gDiffuseMap3.Sample(samAnisotropic, pin.Tex);
+            texColor = gDiffuseMap[3].Sample(samAnisotropic, pin.Tex);
             break;
         case 4:
-            texColor = gDiffuseMap4.Sample(samAnisotropic, pin.Tex);
+            texColor = gDiffuseMap[4].Sample(samAnisotropic, pin.Tex);
             break;
         }
 		
@@ -121,9 +138,19 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 		}
 	}
 	 
-	//
+
+    float3 bumpedNormalW = pin.NormalW;
+    // Normal mapping
+   if (pin.TexIndex == 0)
+   {
+        float3 normalMapSample = gDiffuseMap[4].Sample(SampleLinear, pin.Tex).rgb;
+         bumpedNormalW = NormalSampleToWorldSpace(normalMapSample, pin.NormalW, pin.TangentW);
+   }
+
+
+
+
 	// Lighting.
-	//
 
 	float4 litColor = texColor;
 	if( gLightCount > 0  )
@@ -139,7 +166,7 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 		for(int i = 0; i < gLightCount; ++i)
 		{
 			float4 A, D, S;
-			ComputeDirectionalLight(gMaterial, gDirLights, pin.NormalW, toEye, 
+			ComputeDirectionalLight(gMaterial, gDirLights, bumpedNormalW, toEye,
 				A, D, S);
 
 			ambient += A;

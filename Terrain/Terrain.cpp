@@ -33,7 +33,7 @@ void Terrain::Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset)
 		{
 			boxOffset = XMMatrixTranslation((i * UnitMapOffset - 60.0), offset_border, (j * UnitMapOffset - 60.0));
 			XMStoreFloat4x4(&mInstance[i*MapSize+j].World, boxScale * boxOffset);
-			mInstance[i*MapSize+j].TexIndex = rand() % 5;
+			mInstance[i*MapSize+j].TexIndex = rand() % 4;
 		}
 	}
 
@@ -68,7 +68,7 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight
 	md3dImmediateContext->IASetInputLayout(InputLayouts::InstancedBasic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	UINT stride[2] = { sizeof(Vertex::Basic32), sizeof(InstancedData) };
+	UINT stride[2] = { sizeof(Vertex::PosNormalTexTan), sizeof(InstancedData) };
 	UINT offset[2] = { 0,0 };
 
 	ID3D11Buffer* vbs[2] = { mBoxVB, mInstancedBuffer };
@@ -114,18 +114,19 @@ void Terrain::BuildCrateGeometryBuffers(ID3D11Device* md3dDevice)
 	// vertices of all the meshes into one vertex buffer.
 	//
 
-	std::vector<Vertex::Basic32> vertices(box.Vertices.size());
+	std::vector<Vertex::PosNormalTexTan> vertices(box.Vertices.size());
 
 	for (UINT i = 0; i < box.Vertices.size(); ++i)
 	{
 		vertices[i].Pos = box.Vertices[i].Position;
 		vertices[i].Normal = box.Vertices[i].Normal;
 		vertices[i].Tex = box.Vertices[i].TexC;
+		vertices[i].TangentU = box.Vertices[i].TangentU;
 	}
 
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex::Basic32) * box.Vertices.size();
+	vbd.ByteWidth = sizeof(Vertex::PosNormalTexTan) * box.Vertices.size();
 	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vbd.CPUAccessFlags = 0;
 	vbd.MiscFlags = 0;
@@ -155,7 +156,7 @@ void Terrain::LoadTexture(ID3D11Device* md3dDevice)
 {
 	ID3D11Resource* texResource = nullptr;
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/2.dds", &texResource, &mSRV[0]));
+		L"Textures/stones.dds", &texResource, &mSRV[0]));
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
@@ -171,6 +172,6 @@ void Terrain::LoadTexture(ID3D11Device* md3dDevice)
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/6.dds", &texResource, &mSRV[4]));
+		L"Textures/stones_nmap.dds", &texResource, &mSRV[4]));
 	ReleaseCOM(texResource); // view saves reference
 }
