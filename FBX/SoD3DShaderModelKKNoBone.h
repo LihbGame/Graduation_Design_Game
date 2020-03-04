@@ -25,15 +25,20 @@ private:
 	ID3D11InputLayout* m_pInputLayout;
 	ID3DX11Effect* m_pFxEffect;
 	ID3DX11EffectTechnique* m_pFxTech;
+	ID3DX11EffectVectorVariable* EyePosW;
 	ID3DX11EffectMatrixVariable* m_pFxWorldMatrix;
 	ID3DX11EffectMatrixVariable* m_pFxViewProjMatrix;
 	ID3DX11EffectMatrixVariable* m_pFxWorldInvTransposeMatrix;
 	ID3DX11EffectScalarVariable* m_pFxVertexTextureWidth;
+	ID3DX11EffectScalarVariable* m_pFxhaveTangent;
 	ID3DX11EffectScalarVariable* m_pFxVertexTexturePosCount;
 	ID3DX11EffectScalarVariable* m_pFxVertexTextureNormalCount;
 	ID3DX11EffectScalarVariable* m_pFxVertexTextureUVCount;
+	ID3DX11EffectScalarVariable* m_pFxVertexTextureTangentCount;
 	ID3DX11EffectShaderResourceVariable* m_pFxTexture;
 	ID3DX11EffectShaderResourceVariable* m_pFxVertexTexture;
+	ID3DX11EffectShaderResourceVariable* m_pFxNormalTexture;
+
 };
 //----------------------------------------------------------------
 #endif //_SoD3DShaderModelKKNoBone_h_

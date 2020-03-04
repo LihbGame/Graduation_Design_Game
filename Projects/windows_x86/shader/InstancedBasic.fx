@@ -106,25 +106,32 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 
     // Default to multiplicative identity.
     float4 texColor = float4(1, 1, 1, 1);
+    float3 normalMapSample= float3(1, 1, 1);
     if(gUseTexure)
 	{
+       
         // Sample texture.
         switch(pin.TexIndex)
         {
         case 0:
             texColor = gDiffuseMap[0].Sample(samAnisotropic, pin.Tex);
+            normalMapSample = gNormalMap[0].Sample(SampleLinear, pin.Tex).rgb;
             break;
         case 1:
             texColor = gDiffuseMap[1].Sample(samAnisotropic, pin.Tex);
+            normalMapSample = gNormalMap[1].Sample(SampleLinear, pin.Tex).rgb;
             break;
         case 2:
             texColor = gDiffuseMap[2].Sample(samAnisotropic, pin.Tex);
+            normalMapSample = gNormalMap[2].Sample(SampleLinear, pin.Tex).rgb;
             break;
         case 3:
             texColor = gDiffuseMap[3].Sample(samAnisotropic, pin.Tex);
+            normalMapSample = gNormalMap[3].Sample(SampleLinear, pin.Tex).rgb;
             break;
         case 4:
             texColor = gDiffuseMap[4].Sample(samAnisotropic, pin.Tex);
+            normalMapSample = gNormalMap[4].Sample(SampleLinear, pin.Tex).rgb;
             break;
         }
 		
@@ -138,14 +145,9 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 		}
 	}
 	 
-
-    float3 bumpedNormalW = pin.NormalW;
-    // Normal mapping
-   if (pin.TexIndex == 0)
-   {
-        float3 normalMapSample = gDiffuseMap[4].Sample(SampleLinear, pin.Tex).rgb;
-         bumpedNormalW = NormalSampleToWorldSpace(normalMapSample, pin.NormalW, pin.TangentW);
-   }
+    // Normal mapping 
+    float3 bumpedNormalW = NormalSampleToWorldSpace(normalMapSample, pin.NormalW, pin.TangentW);
+ 
 
 
 

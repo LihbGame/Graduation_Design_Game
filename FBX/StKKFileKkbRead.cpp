@@ -74,6 +74,7 @@ bool StKKFileKkbRead::ReadKkb(const char* szFileName, StKKModelData* pModelData)
 		pModelData->nPosCount = pFileHead->PosCount;
 		pModelData->nNormalCount = pFileHead->NormalCount;
 		pModelData->nUVCount = pFileHead->UVCount;
+		pModelData->nTangentCount = pFileHead->TangentCount;
 		CalculateMeshBoundingBox(pTextureData, pFileHead->PosCount, &(pModelData->kPosMinValue), &(pModelData->kPosMaxValue));
 	}
 	else
@@ -186,8 +187,9 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 		//为了创建贴图，必须把末尾行扩充成整行。
 		//该贴图内会先存储Pos数据（float3，数量为pFileHead->PosCount个），
 		//然后存储Normal数据（float3，数量为pFileHead->NormalCount个），
+		//tangent data
 		//最后存储UV数据（float2，数量为pFileHead->UVCount个）。
-		const unsigned int TextureDataSize = StFBX_Sizeof_Vector3 * (pFileHead->PosCount + pFileHead->NormalCount) + StFBX_Sizeof_UV * pFileHead->UVCount;
+		const unsigned int TextureDataSize = StFBX_Sizeof_Vector3 * (pFileHead->PosCount + pFileHead->NormalCount+ pFileHead->TangentCount) + StFBX_Sizeof_UV * pFileHead->UVCount;
 		//一个像素是4个字节
 		const int BytePerPixel = 4;
 		const int PixelCount = ((int)TextureDataSize) / BytePerPixel;

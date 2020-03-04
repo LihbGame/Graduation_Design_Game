@@ -27,7 +27,7 @@
 //是否提取fbx文件中的法线数据
 #define StFBX_ParseNormalData 1
 //是否提取fbx文件中的切线数据
-#define StFBX_ParseTangentData 0
+#define StFBX_ParseTangentData 1
 //是否提取fbx文件中的顶点色数据
 #define StFBX_ParseColorData 0
 //是否提取fbx文件中的第一组UV数据

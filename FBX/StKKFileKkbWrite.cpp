@@ -9,6 +9,9 @@
 #include <cstdio>
 #include <string>
 //----------------------------------------------------------------
+extern bool ghaveTangent;
+//----------------------------------------------------------------
+
 StKKFileKkbWrite::StKKFileKkbWrite()
 :m_pVertexStructBuff(0)
 ,m_pPosBuff(0)
@@ -62,6 +65,10 @@ bool StKKFileKkbWrite::WriteKkb(const char* szFileName, StFBXModel* pModel)
 		{
 			break;
 		}
+		if (Write_GenerateTangentBuff() == false)
+		{
+			break;
+		}
 		if (Write_GenerateUVBuff() == false)
 		{
 			break;
@@ -101,6 +108,11 @@ void StKKFileKkbWrite::ClearFileKkb()
 	{
 		free(m_pNormalBuff);
 		m_pNormalBuff = 0;
+	}
+	if (m_pTangentBuff)
+	{
+		free(m_pTangentBuff);
+		m_pTangentBuff = 0;
 	}
 	if (m_pUVBuff)
 	{
@@ -413,6 +425,119 @@ bool StKKFileKkbWrite::Write_GenerateNormalBuff()
 	free(pNormalIndexFlagBuff);
 	return true;
 }
+bool StKKFileKkbWrite::Write_GenerateTangentBuff()
+{
+	const StFBXMeshData* pMeshData = m_pFbxModel->GetMeshData();
+	const float* pMeshVertexStruct = (const float*)(pMeshData->pVertexBuff);
+	const int nFloatCountPerMeshVertexStruct = pMeshData->nSizeofVertexData / sizeof(float);
+
+	const int nTangentIndexCount = pMeshData->nVertexCount;
+	int* pTangentIndexFlagBuff = (int*)malloc(sizeof(int) * nTangentIndexCount);
+	for (int i = 0; i < nTangentIndexCount; ++i)
+	{
+		pTangentIndexFlagBuff[i] = -1;
+	}
+
+	int nTangentIndexX = 0;
+	int nTangentIndexY = 0;
+	int nTangentIndexZ = 0;
+	int nOffset = 0;
+	switch (m_kFileHead.VertexType)
+	{
+	case StKKVertexType_Pos_Normal_UV:
+	case StKKVertexType_Pos_Normal_UV_Bone:
+	{
+		nTangentIndexX = 6;
+		nTangentIndexY = 7;
+		nTangentIndexZ = 8;
+		nOffset = sizeof(int)+sizeof(int);
+	}
+	break;
+	default:
+		SoLogError("StKKFileKkbWrite::Write_GenerateNormalBuff : VertexType is invalid");
+		break;
+	}
+
+	//记录法线值的个数，这些法线值是各不相同的值。
+	int nTangentCount = 0;
+	//记录有多少个法线值是重复的。
+	int nTangentSameCount = 0;
+
+	for (int i = 0; i < nTangentIndexCount; ++i)
+	{
+		if (pTangentIndexFlagBuff[i] != -1)
+		{
+			continue;
+		}
+
+		pTangentIndexFlagBuff[i] = i;
+		++nTangentCount;
+
+		const float* pStruct = pMeshVertexStruct + nFloatCountPerMeshVertexStruct * i;
+		float fTangentX = pStruct[nTangentIndexX];
+		float fTangentY = pStruct[nTangentIndexY];
+		float fTangentZ = pStruct[nTangentIndexZ];
+
+		for (int j = i + 1; j < nTangentIndexCount; ++j)
+		{
+			if (pTangentIndexFlagBuff[j] != -1)
+			{
+				continue;
+			}
+
+			const float* pStruct_B = pMeshVertexStruct + nFloatCountPerMeshVertexStruct * j;
+			float fTangentX_B = pStruct_B[nTangentIndexX];
+			float fTangentY_B = pStruct_B[nTangentIndexY];
+			float fTangentZ_B = pStruct_B[nTangentIndexZ];
+
+			if (SoMath_IsFloatZero(fTangentX - fTangentX_B)
+				&& SoMath_IsFloatZero(fTangentY - fTangentY_B)
+				&& SoMath_IsFloatZero(fTangentZ - fTangentZ_B))
+			{
+				pTangentIndexFlagBuff[j] = i;
+				++nTangentSameCount;
+			}
+		}
+	}
+
+
+	m_pTangentBuff = (char*)malloc(StFBX_Sizeof_Vector3 * nTangentCount);
+	m_kFileHead.TangentCount = nTangentCount;
+	SoMathFloat3* pTangentFloat3 = (SoMathFloat3*)m_pTangentBuff;
+	int nAccTangentCount = 0;
+	for (int i = 0; i < nTangentIndexCount; ++i)
+	{
+		if (pTangentIndexFlagBuff[i] == i)
+		{
+			const float* pStruct = pMeshVertexStruct + nFloatCountPerMeshVertexStruct * i;
+				pTangentFloat3[nAccTangentCount].x = pStruct[nTangentIndexX];
+				pTangentFloat3[nAccTangentCount].y = pStruct[nTangentIndexY];
+				pTangentFloat3[nAccTangentCount].z = pStruct[nTangentIndexZ];
+			
+			++nAccTangentCount;
+			//
+			pTangentIndexFlagBuff[i] = -nAccTangentCount;
+		}
+	}
+
+
+	for (int i = 0; i < nTangentIndexCount; ++i)
+	{
+		int* pTangentIndex = (int*)(m_pVertexStructBuff + m_kFileHead.VertexSize * i + nOffset);
+		if (pTangentIndexFlagBuff[i] < 0)
+		{
+			*pTangentIndex = -pTangentIndexFlagBuff[i] - 1;
+		}
+		else
+		{
+			int nValue = pTangentIndexFlagBuff[pTangentIndexFlagBuff[i]];
+			*pTangentIndex = -nValue - 1;
+		}
+	}
+
+	free(pTangentIndexFlagBuff);
+	return true;
+}
 //----------------------------------------------------------------
 bool StKKFileKkbWrite::Write_GenerateUVBuff()
 {
@@ -434,11 +559,20 @@ bool StKKFileKkbWrite::Write_GenerateUVBuff()
 	{
 	case StKKVertexType_Pos_Normal_UV:
 	case StKKVertexType_Pos_Normal_UV_Bone:
+	{
+		if (ghaveTangent)
+		{
+			nUVIndexX = 9;
+			nUVIndexY = 10;
+		}
+		else
 		{
 			nUVIndexX = 6;
 			nUVIndexY = 7;
-			nOffset = sizeof(int) + sizeof(int);
 		}
+		nOffset = sizeof(int) + sizeof(int) + sizeof(int);
+
+	}
 		break;
 	default:
 		SoLogError("StKKFileKkbWrite::Write_GenerateUVBuff : VertexType is invalid");
@@ -538,7 +672,7 @@ bool StKKFileKkbWrite::Write_GenerateBoneWeight()
 		break;
 	case StKKVertexType_Pos_Normal_UV_Bone:
 		{
-			nOffset = sizeof(int) + sizeof(int) + sizeof(int);
+			nOffset = sizeof(int) + sizeof(int) + sizeof(int)+ sizeof(int);
 		}
 		break;
 	default:
@@ -586,6 +720,7 @@ bool StKKFileKkbWrite::Write_WriteFile(const char* szFileName)
 	fwrite(m_pVertexStructBuff, 1, m_kFileHead.VertexSize * m_kFileHead.VertexCount, fp);
 	fwrite(m_pPosBuff, 1, StFBX_Sizeof_Vector3 * m_kFileHead.PosCount, fp);
 	fwrite(m_pNormalBuff, 1, StFBX_Sizeof_Vector3 * m_kFileHead.NormalCount, fp);
+	fwrite(m_pTangentBuff, 1, StFBX_Sizeof_Vector3 * m_kFileHead.TangentCount, fp);
 	fwrite(m_pUVBuff, 1, StFBX_Sizeof_UV * m_kFileHead.UVCount, fp);
 
 	fclose(fp);

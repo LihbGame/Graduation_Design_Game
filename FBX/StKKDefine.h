@@ -22,6 +22,7 @@ struct StKKVertexStruct_Pos_Normal_UV
 {
 	int PosIndex;
 	int NormalIndex;
+	int TangentIndex;
 	int UVIndex;
 };
 //----------------------------------------------------------------
@@ -29,6 +30,7 @@ struct StKKVertexStruct_Pos_Normal_UV_Bone
 {
 	int PosIndex;
 	int NormalIndex;
+	int TangentIndex;
 	int UVIndex;
 	int BoneIndex[StKK_MaxBonePerVertex];
 	float BoneWeight[StKK_MaxBonePerVertex];
@@ -56,6 +58,7 @@ struct StKKModelData
 	int nPosCount;
 	//法线值的个数。
 	int nNormalCount;
+	int nTangentCount;
 	//UV值的个数。
 	int nUVCount;
 	SoMathFloat3 kPosMinValue;
@@ -108,6 +111,8 @@ struct StKkbFileHead
 	int PosCount;
 	//法线值的个数。
 	int NormalCount;
+	//切线值的个数。
+	int TangentCount;
 	//UV值的个数。
 	int UVCount;
 	//三角形面片的索引的排列方式，也即绕序。

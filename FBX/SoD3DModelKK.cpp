@@ -9,6 +9,7 @@ SoD3DModelKK::SoD3DModelKK()
 :m_pKKModel(0)
 ,m_pShader(0)
 ,m_pTexture(0)
+,m_pNormalTexture(0)
 ,m_fAccTime(0.0f)
 ,m_nCurrentKeyFrameIndex(0)
 {
@@ -65,6 +66,10 @@ void SoD3DModelKK::ClearModel()
 	m_pKKModel = 0;
 	m_fAccTime = 0.0f;
 	m_nCurrentKeyFrameIndex = 0;
+
+	m_pNormalTexture->Release();
+	m_pNormalTexture = nullptr;
+
 }
 //----------------------------------------------------------------
 void SoD3DModelKK::UpdateModel(float fDeltaTime,int nAnimID)
@@ -94,7 +99,9 @@ void SoD3DModelKK::RenderModel(Model_Tansform_Info* mode_info, int instance_num,
 	kParam.nPosSRVWidth = pModelData->nTextureWidth;
 	kParam.nPosCount = pModelData->nPosCount;
 	kParam.nNormalCount = pModelData->nNormalCount;
+	kParam.nTangentCount = pModelData->nTangentCount;
 	kParam.nUVCount = pModelData->nUVCount;
+	kParam.pNormalTextureSRV= m_pNormalTexture;
 	if (pModelAnim)
 	{
 		kParam.pAnimSRV = pModelAnim->pAnimationTexture->GetTextureSRV();
@@ -121,6 +128,14 @@ void SoD3DModelKK::SetWorldMatrix(const XMFLOAT4X4* pMatWorld)
 void SoD3DModelKK::SetTexture(const wchar_t* szFileName)
 {
 	CreateTexture(szFileName);
+}
+void SoD3DModelKK::SetNormalTexture(const wchar_t* szFileName)
+{
+	ID3D11Resource* texResource = nullptr;
+	HR(DirectX::CreateDDSTextureFromFile(D3DApp::Get()->GetD3DDevice() ,
+		szFileName, &texResource, &m_pNormalTexture))
+	ReleaseCOM(texResource); // view saves reference
+	
 }
 //----------------------------------------------------------------
 bool SoD3DModelKK::CreateTexture(const wchar_t* szFileName)

@@ -5,6 +5,8 @@
 //----------------------------------------------------------------
 #define ShaderModelKK_File "shader/ModelKK.fxo"
 //----------------------------------------------------------------
+extern bool ghaveTangent;
+
 SoD3DShaderModelKK::SoD3DShaderModelKK()
 :m_pInputLayout(0)
 ,m_pFxEffect(0)
@@ -64,7 +66,9 @@ bool SoD3DShaderModelKK::InitShaderModelKK()
 	m_pFxVertexTexturePosCount = m_pFxEffect->GetVariableByName("g_VertexTexturePosCount")->AsScalar();
 	m_pFxVertexTextureNormalCount = m_pFxEffect->GetVariableByName("g_VertexTextureNormalCount")->AsScalar();
 	m_pFxVertexTextureUVCount = m_pFxEffect->GetVariableByName("g_VertexTextureUVCount")->AsScalar();
+	m_pFxVertexTextureTangentCount= m_pFxEffect->GetVariableByName("g_VertexTextureTangentCount")->AsScalar();
 	m_pFxAnimTextureWidth = m_pFxEffect->GetVariableByName("g_AnimTextureWidth")->AsScalar();
+	m_pFxhaveTangent = m_pFxEffect->GetVariableByName("IshaveTangent")->AsScalar();
 	m_pFxAnimTextureBoneCount = m_pFxEffect->GetVariableByName("g_AnimTextureBoneCount")->AsScalar();
 	m_pFxAnimTextureKeyFrameIndex = m_pFxEffect->GetVariableByName("g_AnimTextureKeyFrameIndex")->AsScalar();
 	//
@@ -72,7 +76,7 @@ bool SoD3DShaderModelKK::InitShaderModelKK()
 	m_pFxTexture = pFxTextureList->GetElement(0)->AsShaderResource();
 	m_pFxVertexTexture = pFxTextureList->GetElement(1)->AsShaderResource();
 	m_pFxAnimTexture = pFxTextureList->GetElement(2)->AsShaderResource();
-
+	m_pFxNormalTexture= m_pFxEffect->GetVariableByName("g_NormalTexture")->AsShaderResource();
 	if (CreateInputLayout() == false)
 	{
 		return false;
@@ -126,6 +130,7 @@ void SoD3DShaderModelKK::ProcessRender(void* pParam)
 	m_pFxVertexTextureWidth->SetInt(pModelParam->nPosSRVWidth);
 	m_pFxVertexTexturePosCount->SetInt(pModelParam->nPosCount);
 	m_pFxVertexTextureNormalCount->SetInt(pModelParam->nNormalCount);
+	m_pFxVertexTextureTangentCount->SetInt(pModelParam->nTangentCount);
 	m_pFxVertexTextureUVCount->SetInt(pModelParam->nUVCount);
 	m_pFxAnimTextureWidth->SetInt(pModelParam->nAnimSRVWidth);
 	m_pFxAnimTextureBoneCount->SetInt(pModelParam->nBoneCount);
@@ -133,6 +138,8 @@ void SoD3DShaderModelKK::ProcessRender(void* pParam)
 	m_pFxTexture->SetResource(pModelParam->pTextureSRV);
 	m_pFxVertexTexture->SetResource(pModelParam->pPosSRV);
 	m_pFxAnimTexture->SetResource(pModelParam->pAnimSRV);
+	m_pFxNormalTexture->SetResource(pModelParam->pNormalTextureSRV);
+	m_pFxhaveTangent->SetBool(ghaveTangent);
 	//
 	UINT uiStride = pModelParam->uiSizeofVertex;
 	UINT uiOffset = 0;
@@ -163,7 +170,7 @@ bool SoD3DShaderModelKK::CreateInputLayout()
 	//
 	kDesc[0].SemanticName = "POSITION";
 	kDesc[0].SemanticIndex = 0;
-	kDesc[0].Format = DXGI_FORMAT_R32G32B32_UINT; //元素的值是3个32位整型
+	kDesc[0].Format = DXGI_FORMAT_R32G32B32A32_UINT; //元素的值是4个32位整型
 	kDesc[0].InputSlot = 0;
 	kDesc[0].AlignedByteOffset = 0;
 	kDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
@@ -173,7 +180,7 @@ bool SoD3DShaderModelKK::CreateInputLayout()
 	kDesc[1].SemanticIndex = 0;
 	kDesc[1].Format = DXGI_FORMAT_R32G32B32A32_UINT; //元素的值是4个32位整型
 	kDesc[1].InputSlot = 0;
-	kDesc[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+	kDesc[1].AlignedByteOffset = 16;
 	kDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	kDesc[1].InstanceDataStepRate = 0;
 	//
@@ -181,7 +188,7 @@ bool SoD3DShaderModelKK::CreateInputLayout()
 	kDesc[2].SemanticIndex = 1;
 	kDesc[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //元素的值是4个32位浮点型
 	kDesc[2].InputSlot = 0;
-	kDesc[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+	kDesc[2].AlignedByteOffset = 32;
 	kDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	kDesc[2].InstanceDataStepRate = 0;
 	//

@@ -31,7 +31,8 @@ private:
 	Material mTerrainMat;
 	int mIndexCount;
 	int mVisibleObjectCount;
-	ID3D11ShaderResourceView* mSRV[5];
+	ID3D11ShaderResourceView* mDiffuseSRV[5];
+	ID3D11ShaderResourceView* mNormalSRV[5];
 };
 
 

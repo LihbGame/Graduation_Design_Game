@@ -131,6 +131,16 @@ public:
 		}
 	}
 
+
+	//normal maps 5
+	void SetNormalMap(ID3D11ShaderResourceView** tex)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			NormalMap[i]->SetResource(tex[i]);
+		}
+	}
+
 	ID3DX11EffectTechnique* Light1Tech;
 	ID3DX11EffectTechnique* Light2Tech;
 	ID3DX11EffectTechnique* Light3Tech;
@@ -171,6 +181,7 @@ public:
 	ID3DX11EffectVariable* Mat;
 
 	ID3DX11EffectShaderResourceVariable* DiffuseMap[5];
+	ID3DX11EffectShaderResourceVariable* NormalMap[5];
 };
 #pragma endregion
 

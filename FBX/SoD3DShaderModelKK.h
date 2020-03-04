@@ -16,6 +16,10 @@ struct stShaderModelKKParam
 	unsigned int uiIndexCount;
 	//贴图
 	ID3D11ShaderResourceView* pTextureSRV;
+
+	//法线贴图
+	ID3D11ShaderResourceView* pNormalTextureSRV;
+
 	//世界坐标系矩阵
 	XMMATRIX* pMatWorld;
 	//
@@ -27,6 +31,7 @@ struct stShaderModelKKParam
 	int nPosCount;
 	//内存块内有多少个真实的法线数值
 	int nNormalCount;
+	int nTangentCount;
 	//内存块内有多少个真实的UV数值
 	int nUVCount;
 	//
@@ -67,12 +72,15 @@ private:
 	ID3DX11EffectScalarVariable* m_pFxVertexTexturePosCount;
 	ID3DX11EffectScalarVariable* m_pFxVertexTextureNormalCount;
 	ID3DX11EffectScalarVariable* m_pFxVertexTextureUVCount;
+	ID3DX11EffectScalarVariable* m_pFxVertexTextureTangentCount;
+	ID3DX11EffectScalarVariable* m_pFxhaveTangent;
 	ID3DX11EffectScalarVariable* m_pFxAnimTextureWidth;
 	ID3DX11EffectScalarVariable* m_pFxAnimTextureBoneCount;
 	ID3DX11EffectScalarVariable* m_pFxAnimTextureKeyFrameIndex;
 	ID3DX11EffectShaderResourceVariable* m_pFxTexture;
 	ID3DX11EffectShaderResourceVariable* m_pFxVertexTexture;
 	ID3DX11EffectShaderResourceVariable* m_pFxAnimTexture;
+	ID3DX11EffectShaderResourceVariable* m_pFxNormalTexture;
 };
 //----------------------------------------------------------------
 #endif //_SoD3DShaderModelKK_h_

@@ -6,6 +6,7 @@
 #include <Windows.h>
 //----------------------------------------------------------------
 StFBXManager* StFBXManager::ms_pInstance = 0;
+bool ghaveTangent = false;
 //----------------------------------------------------------------
 bool StFBXManager::CreateFBXManager()
 {
@@ -359,6 +360,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 		bool bTangentExist = false;
 		if (pFbxMesh->GetElementTangentCount() > 0)
 		{
+			ghaveTangent = true;
 			const int nMappingMode = pFbxMesh->GetElementTangent(0)->GetMappingMode();
 			if (nMappingMode == FbxGeometryElement::eByPolygonVertex)
 			{
@@ -371,6 +373,11 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 				return;
 			}
 		}
+		else
+		{
+			ghaveTangent = false;
+		}
+
 		if (bFirstMesh)
 		{
 			if (bTangentExist)
@@ -380,7 +387,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 		}
 		else
 		{
-			if (pVertexType->IsFlagExist(StFBXElement_Tangent) != bTangentExist)
+   			if (pVertexType->IsFlagExist(StFBXElement_Tangent) != bTangentExist)
 			{
 				//本Mesh与其他的Mesh有差异。
 				SoLogError("StFBXManager::ParseSingleMeshVertexType : Tangent Data different");

@@ -21,6 +21,7 @@ private:
 	bool Write_GenerateVertexStructBuff();
 	bool Write_GeneratePosBuff();
 	bool Write_GenerateNormalBuff();
+	bool Write_GenerateTangentBuff();
 	bool Write_GenerateUVBuff();
 	bool Write_GenerateBoneWeight();
 	bool Write_WriteFile(const char* szFileName);
@@ -30,6 +31,7 @@ private:
 	char* m_pVertexStructBuff;
 	char* m_pPosBuff;
 	char* m_pNormalBuff;
+	char* m_pTangentBuff;
 	char* m_pUVBuff;
 	StFBXModel* m_pFbxModel;
 };

@@ -358,6 +358,13 @@ void Model::CreateImage(const wchar_t* szFileName)
 		
 	}
 }
+void Model::CreateNormalTexture(const wchar_t* szFileName)
+{
+	if (g_pD3DModelKK)
+	{
+		g_pD3DModelKK->SetNormalTexture(szFileName);
+	}
+}
 //----------------------------------------------------------------
 void Model::ConvertFbx2KK()
 {

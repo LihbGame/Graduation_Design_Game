@@ -1,7 +1,7 @@
 //----------------------------------------------------------------
 struct VertexInputType
 {
-	uint3 ValueIndex : POSITION0;
+	uint4 ValueIndex : POSITION0;
 	uint4 BoneIndex : COLOR0;
 	float4 BoneWeight : COLOR1;
 };
@@ -24,10 +24,12 @@ cbuffer BufferMatrix
 	uint g_VertexTextureWidth;
 	uint g_VertexTexturePosCount;
 	uint g_VertexTextureNormalCount;
+	uint g_VertexTextureTangentCount;
 	uint g_VertexTextureUVCount;
 	uint g_AnimTextureWidth;
 	uint g_AnimTextureBoneCount;
 	uint g_AnimTextureKeyFrameIndex;
+	bool IshaveTangent;
 };
 //----------------------------------------------------------------
 //接收 PixelShader 所需要的变量
@@ -36,6 +38,7 @@ cbuffer BufferMatrix
 //1号贴图是顶点结构体成员的值
 //2号贴图是骨骼动画
 Texture2D g_TextureList[3];
+Texture2D g_NormalTexture;
 //----------------------------------------------------------------
 SamplerState g_SampleType
 {
@@ -55,11 +58,12 @@ SamplerState g_SampleType
 	MaxLOD = (3.402823466e+38f); //D3D11_FLOAT32_MAX
 };
 //----------------------------------------------------------------
-void CalculatePosNormalUV(in uint3 ValueIndex, out float4 thePos, out float4 theNormal, out float2 theUV)
+void CalculatePosNormalUV(in uint4 ValueIndex, out float4 thePos, out float4 theNormal, out float2 theUV)
 {
 	uint sizeofPixel = 4;
 	uint sizeofPos = 12;
 	uint sizeofNormal = 12;
+	uint sizeofTangent = 12;
 	uint sizeofUV = 8;
 	uint2 tempUV;
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -90,7 +94,7 @@ void CalculatePosNormalUV(in uint3 ValueIndex, out float4 thePos, out float4 the
 	theNormal.w = 0.0f;
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	uint UVPixelIndex = (sizeofPos * g_VertexTexturePosCount + sizeofNormal * g_VertexTextureNormalCount + sizeofUV * ValueIndex[2])/ sizeofPixel;
+	uint UVPixelIndex = (sizeofPos * g_VertexTexturePosCount + sizeofNormal * g_VertexTextureNormalCount + sizeofTangent * g_VertexTextureTangentCount+ sizeofUV * ValueIndex[3])/ sizeofPixel;
 	tempUV[0] = UVPixelIndex % g_VertexTextureWidth;
 	tempUV[1] = UVPixelIndex / g_VertexTextureWidth;
 	theUV.x = g_TextureList[1][tempUV];

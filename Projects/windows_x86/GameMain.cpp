@@ -467,7 +467,7 @@ void GameApp::DrawScene()
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
 		//	// Restore default render state.
-		//	//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
+			//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 		//}
 
 		//
@@ -1017,8 +1017,7 @@ void GameApp::InitFbxModel()
 		{
 			int location_offset_x = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
 			int location_offset_z = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-			m_ModeInfo[1].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
-				* XMMatrixRotationY(location_offset_x % 3) 
+			m_ModeInfo[1].Mat_World[i] = XMMatrixRotationY(location_offset_x % 3) 
 				* XMMatrixScaling(0.15f, 0.15f, 0.15f)
 				*XMMatrixTranslation(-13.0f + location_offset_x, 0.0f, 5.0f + location_offset_z);
 		}
@@ -1114,6 +1113,7 @@ void GameApp::InitFbxModel()
 		m_Models[1]->CreateFileFbx("model/Blue_Tree_02a.FBX");
 		m_Models[1]->CreateFileKkb("model/Blue_Tree_02a.kkb");
 		m_Models[1]->CreateImage(L"model/Blue_Tree2.dds");
+		m_Models[1]->CreateNormalTexture(L"model/Blue_Tree2_NRM.dds");
 		m_Models[1]->SetModelTansInfo(&m_ModeInfo[1]);
 	}
 
@@ -1130,6 +1130,7 @@ void GameApp::InitFbxModel()
 		m_Models[3]->CreateFileFbx("model/shan06.FBX");
 		m_Models[3]->CreateFileKkb("model/shan06.kkb");
 		m_Models[3]->CreateImage(L"model/zzTex3.dds");
+		m_Models[3]->CreateNormalTexture(L"model/zzTex3_NRM.dds");
 		m_Models[3]->SetModelTansInfo(&m_ModeInfo[3]);
 	}
 
@@ -1138,6 +1139,7 @@ void GameApp::InitFbxModel()
 		m_Models[4]->CreateFileFbx("model/a.FBX");
 		m_Models[4]->CreateFileKkb("model/a.kkb");
 		m_Models[4]->CreateImage(L"model/UB25201.dds");
+		m_Models[4]->CreateNormalTexture(L"model/UB25201_NRM.dds");
 		m_Models[4]->SetModelTansInfo(&m_ModeInfo[4]);
 	}
 
@@ -1146,6 +1148,7 @@ void GameApp::InitFbxModel()
 		m_Models[5]->CreateFileFbx("model/aa.FBX");
 		m_Models[5]->CreateFileKkb("model/aa.kkb");
 		m_Models[5]->CreateImage(L"model/UC42002.dds");
+		m_Models[5]->CreateNormalTexture(L"model/UC42002_NRM.dds");
 		m_Models[5]->SetModelTansInfo(&m_ModeInfo[5]);
 	}
 
@@ -1154,6 +1157,7 @@ void GameApp::InitFbxModel()
 		m_Models[6]->CreateFileFbx("model/child.FBX");
 		m_Models[6]->CreateFileKkb("model/child.kkb");
 		m_Models[6]->CreateImage(L"model/UC40701.dds");
+		m_Models[6]->CreateNormalTexture(L"model/UC40701_NRM.dds");
 		m_Models[6]->SetModelTansInfo(&m_ModeInfo[6]);
 	}
 	//player model
@@ -1164,6 +1168,7 @@ void GameApp::InitFbxModel()
 		m_Models[7]->CreateFileKkf("model/MercFemale_Run.kkf", Anim_State::Run);
 		m_Models[7]->CreateFileKkf("model/MercFemale_IdleLoop.kkf", Anim_State::Idle);
 		m_Models[7]->CreateImage(L"model/MercFemale_Albedo.dds");
+		m_Models[7]->CreateNormalTexture(L"model/MercFemale_Albedo_NRM.dds");
 		m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
 	}
 

@@ -6,6 +6,8 @@
 //----------------------------------------------------------------
 #define ShaderModelKKNoBone_File "shader/ModelKK_NoBone.fxo"
 //----------------------------------------------------------------
+extern bool ghaveTangent;
+
 SoD3DShaderModelKKNoBone::SoD3DShaderModelKKNoBone()
 :m_pInputLayout(0)
 ,m_pFxEffect(0)
@@ -61,11 +63,14 @@ bool SoD3DShaderModelKKNoBone::InitShaderModelKKNoBone()
 	m_pFxVertexTexturePosCount = m_pFxEffect->GetVariableByName("g_VertexTexturePosCount")->AsScalar();
 	m_pFxVertexTextureNormalCount = m_pFxEffect->GetVariableByName("g_VertexTextureNormalCount")->AsScalar();
 	m_pFxVertexTextureUVCount = m_pFxEffect->GetVariableByName("g_VertexTextureUVCount")->AsScalar();
+	m_pFxVertexTextureTangentCount = m_pFxEffect->GetVariableByName("g_VertexTextureTangentCount")->AsScalar();
+	m_pFxhaveTangent= m_pFxEffect->GetVariableByName("IshaveTangent")->AsScalar();
+	EyePosW = m_pFxEffect->GetVariableByName("gEyePosW")->AsVector();
 	//
 	ID3DX11EffectVariable* pFxTextureList = m_pFxEffect->GetVariableByName("g_TextureList");
 	m_pFxTexture = pFxTextureList->GetElement(0)->AsShaderResource();
 	m_pFxVertexTexture = pFxTextureList->GetElement(1)->AsShaderResource();
-
+	m_pFxNormalTexture = m_pFxEffect->GetVariableByName("g_NormalTexture")->AsShaderResource();
 	if (CreateInputLayout() == false)
 	{
 		return false;
@@ -117,8 +122,15 @@ void SoD3DShaderModelKKNoBone::ProcessRender(void* pParam)
 	m_pFxVertexTexturePosCount->SetInt(pModelParam->nPosCount);
 	m_pFxVertexTextureNormalCount->SetInt(pModelParam->nNormalCount);
 	m_pFxVertexTextureUVCount->SetInt(pModelParam->nUVCount);
+	m_pFxhaveTangent->SetBool(ghaveTangent);
+	m_pFxVertexTextureTangentCount->SetInt(pModelParam->nTangentCount);
 	m_pFxTexture->SetResource(pModelParam->pTextureSRV);
 	m_pFxVertexTexture->SetResource(pModelParam->pPosSRV);
+	if (ghaveTangent)
+	{
+		m_pFxNormalTexture->SetResource(pModelParam->pNormalTextureSRV);
+	}
+	EyePosW->SetRawValue(&Camera::Get()->GetPosition(), 0, sizeof(XMFLOAT3));
 	//
 	UINT uiStride = pModelParam->uiSizeofVertex;
 	UINT uiOffset = 0;
@@ -149,11 +161,12 @@ bool SoD3DShaderModelKKNoBone::CreateInputLayout()
 	//
 	kDesc[0].SemanticName = "POSITION";
 	kDesc[0].SemanticIndex = 0;
-	kDesc[0].Format = DXGI_FORMAT_R32G32B32_UINT; //元素的值是3个32位整型
+	kDesc[0].Format = DXGI_FORMAT_R32G32B32A32_UINT; //元素的值是4个32位整型
 	kDesc[0].InputSlot = 0;
 	kDesc[0].AlignedByteOffset = 0;
 	kDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	kDesc[0].InstanceDataStepRate = 0;
+
 	//
 	D3DX11_PASS_DESC passDesc;
 	m_pFxTech->GetPassByIndex(0)->GetDesc(&passDesc);

@@ -95,7 +95,8 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight
 
 		Effects::InstancedBasicFX->SetViewProj(viewProj);
 		Effects::InstancedBasicFX->SetMaterial(mTerrainMat);
-		Effects::InstancedBasicFX->SetDiffuseMap(mSRV);
+		Effects::InstancedBasicFX->SetDiffuseMap(mDiffuseSRV);
+		Effects::InstancedBasicFX->SetNormalMap(mNormalSRV);
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexedInstanced(mIndexCount, mVisibleObjectCount, 0, 0, 0);
 	}
@@ -156,22 +157,45 @@ void Terrain::LoadTexture(ID3D11Device* md3dDevice)
 {
 	ID3D11Resource* texResource = nullptr;
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/stones.dds", &texResource, &mSRV[0]));
+		L"Textures/2.dds", &texResource, &mDiffuseSRV[0]));
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/3.dds", &texResource, &mSRV[1]));
+		L"Textures/3.dds", &texResource, &mDiffuseSRV[1]));
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/4.dds", &texResource, &mSRV[2]));
+		L"Textures/4.dds", &texResource, &mDiffuseSRV[2]));
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/5.dds", &texResource, &mSRV[3]));
+		L"Textures/5.dds", &texResource, &mDiffuseSRV[3]));
 	ReleaseCOM(texResource); // view saves reference
 
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/stones_nmap.dds", &texResource, &mSRV[4]));
+		L"Textures/6.dds", &texResource, &mDiffuseSRV[4]));
 	ReleaseCOM(texResource); // view saves reference
+
+	//normal
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/2_nmap.dds", &texResource, &mNormalSRV[0]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/3_nmap.dds", &texResource, &mNormalSRV[1]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/4_nmap.dds", &texResource, &mNormalSRV[2]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/5_nmap.dds", &texResource, &mNormalSRV[3]));
+	ReleaseCOM(texResource); // view saves reference
+
+	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/6_nmap.dds", &texResource, &mNormalSRV[4]));
+	ReleaseCOM(texResource); // view saves reference
+
+
 }

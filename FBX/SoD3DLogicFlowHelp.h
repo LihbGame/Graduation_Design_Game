@@ -41,6 +41,7 @@ public:
 	void CreateFileKkb(const char* szFileName);
 	void CreateFileKkf(const char* szFileName, int nAnimID);
 	void CreateImage(const wchar_t* szFileName);
+	void CreateNormalTexture(const wchar_t* szFileName);
 	void ConvertFbx2KK();
 	void LoadFbxAnim();
 	void SetModelTansInfo(Model_Tansform_Info *ModeInfo);
