@@ -16,6 +16,7 @@
 #include "StKKFileKkfRead.h"
 #include "StKKModel.h"
 #include "StKKFileKkmRead.h"
+#include "ShadowMap.h"
 #include <SoStringHelp.h>
 
 #define Model_num  2
@@ -33,8 +34,11 @@ public:
 	~Model() { Release(); };
 	//have animation
 	bool BeginRender(int Instance_num, int nAnimID);
+	bool ShadowRender(int Instance_num, int nAnimID, ShadowMap* shadowmap);
 	//no animation
 	bool BeginRender(int Instance_num);
+	bool ShadowRender(int Instance_num, ShadowMap* shadowmap);
+
 	void Update(float fDeltaTime,int nAnimID);
 	void Release();
 	void CreateFileFbx(const char* szFileName);

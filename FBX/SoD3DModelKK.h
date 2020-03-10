@@ -3,6 +3,7 @@
 #define _SoD3DModelKK_h_
 //----------------------------------------------------------------
 #include "SoD3DModelBase.h"
+#include "ShadowMap.h"
 //----------------------------------------------------------------
 class SoD3DTexture;
 class SoD3DShaderBase;
@@ -23,7 +24,7 @@ public:
 	void ClearModel();
 	void UpdateModel(float fDeltaTime, int nAnimID);
 	void RenderModel(Model_Tansform_Info* mode_info, int instance_num, int nAnimID);
-
+	void RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID, ShadowMap* shadowmap);
 	void SetWorldMatrix(const XMFLOAT4X4* pMatWorld);
 	void SetTexture(const wchar_t* szFileName);
 	void SetNormalTexture(const wchar_t* szFileName);
@@ -37,6 +38,7 @@ private:
 private:
 	const StKKModel* m_pKKModel;
 	SoD3DShaderBase* m_pShader;
+	SoD3DShaderBase* m_pShadowShader;
 	SoD3DTexture* m_pTexture;
 	ID3D11ShaderResourceView* m_pNormalTexture;
 	float m_fAccTime;

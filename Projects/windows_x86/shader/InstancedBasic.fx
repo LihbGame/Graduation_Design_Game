@@ -8,6 +8,8 @@ cbuffer cbPerFrame
 	float  gFogStart;
 	float  gFogRange;
 	float4 gFogColor;
+    //shadow UV mat
+    float4x4 gShadowTransform;
 };
 
 cbuffer cbPerObject
@@ -22,7 +24,7 @@ cbuffer cbPerObject
 // Nonnumeric values cannot be added to a cbuffer.
 Texture2D gDiffuseMap[5];
 Texture2D gNormalMap[5];
-
+Texture2D gShadowMap;
 
 SamplerState samAnisotropic
 {
@@ -31,6 +33,18 @@ SamplerState samAnisotropic
 
 	AddressU = WRAP;
 	AddressV = WRAP;
+};
+
+
+SamplerComparisonState samShadow
+{
+    Filter = COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+    AddressU = BORDER;
+    AddressV = BORDER;
+    AddressW = BORDER;
+    BorderColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+    ComparisonFunc = LESS;
 };
 
 
@@ -64,9 +78,10 @@ struct VertexOut
 	float4 PosH    : SV_POSITION;
     float3 PosW    : POSITION;
     float3 NormalW : NORMAL;
-	float2 Tex     : TEXCOORD;
+	float2 Tex     : TEXCOORD0;
     float3 TangentW : TANGENT;
     uint TexIndex    : INDEX;
+    float4 ShadowPosH : TEXCOORD1;
 };
 
 VertexOut VS(VertexIn vin)
@@ -79,7 +94,10 @@ VertexOut VS(VertexIn vin)
     vout.TangentW = mul(vin.TangentL, (float3x3)vin.World);
 	// Transform to homogeneous clip space.
 	vout.PosH = mul(float4(vout.PosW, 1.0f), gViewProj);
-	
+
+    // Generate projective tex-coords to project shadow map onto scene.
+    vout.ShadowPosH = mul(float4(vout.PosW, 1.0f), gShadowTransform);
+
 	// Output vertex attributes for interpolation across triangle.
 	//vout.Tex   = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
 	vout.TexIndex= vin.TexIndex;
@@ -148,10 +166,6 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
     // Normal mapping 
     float3 bumpedNormalW = NormalSampleToWorldSpace(normalMapSample, pin.NormalW, pin.TangentW);
  
-
-
-
-
 	// Lighting.
 
 	float4 litColor = texColor;
@@ -161,6 +175,11 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 		float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+        // Only the first light casts a shadow.
+        float shadow= CalcShadowFactor(samShadow, gShadowMap, pin.ShadowPosH);
+
+
 
 		// Sum the light contribution from each light source.  
 		//now only have one direction light
@@ -172,8 +191,8 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
 				A, D, S);
 
 			ambient += A;
-			diffuse += D;
-			spec    += S;
+			diffuse += shadow*D;
+			spec    += shadow*S;
 		}
 
 		// Modulate with late add.

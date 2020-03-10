@@ -71,6 +71,7 @@ bool SoD3DShaderModelKK::InitShaderModelKK()
 	m_pFxhaveTangent = m_pFxEffect->GetVariableByName("IshaveTangent")->AsScalar();
 	m_pFxAnimTextureBoneCount = m_pFxEffect->GetVariableByName("g_AnimTextureBoneCount")->AsScalar();
 	m_pFxAnimTextureKeyFrameIndex = m_pFxEffect->GetVariableByName("g_AnimTextureKeyFrameIndex")->AsScalar();
+	EyePosW = m_pFxEffect->GetVariableByName("gEyePosW")->AsVector();
 	//
 	ID3DX11EffectVariable* pFxTextureList = m_pFxEffect->GetVariableByName("g_TextureList");
 	m_pFxTexture = pFxTextureList->GetElement(0)->AsShaderResource();
@@ -138,8 +139,12 @@ void SoD3DShaderModelKK::ProcessRender(void* pParam)
 	m_pFxTexture->SetResource(pModelParam->pTextureSRV);
 	m_pFxVertexTexture->SetResource(pModelParam->pPosSRV);
 	m_pFxAnimTexture->SetResource(pModelParam->pAnimSRV);
-	m_pFxNormalTexture->SetResource(pModelParam->pNormalTextureSRV);
+	if (ghaveTangent)
+	{
+		m_pFxNormalTexture->SetResource(pModelParam->pNormalTextureSRV);
+	}
 	m_pFxhaveTangent->SetBool(ghaveTangent);
+	EyePosW->SetRawValue(&Camera::Get()->GetPosition(), 0, sizeof(XMFLOAT3));
 	//
 	UINT uiStride = pModelParam->uiSizeofVertex;
 	UINT uiOffset = 0;

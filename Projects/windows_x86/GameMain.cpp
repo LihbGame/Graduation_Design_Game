@@ -17,7 +17,7 @@
 #include "CGameMapElement.h"
 #include "Sky.h"
 #include "Terrain.h"
-
+#include "ShadowMap.h"
 
 //debug
 std::string str;
@@ -37,8 +37,13 @@ std::string str;
 #define Map_size  21
 #define Unit_MapOffset 16
 
+
+//player init position
 #define PlayerPositionX -60.0f 
 #define PlayerPositionY -60.0f
+
+//shadow map size
+#define SMapSize 2048
 
 AppLauncher launcher;
 bool menu = true;
@@ -48,6 +53,7 @@ HINSTANCE ghInstance;
 HINSTANCE ghPrevInstance;
 LPSTR    glpCmdLine;
 int      gnCmdShow;
+
 
 
 //thread function
@@ -106,12 +112,15 @@ private:
 	void CreateBlendState();
 	//Load Texture
 	void LoadTexture();
-	//build  shadow instance data
 
+	//build  shadow instance data
 	//static
 	void BuildStaticInstanceData();
 	//dynamic
 	void BuildDynamicInstanceData();
+
+	//draw shadow map
+	void BuildShadowMap();
 private:
 	ID3D11Buffer* mLandVB;
 	ID3D11Buffer* mLandIB;
@@ -187,6 +196,8 @@ private:
 	Sky* mSkyBox;
 	//Terrain
 	Terrain mTerrain;
+	//ShadowMap
+	ShadowMap* mShadowMap;
 };
 
 
@@ -290,6 +301,8 @@ GameApp::~GameApp()
 
 	//sky box release
 	SafeDelete(mSkyBox);
+	//shadow map release
+	SafeDelete(mShadowMap);
 }
 
 bool GameApp::Init()
@@ -311,32 +324,32 @@ bool GameApp::Init()
 
 	//sky box init
 	mSkyBox = new Sky(md3dDevice,L"Textures/space3.dds",1000.0f);
+	//shadow map init
+	mShadowMap = new ShadowMap(md3dDevice, SMapSize, SMapSize);
+	if(mShadowMap)
+	{
+		mShadowMap->BuildShadowTransform(gDirLights);
+	}
 
 	//load textures
 	LoadTexture();
-
 	//Build Geometry Buffers
 	BuildLandGeometryBuffers();
-	//BuildCrateGeometryBuffers();
-
-
 	//FBX Create
 	if (!SoD3DLogicFlowHelp_Create())
 		return false;
-
 	//FBX Init and Load
 	InitFbxModel();
 	// 在InitFbxModel()之后调用
 	BuildStaticInstanceData();
 	BuildDynamicInstanceData();
-
 	//初始化像机
 	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60));
 	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z -60), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
-
 	//Create Blend State
 	CreateBlendState();
 	
+
 	return true;
 }
 
@@ -402,8 +415,13 @@ void GameApp::DrawScene()
 	//在非菜单状态下渲染游戏场景
 	if (!menu)
 	{
+		
 		//GUI pre render(if need Render Offscreen)
 		m_pGameGUI->PreRender();
+
+		//shadow map
+		BuildShadowMap();
+		
 
 		md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&GColors::Silver));
 		md3dImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -462,7 +480,7 @@ void GameApp::DrawScene()
 		// Draw the LAND with alpha clipping.
 		// 
 
-		mTerrain.Render(md3dImmediateContext,gDirLights);
+		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap);
 		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
@@ -501,10 +519,6 @@ void GameApp::DrawScene()
 		}
 		//fbx model
 		RenderFbxModel();
-
-		
-
-
 		//render gui
 		m_pGameGUI->Render();
 	}
@@ -1106,6 +1120,7 @@ void GameApp::InitFbxModel()
 		m_Models[0]->CreateFileKkb("model/GiantSpider.kkb");
 		m_Models[0]->CreateFileKkf("model/GiantSpider@Idle.kkf",Anim_State::Idle);
 		m_Models[0]->CreateImage(L"model/GiantSpider_04.dds");
+		m_Models[0]->CreateNormalTexture(L"model/GiantSpider_04_NRM.dds");
 		m_Models[0]->SetModelTansInfo(&m_ModeInfo[0]);
 	}
 	if (m_Models[1])
@@ -1263,6 +1278,23 @@ void GameApp::BuildDynamicInstanceData()
 			D3D11_SUBRESOURCE_DATA vinitData;
 			vinitData.pSysMem = &m_ModeInfo[i].Mat_World[0];
 			HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mFBXInstanceBuffer[i]));
+		}
+	}
+
+
+}
+
+void GameApp::BuildShadowMap()
+{
+	mShadowMap->BindDsvAndSetNullRenderTarget(md3dImmediateContext);
+	md3dImmediateContext->OMSetDepthStencilState(0, 0);
+	//render fbx model
+	if (m_Models[0])
+	{
+		for (int i = 0; i < Model1_Instance; ++i)
+		{
+			if (!m_Models[0]->ShadowRender(i, Anim_State::Idle,mShadowMap))
+				return;
 		}
 	}
 

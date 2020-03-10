@@ -12,6 +12,8 @@ enum SoD3DShaderType
 	SoD3DShaderType_ModelFbx,
 	SoD3DShaderType_ModelKK,
 	SoD3DShaderType_ModelKKNoBone,
+	SoD3DShaderType_ShadowKK,
+	SoD3DShaderType_ShadowKKNoBone,
 	SoD3DShaderType_GGUI,
 	SoD3DShaderType_Max,
 };

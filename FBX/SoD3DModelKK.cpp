@@ -8,6 +8,7 @@
 SoD3DModelKK::SoD3DModelKK()
 :m_pKKModel(0)
 ,m_pShader(0)
+,m_pShadowShader(0)
 ,m_pTexture(0)
 ,m_pNormalTexture(0)
 ,m_fAccTime(0.0f)
@@ -31,11 +32,17 @@ bool SoD3DModelKK::InitModel(void* pInitParam)
 		if (pKKParam->pKKModel->IsBoneDataExist())
 		{
 			m_pShader = SoD3DShaderManager::Get()->GetShader(SoD3DShaderType_ModelKK);
+			m_pShadowShader = SoD3DShaderManager::Get()->GetShader(SoD3DShaderType_ShadowKK);
 		}
 		else
 		{
 			m_pShader = SoD3DShaderManager::Get()->GetShader(SoD3DShaderType_ModelKKNoBone);
+			m_pShadowShader = SoD3DShaderManager::Get()->GetShader(SoD3DShaderType_ShadowKKNoBone);
 		}
+
+
+
+
 		if (m_pShader == 0)
 		{
 			break;
@@ -118,6 +125,45 @@ void SoD3DModelKK::RenderModel(Model_Tansform_Info* mode_info, int instance_num,
 	}
 	//
 	m_pShader->ProcessRender(&kParam);
+}
+
+void SoD3DModelKK::RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID,ShadowMap* shadowmap)
+{
+
+	XMMATRIX kWorld = mode_info->Mat_World[instance_num];
+	// 
+	const StKKModelData* pModelData = m_pKKModel->GetModelData();
+	const StKKModelAnimation* pModelAnim = m_pKKModel->GetAnimByID(nAnimID);
+	//
+	stShaderModelKKParam kParam;
+	kParam.pVB = pModelData->pVertexStructBuffer;
+	kParam.pIB = pModelData->pIndexBuffer;
+	kParam.uiSizeofVertex = pModelData->nSizeofVertexStruct;
+	kParam.uiIndexCount = pModelData->nIndexCount;
+	kParam.pMatWorld = &kWorld;
+	kParam.pPosSRV = pModelData->pVertexValueTexture->GetTextureSRV();
+	kParam.nPosSRVWidth = pModelData->nTextureWidth;
+	kParam.nPosCount = pModelData->nPosCount;
+	kParam.mShadowMap = shadowmap;
+	if (pModelAnim)
+	{
+		kParam.pAnimSRV = pModelAnim->pAnimationTexture->GetTextureSRV();
+		kParam.nAnimSRVWidth = pModelAnim->nTextureWidth;
+		kParam.nBoneCount = pModelAnim->nBoneCount;
+		kParam.nKeyFrameIndex = m_nCurrentKeyFrameIndex;
+	}
+	else
+	{
+		kParam.pAnimSRV = NULL;
+		kParam.nAnimSRVWidth = 0;
+		kParam.nBoneCount = 0;
+		kParam.nKeyFrameIndex = -1;
+	}
+	//
+	m_pShadowShader->ProcessRender(&kParam);
+
+
+
 }
 //----------------------------------------------------------------
 void SoD3DModelKK::SetWorldMatrix(const XMFLOAT4X4* pMatWorld)

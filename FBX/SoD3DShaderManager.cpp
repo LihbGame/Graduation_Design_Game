@@ -80,7 +80,29 @@ bool SoD3DShaderManager::InitD3DShaderManager()
 	{
 		return false;
 	}
-	//
+	//shadow kk
+	FBXShadowMapShaderkk* pShadowMapShaderkk = new FBXShadowMapShaderkk;
+	if (pShadowMapShaderkk && pShadowMapShaderkk->InitShadowShaderKK())
+	{
+		pShadowMapShaderkk->SetType(SoD3DShaderType_ShadowKK);
+		m_pShaderList[SoD3DShaderType_ShadowKK] = pShadowMapShaderkk;
+	}
+	else
+	{
+		return false;
+	}
+	//shadow kk no bone
+	/*FBXShadowMapShaderkkNoBone* pShadowMapShaderkkNoBone = new FBXShadowMapShaderkkNoBone;
+	if (pShadowMapShaderkkNoBone && pShadowMapShaderkkNoBone->InitShadowShaderKKNoBone())
+	{
+		pShadowMapShaderkkNoBone->SetType(SoD3DShaderType_ShadowKKNoBone);
+		m_pShaderList[SoD3DShaderType_ShadowKKNoBone] = pShadowMapShaderkkNoBone;
+	}
+	else
+	{
+		return false;
+	}*/
+
 	return true;
 }
 //----------------------------------------------------------------

@@ -63,7 +63,7 @@ void Terrain::Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset)
 
 
 
-void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight& DirLight)
+void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight& DirLight,ShadowMap* pShadowMap)
 {
 	md3dImmediateContext->IASetInputLayout(InputLayouts::InstancedBasic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -93,10 +93,12 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight
 		md3dImmediateContext->IASetVertexBuffers(0, 2, vbs, stride, offset);
 		md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
 
+		Effects::InstancedBasicFX->SetShadowTransform(XMLoadFloat4x4(&pShadowMap->GetShadowTransform()));
 		Effects::InstancedBasicFX->SetViewProj(viewProj);
 		Effects::InstancedBasicFX->SetMaterial(mTerrainMat);
 		Effects::InstancedBasicFX->SetDiffuseMap(mDiffuseSRV);
 		Effects::InstancedBasicFX->SetNormalMap(mNormalSRV);
+		Effects::InstancedBasicFX->SetShadowMap(pShadowMap->DepthMapSRV());
 		activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexedInstanced(mIndexCount, mVisibleObjectCount, 0, 0, 0);
 	}

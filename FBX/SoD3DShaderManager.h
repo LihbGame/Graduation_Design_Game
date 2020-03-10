@@ -6,6 +6,8 @@
 #include "SoD3DShaderModelFbx.h"
 #include "SoD3DShaderModelKK.h"
 #include "SoD3DShaderModelKKNoBone.h"
+#include "FBXShadowMapShaderkk.h"
+#include "FBXShadowMapShaderkkNoBone.h"
 
 //----------------------------------------------------------------
 class SoD3DShaderManager

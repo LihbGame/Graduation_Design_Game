@@ -31,6 +31,9 @@
     <Filter Include="UIData">
       <UniqueIdentifier>{d6fd326a-93e6-4b4e-8084-a8973e0bf2b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShadowMap">
+      <UniqueIdentifier>{b201755a-4c02-4e76-98c3-be9b9f818701}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -302,6 +305,15 @@
     <ClInclude Include="..\..\Terrain\Terrain.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ShadowMap\ShadowMap.h">
+      <Filter>ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ShadowMap\FBXShadowMapShaderkk.h">
+      <Filter>ShadowMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.h">
+      <Filter>ShadowMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -493,6 +505,15 @@
     <ClCompile Include="..\..\Terrain\Terrain.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ShadowMap\ShadowMap.cpp">
+      <Filter>ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ShadowMap\FBXShadowMapShaderkk.cpp">
+      <Filter>ShadowMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.cpp">
+      <Filter>ShadowMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
@@ -520,6 +541,12 @@
       <Filter>Shader</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\InstancedBasic.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Shadowkk.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Shadowkk_nobone.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
   </ItemGroup>

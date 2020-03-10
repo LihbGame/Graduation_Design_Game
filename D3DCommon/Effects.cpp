@@ -127,13 +127,14 @@ InstancedBasicEffect::InstancedBasicEffect(ID3D11Device* device, const std::wstr
 	World = mFX->GetVariableByName("gWorld")->AsMatrix();
 	WorldInvTranspose = mFX->GetVariableByName("gWorldInvTranspose")->AsMatrix();
 	TexTransform = mFX->GetVariableByName("gTexTransform")->AsMatrix();
+	ShadowTransform = mFX->GetVariableByName("gShadowTransform")->AsMatrix();
 	EyePosW = mFX->GetVariableByName("gEyePosW")->AsVector();
 	FogColor = mFX->GetVariableByName("gFogColor")->AsVector();
 	FogStart = mFX->GetVariableByName("gFogStart")->AsScalar();
 	FogRange = mFX->GetVariableByName("gFogRange")->AsScalar();
 	DirLights = mFX->GetVariableByName("gDirLights");
 	Mat = mFX->GetVariableByName("gMaterial");
-
+	ShadowMap = mFX->GetVariableByName("gShadowMap")->AsShaderResource();
 
 	//diffuse maps
 	ID3DX11EffectVariable* DiffuseMaps = mFX->GetVariableByName("gDiffuseMap");

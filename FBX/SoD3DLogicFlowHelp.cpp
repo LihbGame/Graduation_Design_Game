@@ -102,6 +102,16 @@ bool Model::BeginRender(int Instance_num, int nAnimID)
 	return true;
 }
 
+bool Model::ShadowRender(int Instance_num, int nAnimID, ShadowMap* shadowmap)
+{
+	if (g_pD3DModelKK)
+	{
+		g_pD3DModelKK->RenderShadowMap(&m_ModeInfo, Instance_num, nAnimID,shadowmap);
+	}
+
+	return true;
+}
+
 
 bool Model::BeginRender(int Instance_num)
 {
@@ -113,6 +123,16 @@ bool Model::BeginRender(int Instance_num)
 	if (g_pD3DModelKK)
 	{
 		g_pD3DModelKK->RenderModel(&m_ModeInfo, Instance_num,1);
+	}
+
+	return true;
+}
+
+bool Model::ShadowRender(int Instance_num,ShadowMap* shadowmap)
+{
+	if (g_pD3DModelKK)
+	{
+		g_pD3DModelKK->RenderShadowMap(&m_ModeInfo, Instance_num, 1,shadowmap);
 	}
 
 	return true;

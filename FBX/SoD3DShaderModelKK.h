@@ -3,6 +3,7 @@
 #define _SoD3DShaderModelKK_h_
 //----------------------------------------------------------------
 #include "SoD3DShaderBase.h"
+#include "ShadowMap.h"
 //----------------------------------------------------------------
 struct stShaderModelKKParam
 {
@@ -45,6 +46,8 @@ struct stShaderModelKKParam
 	//当前正在播放动画的哪一帧。
 	//值为-1表示不计算骨骼动画。
 	int nKeyFrameIndex;
+	//阴影
+	ShadowMap* mShadowMap;
 };
 //----------------------------------------------------------------
 class SoD3DShaderModelKK : public SoD3DShaderBase
@@ -61,10 +64,11 @@ private:
 	bool CreateInputLayout();
 
 private:
-	static SoD3DShaderModelKK* ms_pInstance;
+	static SoD3DShaderModelKK*  ms_pInstance;
 	ID3D11InputLayout* m_pInputLayout;
 	ID3DX11Effect* m_pFxEffect;
 	ID3DX11EffectTechnique* m_pFxTech;
+	ID3DX11EffectVectorVariable* EyePosW;
 	ID3DX11EffectMatrixVariable* m_pFxWorldMatrix;
 	ID3DX11EffectMatrixVariable* m_pFxViewProjMatrix;
 	ID3DX11EffectMatrixVariable* m_pFxWorldInvTransposeMatrix;
