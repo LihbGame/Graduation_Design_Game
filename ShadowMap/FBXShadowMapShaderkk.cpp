@@ -9,9 +9,19 @@
 
 
 FBXShadowMapShaderkk::FBXShadowMapShaderkk()
-:m_pInputLayout(0)
-, m_pFxEffect(0)
-, m_pFxTech(0)
+	:m_pInputLayout(0)
+	, m_pFxEffect(0)
+	, m_pFxTech(0)
+	, m_pFxWorldMatrix(0)
+	, m_pFxViewProjMatrix(0)
+	, m_pFxWorldInvTransposeMatrix(0)
+	, m_pFxVertexTextureWidth(0)
+	, m_pFxVertexTexturePosCount(0)
+	, m_pFxAnimTextureWidth(0)
+	, m_pFxAnimTextureBoneCount(0)
+	, m_pFxAnimTextureKeyFrameIndex(0)
+	, m_pFxVertexTexture(0)
+	, m_pFxAnimTexture(0)
 {
 }
 

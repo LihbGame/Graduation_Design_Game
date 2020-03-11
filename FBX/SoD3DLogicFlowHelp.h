@@ -37,7 +37,7 @@ public:
 	bool ShadowRender(int Instance_num, int nAnimID, ShadowMap* shadowmap);
 	//no animation
 	bool BeginRender(int Instance_num);
-	bool ShadowRender(int Instance_num, ShadowMap* shadowmap);
+	bool ShadowRender(int InstanceCount, ShadowMap* shadowmap,ID3D11Buffer* InstanceVB);
 
 	void Update(float fDeltaTime,int nAnimID);
 	void Release();

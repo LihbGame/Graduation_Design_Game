@@ -92,7 +92,7 @@ bool SoD3DShaderManager::InitD3DShaderManager()
 		return false;
 	}
 	//shadow kk no bone
-	/*FBXShadowMapShaderkkNoBone* pShadowMapShaderkkNoBone = new FBXShadowMapShaderkkNoBone;
+	FBXShadowMapShaderkkNoBone* pShadowMapShaderkkNoBone = new FBXShadowMapShaderkkNoBone;
 	if (pShadowMapShaderkkNoBone && pShadowMapShaderkkNoBone->InitShadowShaderKKNoBone())
 	{
 		pShadowMapShaderkkNoBone->SetType(SoD3DShaderType_ShadowKKNoBone);
@@ -101,7 +101,7 @@ bool SoD3DShaderManager::InitD3DShaderManager()
 	else
 	{
 		return false;
-	}*/
+	}
 
 	return true;
 }

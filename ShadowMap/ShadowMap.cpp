@@ -8,7 +8,7 @@ ShadowMap::ShadowMap(ID3D11Device* device, UINT width, UINT height)
     // the world space origin.  In general, you need to loop over every world space vertex
     // position and compute the bounding sphere.
     mSceneBounds.Center = XMFLOAT3(0.0f, 0.0f, 0.0f);
-    mSceneBounds.Radius = 100.0f;
+    mSceneBounds.Radius = 200.0f;
 
 
 

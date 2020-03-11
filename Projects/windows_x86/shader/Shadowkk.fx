@@ -59,6 +59,7 @@ RasterizerState Depth
 	DepthBias = 100000;
 	DepthBiasClamp = 0.0f;
 	SlopeScaledDepthBias = 1.0f;
+	CullMode = FRONT;
 };
 
 

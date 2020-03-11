@@ -9,6 +9,8 @@ struct stShaderModelKKParam
 {
 	//顶点数据
 	ID3D11Buffer* pVB;
+	//实例化数据
+	ID3D11Buffer* pInstanceVB;
 	//顶点索引数据
 	ID3D11Buffer* pIB;
 	//顶点结构体的sizeof
@@ -46,6 +48,8 @@ struct stShaderModelKKParam
 	//当前正在播放动画的哪一帧。
 	//值为-1表示不计算骨骼动画。
 	int nKeyFrameIndex;
+	//实例化数量
+	int nInstanceCount;
 	//阴影
 	ShadowMap* mShadowMap;
 };

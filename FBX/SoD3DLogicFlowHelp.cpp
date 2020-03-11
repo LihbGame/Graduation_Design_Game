@@ -128,11 +128,11 @@ bool Model::BeginRender(int Instance_num)
 	return true;
 }
 
-bool Model::ShadowRender(int Instance_num,ShadowMap* shadowmap)
+bool Model::ShadowRender(int Instance_num,ShadowMap* shadowmap, ID3D11Buffer* InstanceVB)
 {
 	if (g_pD3DModelKK)
 	{
-		g_pD3DModelKK->RenderShadowMap(&m_ModeInfo, Instance_num, 1,shadowmap);
+		g_pD3DModelKK->RenderShadowMap(&m_ModeInfo, Instance_num, 1,shadowmap,InstanceVB);
 	}
 
 	return true;

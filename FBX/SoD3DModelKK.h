@@ -24,7 +24,7 @@ public:
 	void ClearModel();
 	void UpdateModel(float fDeltaTime, int nAnimID);
 	void RenderModel(Model_Tansform_Info* mode_info, int instance_num, int nAnimID);
-	void RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID, ShadowMap* shadowmap);
+	void RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID, ShadowMap* shadowmap,ID3D11Buffer* InstanceVB=nullptr);
 	void SetWorldMatrix(const XMFLOAT4X4* pMatWorld);
 	void SetTexture(const wchar_t* szFileName);
 	void SetNormalTexture(const wchar_t* szFileName);

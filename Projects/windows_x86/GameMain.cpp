@@ -481,7 +481,6 @@ void GameApp::DrawScene()
 		// 
 
 		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap);
-		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
 		//	// Restore default render state.
@@ -518,6 +517,7 @@ void GameApp::DrawScene()
 
 		}
 		//fbx model
+		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
 		RenderFbxModel();
 		//render gui
 		m_pGameGUI->Render();
@@ -1138,6 +1138,7 @@ void GameApp::InitFbxModel()
 		m_Models[2]->CreateFileKkb("model/BaiLu_Fei_Loop.kkb");
 		m_Models[2]->CreateFileKkf("model/BaiLu_Fei_Loop.kkf",Anim_State::Idle);
 		m_Models[2]->CreateImage(L"model/bailu.dds");
+		m_Models[2]->CreateNormalTexture(L"model/bailu_NRM.dds");
 		m_Models[2]->SetModelTansInfo(&m_ModeInfo[2]);
 	}
 	if (m_Models[3])
@@ -1288,7 +1289,9 @@ void GameApp::BuildShadowMap()
 {
 	mShadowMap->BindDsvAndSetNullRenderTarget(md3dImmediateContext);
 	md3dImmediateContext->OMSetDepthStencilState(0, 0);
-	//render fbx model
+	
+	
+	// move model
 	if (m_Models[0])
 	{
 		for (int i = 0; i < Model1_Instance; ++i)
@@ -1298,6 +1301,64 @@ void GameApp::BuildShadowMap()
 		}
 	}
 
+	if (m_Models[7])
+	{
+		for (int i = 0; i < Model8_Instance; ++i)
+		{
+			if (mAnim == Anim_State::Idle)
+			{
+				if (!m_Models[7]->ShadowRender(i, Anim_State::Idle, mShadowMap))
+					return;
+			}
+			else if (mAnim == Anim_State::Run)
+			{
+				if (!m_Models[7]->ShadowRender(i, Anim_State::Run, mShadowMap))
+					return;
+			}
+		}
+	}
+
+	if (m_Models[2])
+	{
+		for (int i = 0; i < Model3_Instance; ++i)
+		{
+			if (!m_Models[2]->ShadowRender(i, Anim_State::Idle, mShadowMap))
+				return;
+		}
+	}
+
+
+
+	//not move model 
+	if (m_Models[3])
+	{
+			if (!m_Models[3]->ShadowRender(Model4_Instance, mShadowMap, mFBXInstanceBuffer[3]))
+				return;
+	}
+
+	if (m_Models[4])
+	{
+			if (!m_Models[4]->ShadowRender(Model5_Instance, mShadowMap, mFBXInstanceBuffer[4]))
+				return;
+	}
+
+	if (m_Models[5])
+	{
+			if (!m_Models[5]->ShadowRender(Model6_Instance, mShadowMap, mFBXInstanceBuffer[5]))
+				return;
+	}
+
+	if (m_Models[6])
+	{
+			if (!m_Models[6]->ShadowRender(Model7_Instance, mShadowMap, mFBXInstanceBuffer[6]))
+				return;
+	}
+
+	if (m_Models[1])
+	{
+			if (!m_Models[1]->ShadowRender(Model2_Instance, mShadowMap, mFBXInstanceBuffer[1]))
+				return;
+	}
 
 }
 

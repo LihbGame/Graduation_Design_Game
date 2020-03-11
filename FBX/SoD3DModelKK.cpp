@@ -127,26 +127,30 @@ void SoD3DModelKK::RenderModel(Model_Tansform_Info* mode_info, int instance_num,
 	m_pShader->ProcessRender(&kParam);
 }
 
-void SoD3DModelKK::RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID,ShadowMap* shadowmap)
+void SoD3DModelKK::RenderShadowMap(Model_Tansform_Info* mode_info, int instance_num, int nAnimID,ShadowMap* shadowmap, ID3D11Buffer* InstanceVB)
 {
-
-	XMMATRIX kWorld = mode_info->Mat_World[instance_num];
-	// 
 	const StKKModelData* pModelData = m_pKKModel->GetModelData();
 	const StKKModelAnimation* pModelAnim = m_pKKModel->GetAnimByID(nAnimID);
 	//
 	stShaderModelKKParam kParam;
 	kParam.pVB = pModelData->pVertexStructBuffer;
+	kParam.pInstanceVB = InstanceVB;
+	kParam.nInstanceCount = instance_num;
 	kParam.pIB = pModelData->pIndexBuffer;
 	kParam.uiSizeofVertex = pModelData->nSizeofVertexStruct;
 	kParam.uiIndexCount = pModelData->nIndexCount;
-	kParam.pMatWorld = &kWorld;
 	kParam.pPosSRV = pModelData->pVertexValueTexture->GetTextureSRV();
+	kParam.pTextureSRV = m_pTexture->GetTextureSRV();
 	kParam.nPosSRVWidth = pModelData->nTextureWidth;
 	kParam.nPosCount = pModelData->nPosCount;
+	kParam.nNormalCount = pModelData->nNormalCount;
+	kParam.nTangentCount = pModelData->nTangentCount;
+	kParam.nUVCount = pModelData->nUVCount;
 	kParam.mShadowMap = shadowmap;
 	if (pModelAnim)
 	{
+		XMMATRIX kWorld = mode_info->Mat_World[instance_num];
+		kParam.pMatWorld = &kWorld;
 		kParam.pAnimSRV = pModelAnim->pAnimationTexture->GetTextureSRV();
 		kParam.nAnimSRVWidth = pModelAnim->nTextureWidth;
 		kParam.nBoneCount = pModelAnim->nBoneCount;
@@ -154,6 +158,7 @@ void SoD3DModelKK::RenderShadowMap(Model_Tansform_Info* mode_info, int instance_
 	}
 	else
 	{
+		kParam.pMatWorld = 0;
 		kParam.pAnimSRV = NULL;
 		kParam.nAnimSRVWidth = 0;
 		kParam.nBoneCount = 0;
