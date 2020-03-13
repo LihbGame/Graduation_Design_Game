@@ -34,6 +34,9 @@
     <Filter Include="ShadowMap">
       <UniqueIdentifier>{b201755a-4c02-4e76-98c3-be9b9f818701}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ParticleSystem">
+      <UniqueIdentifier>{df793dd6-4584-4743-900b-66ff6057eca1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -314,6 +317,9 @@
     <ClInclude Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.h">
       <Filter>ShadowMap</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ParticleSystem\ParticleSystem.h">
+      <Filter>ParticleSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -514,6 +520,9 @@
     <ClCompile Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.cpp">
       <Filter>ShadowMap</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ParticleSystem\ParticleSystem.cpp">
+      <Filter>ParticleSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
@@ -547,6 +556,12 @@
       <Filter>Shader</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\Shadowkk_nobone.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Fire.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Rain.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
   </ItemGroup>

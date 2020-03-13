@@ -474,6 +474,7 @@ bool D3DApp::InitMainWindow()
 	ShowWindow(mhMainWnd, SW_HIDE);
 	UpdateWindow(mhMainWnd);
 
+
 	return true;
 }
 

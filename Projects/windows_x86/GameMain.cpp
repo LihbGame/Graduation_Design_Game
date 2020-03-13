@@ -18,7 +18,7 @@
 #include "Sky.h"
 #include "Terrain.h"
 #include "ShadowMap.h"
-
+#include "ParticleSystem.h"
 //debug
 std::string str;
 
@@ -48,7 +48,7 @@ std::string str;
 AppLauncher launcher;
 bool menu = true;
 extern HWND  hWnd;
-
+extern HWND hWnd32;
 HINSTANCE ghInstance;
 HINSTANCE ghPrevInstance;
 LPSTR    glpCmdLine;
@@ -121,6 +121,12 @@ private:
 
 	//draw shadow map
 	void BuildShadowMap();
+
+	//Init Particle System
+	void InitParticleSystem();
+	//Draw Particle
+	void DrawParticle();
+
 private:
 	ID3D11Buffer* mLandVB;
 	ID3D11Buffer* mLandIB;
@@ -130,8 +136,8 @@ private:
 
 	//instance buffer data
 	ID3D11Buffer* mFBXInstanceBuffer[Model_Num];
-
-	ID3D11ShaderResourceView* mSRV[6];
+	//water texture
+	ID3D11ShaderResourceView* mSRV;
 
 	Waves mWaves;
 
@@ -173,7 +179,7 @@ private:
 	//FBX Models
 	std::vector<Model*> m_Models;
 	Model_Tansform_Info m_ModeInfo[Model_Num];
-
+	int LoadProgress;
 
 	//box bounding
 	BoundingBox MapBox;
@@ -198,11 +204,18 @@ private:
 	Terrain mTerrain;
 	//ShadowMap
 	ShadowMap* mShadowMap;
+	//Particle System
+	ID3D11ShaderResourceView* mFireTexSRV;
+	ID3D11ShaderResourceView* mRainTexSRV;
+	ID3D11ShaderResourceView* mRandomTexSRV;
+
+	ParticleSystem mFire;
+	ParticleSystem mRain;
 };
 
 
 GameApp::GameApp(HINSTANCE hInstance)
-	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0),
+	: D3DApp(hInstance), LoadProgress(0),mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(Render_Options::TexturesAndFog),
 	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), 
 	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(0,0), First(true), Endindex(0,0), unitlen(0),isMove(false), PlayerWorldPosition(PlayerPositionX, 0.0f, PlayerPositionY)
@@ -273,12 +286,11 @@ GameApp::~GameApp()
 	ReleaseCOM(mLandIB);
 	ReleaseCOM(mWavesVB);
 	ReleaseCOM(mWavesIB);
-	//ReleaseCOM(mBoxVB);
-	//ReleaseCOM(mBoxIB);
-	for (int i = 0; i < 6; ++i)
-	{
-		ReleaseCOM(mSRV[i]);
-	}
+	ReleaseCOM(mRandomTexSRV);
+	ReleaseCOM(mFireTexSRV);
+	ReleaseCOM(mRainTexSRV);
+	ReleaseCOM(mSRV);
+
 
 	Effects::DestroyAll();
 	InputLayouts::DestroyAll();
@@ -340,15 +352,17 @@ bool GameApp::Init()
 		return false;
 	//FBX Init and Load
 	InitFbxModel();
-	// 在InitFbxModel()之后调用
-	BuildStaticInstanceData();
-	BuildDynamicInstanceData();
+	//std::thread th3(&GameApp::InitFbxModel, this);
+	//th3.join();
+	
 	//初始化像机
 	mCamera->SetPosition(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60));
 	mCamera->LookAt(XMFLOAT3(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z -60), PlayerWorldPosition,XMFLOAT3(0.0f,1.0f,0.0f));
 	//Create Blend State
 	CreateBlendState();
 	
+	//Init Particle System
+	InitParticleSystem();
 
 	return true;
 }
@@ -363,7 +377,6 @@ void GameApp::OnResize()
 
 void GameApp::UpdateScene(float dt)
 {
-	
 	//判断动画状态
 	if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y)&&!isMove)
 	{
@@ -408,12 +421,16 @@ void GameApp::UpdateScene(float dt)
 	
 	//gui update
 	m_pGameGUI->Update(dt);
+	//Fire Particle Update
+	mFire.Update(dt, mTimer.TotalTime());
+	//Rain Particle Update
+	//mRain.Update(dt, mTimer.TotalTime());
 }
 
 void GameApp::DrawScene()
 {
 	//在非菜单状态下渲染游戏场景
-	if (!menu)
+	if (!menu&&LoadProgress==100)
 	{
 		
 		//GUI pre render(if need Render Offscreen)
@@ -510,7 +527,7 @@ void GameApp::DrawScene()
 			Effects::BasicFX->SetWorldViewProj(worldViewProj);
 			Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mWaterTexTransform));
 			Effects::BasicFX->SetMaterial(mWavesMat);
-			Effects::BasicFX->SetDiffuseMap(mSRV[0]);
+			Effects::BasicFX->SetDiffuseMap(mSRV);
 			Effects::BasicFX->SetFogRange(175.0f);
 			landAndWavesTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 			md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
@@ -521,9 +538,17 @@ void GameApp::DrawScene()
 		RenderFbxModel();
 		//render gui
 		m_pGameGUI->Render();
-	}
+		//draw particle
+		md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff); // restore default
+		DrawParticle();
 
-	HR(mSwapChain->Present(0, 0));
+		// restore default states.
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->OMSetDepthStencilState(0, 0);
+		md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
+		HR(mSwapChain->Present(0, 0));
+	}
+	
 }
 
 void GameApp::OnMouseDown(WPARAM btnState, int x, int y)
@@ -1010,6 +1035,7 @@ void GameApp::GetKeyState(float dt)
 
 void GameApp::InitFbxModel()
 {
+
 	///fbx model tansform information initialization(与模型下标统一)
 	{
 		//Model 1  (蜘蛛怪)
@@ -1188,8 +1214,11 @@ void GameApp::InitFbxModel()
 		m_Models[7]->SetModelTansInfo(&m_ModeInfo[7]);
 	}
 
+	// 在InitFbxModel()之后调用
+	BuildStaticInstanceData();
+	BuildDynamicInstanceData();
 
-
+	LoadProgress = 100;
 }
 
 void GameApp::CreateBlendState()
@@ -1217,7 +1246,7 @@ void GameApp::LoadTexture()
 {
 	ID3D11Resource* texResource = nullptr;
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/water3.dds", &texResource, &mSRV[0]));
+		L"Textures/water3.dds", &texResource, &mSRV));
 	ReleaseCOM(texResource); // view saves reference
 
 }
@@ -1268,17 +1297,17 @@ void GameApp::BuildDynamicInstanceData()
 
 			m_Models[i]->SetModelTansInfo(&m_ModeInfo[i]);
 
-			//创建buffer
-			D3D11_BUFFER_DESC vbd;
-			vbd.Usage = D3D11_USAGE_DYNAMIC;
-			vbd.ByteWidth = sizeof(XMMATRIX) * m_ModeInfo[i].Mat_World.size();
-			vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			vbd.MiscFlags = 0;
-			vbd.StructureByteStride = 0;
-			D3D11_SUBRESOURCE_DATA vinitData;
-			vinitData.pSysMem = &m_ModeInfo[i].Mat_World[0];
-			HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mFBXInstanceBuffer[i]));
+			////创建buffer
+			//D3D11_BUFFER_DESC vbd;
+			//vbd.Usage = D3D11_USAGE_DYNAMIC;
+			//vbd.ByteWidth = sizeof(XMMATRIX) * m_ModeInfo[i].Mat_World.size();
+			//vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			//vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			//vbd.MiscFlags = 0;
+			//vbd.StructureByteStride = 0;
+			//D3D11_SUBRESOURCE_DATA vinitData;
+			//vinitData.pSysMem = &m_ModeInfo[i].Mat_World[0];
+			//HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mFBXInstanceBuffer[i]));
 		}
 	}
 
@@ -1362,6 +1391,36 @@ void GameApp::BuildShadowMap()
 
 }
 
+void GameApp::InitParticleSystem()
+{
+	mRandomTexSRV = d3dHelper::CreateRandomTexture1DSRV(md3dDevice);
+
+	std::vector<std::wstring> flares;
+	flares.push_back(L"Textures\\th.dds");
+	mFireTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, flares);
+	//Fire Particle
+	mFire.Init(md3dDevice, Effects::FireFX, mFireTexSRV, mRandomTexSRV, 500);
+	mFire.SetEmitPos(XMFLOAT3(0.0f, 5.0f, 100.0f));
+	//Rain Particle
+	std::vector<std::wstring> raindrops;
+	raindrops.push_back(L"Textures\\raindrop.dds");
+	mRainTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, raindrops);
+
+	mRain.Init(md3dDevice, Effects::RainFX, mRainTexSRV, mRandomTexSRV, 10000);
+}
+
+void GameApp::DrawParticle()
+{
+	// Draw particle systems last so it is blended with scene.
+	mFire.SetEyePos(mCamera->GetPosition());
+	mFire.Draw(md3dImmediateContext);
+
+	/*mRain.SetEyePos(mCamera->GetPosition());
+	mRain.SetEmitPos(mCamera->GetPosition());
+	mRain.Draw(md3dImmediateContext);*/
+
+}
+
 
 
 //////////main
@@ -1372,7 +1431,6 @@ void MenuGUI()
 }
 
  void MainApp() {
-
 	 GameApp theApp(ghInstance);
 
 	 if (!theApp.Init())

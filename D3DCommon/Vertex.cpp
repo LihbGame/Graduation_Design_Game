@@ -32,6 +32,17 @@ const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::InstancedBasic32[9] =
 	{ "INDEX", 0, DXGI_FORMAT_R32_UINT, 1, 64,  D3D11_INPUT_PER_INSTANCE_DATA, 1 }
 };
 
+
+const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::Particle[5] =
+{
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"VELOCITY", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"SIZE",     0, DXGI_FORMAT_R32G32_FLOAT,    0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"AGE",      0, DXGI_FORMAT_R32_FLOAT,       0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TYPE",     0, DXGI_FORMAT_R32_UINT,        0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0},
+};
+
+
 #pragma endregion
 
 #pragma region InputLayouts
@@ -39,6 +50,7 @@ const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::InstancedBasic32[9] =
 ID3D11InputLayout* InputLayouts::Pos = 0;
 ID3D11InputLayout* InputLayouts::Basic32 = 0;
 ID3D11InputLayout* InputLayouts::InstancedBasic32 = 0;
+ID3D11InputLayout* InputLayouts::Particle = 0;
 
 void InputLayouts::InitAll(ID3D11Device* device)
 {
@@ -72,6 +84,14 @@ void InputLayouts::InitAll(ID3D11Device* device)
 	Effects::InstancedBasicFX->Light1Tech->GetPassByIndex(0)->GetDesc(&passDesc);
 	HR(device->CreateInputLayout(InputLayoutDesc::InstancedBasic32, 9, passDesc.pIAInputSignature,
 		passDesc.IAInputSignatureSize, &InstancedBasic32));
+
+	//
+	// Particle
+	//
+
+	Effects::FireFX->StreamOutTech->GetPassByIndex(0)->GetDesc(&passDesc);
+	HR(device->CreateInputLayout(InputLayoutDesc::Particle, 5, passDesc.pIAInputSignature,
+		passDesc.IAInputSignatureSize, &Particle));
 }
 
 void InputLayouts::DestroyAll()
@@ -79,6 +99,7 @@ void InputLayouts::DestroyAll()
 	ReleaseCOM(Pos);
 	ReleaseCOM(Basic32);
 	ReleaseCOM(InstancedBasic32);
+	ReleaseCOM(Particle);
 }
 
 #pragma endregion

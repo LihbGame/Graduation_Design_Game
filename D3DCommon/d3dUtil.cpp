@@ -1,5 +1,63 @@
 #include "d3dUtil.h"
 
+
+
+ID3D11ShaderResourceView* d3dHelper::CreateTexture2DArraySRV(
+	ID3D11Device* device, ID3D11DeviceContext* context,
+	std::vector<std::wstring>& filenames)
+{
+	//
+	// Load the texture elements individually from file.  These textures
+	// won't be used by the GPU (0 bind flags), they are just used to 
+	// load the image data from file.  We use the STAGING usage so the
+	// CPU can read the resource.
+	//
+
+	UINT size = filenames.size();
+
+	std::vector<ID3D11Texture2D*> srcTex(size);
+	
+	for (UINT i = 0; i < size; ++i)
+	{
+		ID3D11ShaderResourceView* mSRV;
+		HR(DirectX::CreateDDSTextureFromFile(device,
+			filenames[i].c_str(), (ID3D11Resource**)&srcTex[i], &mSRV));
+		ReleaseCOM(mSRV);
+	}
+	
+
+
+	D3D11_TEXTURE2D_DESC texElementDesc;
+	srcTex[0]->GetDesc(&texElementDesc);
+
+
+	//
+	// Create a resource view to the texture array.
+	//
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
+	viewDesc.Format = texElementDesc.Format;
+	viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+	viewDesc.Texture2DArray.MostDetailedMip = 0;
+	viewDesc.Texture2DArray.MipLevels = texElementDesc.MipLevels;
+	viewDesc.Texture2DArray.FirstArraySlice = 0;
+	viewDesc.Texture2DArray.ArraySize = size;
+
+	ID3D11ShaderResourceView* texArraySRV = 0;
+	HR(device->CreateShaderResourceView(srcTex[0], &viewDesc, &texArraySRV));
+
+
+	for (UINT i = 0; i < size; ++i)
+		ReleaseCOM(srcTex[i]);
+
+	return texArraySRV;
+}
+
+
+
+
+
+
 ID3D11ShaderResourceView* d3dHelper::CreateRandomTexture1DSRV(ID3D11Device* device)
 {
 	// 
