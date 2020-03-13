@@ -1396,7 +1396,7 @@ void GameApp::InitParticleSystem()
 	mRandomTexSRV = d3dHelper::CreateRandomTexture1DSRV(md3dDevice);
 
 	std::vector<std::wstring> flares;
-	flares.push_back(L"Textures\\th.dds");
+	flares.push_back(L"Textures\\flare0.dds");
 	mFireTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, flares);
 	//Fire Particle
 	mFire.Init(md3dDevice, Effects::FireFX, mFireTexSRV, mRandomTexSRV, 500);
