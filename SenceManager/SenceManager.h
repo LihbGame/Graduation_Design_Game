@@ -28,7 +28,7 @@ class SenceManager
 public:
 	SenceManager();
 	~SenceManager();
-	void DivisionMap(int UnitMapOffset);
+	void DivisionMap(int UnitMapOffset, std::vector<std::vector<char>>* aidata=nullptr);
 	bool ReadMapDataFormFile(const char* szFileName);
 	std::vector<UnitSence>& GetSenceData();
 private:

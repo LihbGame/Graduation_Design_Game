@@ -2,7 +2,7 @@
 
 #include<vector>
 class CGamePathFinder;
-
+#define MapSize 30
 enum DIRECT
 {
 	MOVE_UP = 0,
@@ -75,12 +75,11 @@ public:
 	
 	
 
-	bool ConvertMap();
+	bool ConvertMap(std::vector<std::vector<char>>& Aidata);
 private:
 	// 存讲所有的地图
 	std::vector<std::vector<CGameMapelement>> m_arr;
 public:
-	char FinderTankMap[23][42];
 	std::vector<TankPosition> m_TankPosition;
 	std::vector<TankPosition> m_MyTankPosition;
 private:

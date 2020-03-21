@@ -21,10 +21,10 @@ class Terrain
 public:
 	Terrain();
 	~Terrain();
-	void InitTerrain(ID3D11Device* md3dDevice,int MapSize, int UnitMapOffset,std::vector<UnitSence>& sence);
-	void InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset, std::vector<UnitSence>& sence, std::vector <Model_Tansform_Info*>& PlayerInfo);
-	
-	void Render(ID3D11DeviceContext* DeviceContext, DirectionalLight& DirLight,ShadowMap* shadowmap);
+	void InitTerrain(ID3D11Device* md3dDevice, int mapSize, int UnitMapOffset, std::vector<UnitSence>& sence);
+	void InitModel(ID3D11Device* md3dDevice, int mapSize, int UnitMapOffset, std::vector<UnitSence>& sence, std::vector <Model_Tansform_Info*>& PlayerInfo);
+
+	void Render(ID3D11DeviceContext* DeviceContext, DirectionalLight& DirLight, ShadowMap* shadowmap);
 	void BuildCrateGeometryBuffers(ID3D11Device* md3dDevice);
 	void LoadTexture(ID3D11Device* md3dDevice);
 

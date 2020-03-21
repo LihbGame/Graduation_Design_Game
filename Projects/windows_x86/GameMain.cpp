@@ -97,7 +97,7 @@ private:
 	
 
 	XMINT2 RayTOModel(float sx, float sy);
-	void FindPath();
+	bool FindPath();
 	void RenderFbxModel();
 	void UpdateFbxAnimation(float dt);
 	void GetKeyState(float dt);
@@ -320,13 +320,15 @@ bool GameApp::Init()
 		return false;
 
 	//Terrain Sence Manager
+
 	TerrainManager.ReadMapDataFormFile("Sence/Terrain.txt");
 	TerrainManager.DivisionMap(Unit_MapOffset);
 	TerrainSenceData = TerrainManager.GetSenceData();
 	
 	//Model Sence Manager
+	std::vector<std::vector<char>> AIMapData;
 	FbxModelManager.ReadMapDataFormFile("Sence/Model.txt");
-	FbxModelManager.DivisionMap(Unit_MapOffset);
+	FbxModelManager.DivisionMap(Unit_MapOffset,&AIMapData);
 	ModelSenceData = FbxModelManager.GetSenceData();
 	
 	//Terrain Init
@@ -334,7 +336,7 @@ bool GameApp::Init()
 	mTerrain.InitModel(md3dDevice, Map_size, Unit_MapOffset, ModelSenceData,m_PlayerInfo);
 	
 	//转换地图
-	m_GameMap.ConvertMap();
+	m_GameMap.ConvertMap(AIMapData);
 	
 	// Must init Effects first since InputLayouts depend on shader signatures.
 	Effects::InitAll(md3dDevice);
@@ -390,24 +392,29 @@ void GameApp::OnResize()
 
 void GameApp::UpdateScene(float dt)
 {
-	//判断动画状态
-	if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y)&&!isMove)
-	{
-		mAnim = Anim_State::Idle;
-	}
-	else
-	{
-		mAnim = Anim_State::Run;
-	}
-	if (Mapindex.x < 0)
-	{
-		mAnim = Anim_State::Idle;
-	}
 
-	
 
 	//每帧寻路
-	FindPath();
+	//判断动画状态
+	if (FindPath())
+	{//寻路成功
+		if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y) && !isMove)
+		{
+			mAnim = Anim_State::Idle;
+		}
+		else
+		{
+			mAnim = Anim_State::Run;
+		}
+	}
+	else//寻路失败
+	{
+		mAnim = Anim_State::Idle;
+	}
+	if (Mapindex.x < 0&& unitlen== Unit_MapOffset)
+	{
+		mAnim = Anim_State::Idle;
+	}
 
 	//更新模型实例化buffer
 	BuildStaticInstanceData();
@@ -437,7 +444,7 @@ void GameApp::UpdateScene(float dt)
 
 	//Update Fbx Animation
 	UpdateFbxAnimation(dt);
-	
+
 	//gui update
 	m_pGameGUI->Update(dt);
 	//Fire Particle Update
@@ -538,7 +545,7 @@ void GameApp::DrawScene()
 			md3dImmediateContext->IASetIndexBuffer(mLandIB, DXGI_FORMAT_R32_UINT, 0);
 
 			// Set per object constants.
-			XMMATRIX world = XMMatrixTranslation(0.0f, -10.0f, 0.0f) * XMLoadFloat4x4(&mLandWorld);
+			XMMATRIX world = XMMatrixTranslation(0.0f, 0.0f, 0.0f) * XMLoadFloat4x4(&mLandWorld);
 			XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
 			XMMATRIX worldViewProj = world * view * proj;
 			Effects::BasicFX->SetDirLights(&gDirLights);
@@ -817,10 +824,12 @@ XMINT2 GameApp::RayTOModel(float sx,float sy)
 	return XMINT2(Map_x, Map_y);
 }
 
-void GameApp::FindPath()
+bool GameApp::FindPath()
 {
 	if (!menu)
 	{
+		
+
 		//重置寻路
 		if (unitlen == 0 || unitlen == Unit_MapOffset)
 		{
@@ -835,14 +844,22 @@ void GameApp::FindPath()
 		static float x = PlayerWorldPosition.x;
 		static float z = PlayerWorldPosition.z;
 		static bool findpath = false;
-		if (Mapindex.x >= 0)
+		
 		{
 			if (First || unitlen >= Unit_MapOffset)
 			{
+				if (Mapindex.x < 0)
+				{
+					return false;
+				}
+
 				findpath = m_GameMap.FindNextDirection(&m_Dir, PlayerPositionIndex.x, PlayerPositionIndex.y, Endindex.x, Endindex.y, ROT);
+				//寻路失败
+				if (!findpath)
+					return false;
+				
 				First = false;
 				unitlen = 0;
-
 				if (findpath)
 				{
 					switch (m_Dir)
@@ -917,7 +934,7 @@ void GameApp::FindPath()
 			}
 		}
 	}
-
+	return true;
 }
 
 void GameApp::RenderFbxModel()

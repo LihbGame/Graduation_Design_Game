@@ -11,9 +11,9 @@ SenceManager::~SenceManager()
 }
 
 //划分地图
-void SenceManager::DivisionMap(int UnitMapOffset)
+void SenceManager::DivisionMap(int UnitMapOffset, std::vector<std::vector<char>>* AIMapData)
 {
-	//预分配 4x(10x10) 
+	//预分配 9x(10x10) 
 	Sence.resize(9);
 	char* data = pLoadFile->GetData();
 	char* temp =0;
@@ -21,15 +21,22 @@ void SenceManager::DivisionMap(int UnitMapOffset)
 	{
 		for (int k = 0; k < UnitMapSize; ++k)
 		{
+			std::vector<char> OneRow;
 			for (int j = 0; j < 3; ++j)
 			{
 				for (int m = 0; m < UnitMapSize; ++m)
 				{
 					temp = &data[i*330+k*33+j*11+m];
+					
 					//忽略空格和换行符
 					while (*temp == ' ' || *temp == '\n')
 					{
 						temp++;
+					}
+					//AI data
+					if (AIMapData != nullptr)
+					{
+						OneRow.push_back(*temp);
 					}
 					//保存地图数据
 					Sence[i * 3 + j].SenceData[k][m] = *temp;
@@ -39,6 +46,11 @@ void SenceManager::DivisionMap(int UnitMapOffset)
 						Sence[i * 3 + j].IndexData.push_back(XMINT2(i * UnitMapSize + k, j * UnitMapSize + m));
 					}
 				}
+			}
+			//一行ai地图数据
+			if (AIMapData != nullptr)
+			{
+				AIMapData->push_back(OneRow);
 			}
 		}
 	}

@@ -167,24 +167,57 @@ bool CGameMap::FindNextDirection(DIRECT* newdir, int startX, int startY, int tar
 }
 
 
-bool CGameMap::ConvertMap()
+bool CGameMap::ConvertMap(std::vector<std::vector<char>>& MapData)
 {
-	for (int i = 1; i <=21; i++)
+	bool Left = true;
+	bool Top = true;
+	bool Right = true;
+	bool Botton = true;
+	for (int i = 0; i <MapSize; ++i)
 	{
 		std::vector<CGameMapelement> m_row;//一行地图
-		for (int j = 1; j <=21; j++)
+		for (int j = 0; j <MapSize; ++j)
 		{
-			m_row.push_back(CGameMapelement(i - 1, j - 1,
-				true,
-				true,
-				true,
-				true));
+
+			if (j == 0)//第一列
+			{
+				Left = false;
+			}
+			else if (j == (MapSize - 1))//最后一列
+			{
+				Right = false;
+			}
+
+
+			if(i==0)//第一行
+			{
+				Top = false;
+			}
+			else if(i==(MapSize-1))//最后一行
+			{
+				Botton = false;
+			}
+
+
+
+			m_row.push_back(CGameMapelement(i, j,
+				Left ? ((MapData[i][j - 1] == '+') ? true : false) : false,
+				Top ? ((MapData[i - 1][j] == '+') ? true : false) : false,
+				Right ? ((MapData[i][j + 1] == '+') ? true : false) : false,
+				Botton ? ((MapData[i + 1][j] == '+') ? true : false) : false));
+
 
 			/*m_row.push_back(CGameMapelement(i - 1, j - 1,
 				(FinderTankMap[i][j-1] == '-') ? false : true,
 				(FinderTankMap[i-1][j] == '-') ? false : true,
 				(FinderTankMap[i][j+1]=='-' )? false : true,
 				(FinderTankMap[i+1][j]== '-')? false : true));*/
+
+			//reset
+			Left = true;
+			Top = true;
+			Right = true;
+			Botton = true;
 		}
 		//加一行
 		m_arr.push_back(m_row);
