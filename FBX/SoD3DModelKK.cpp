@@ -183,8 +183,8 @@ void SoD3DModelKK::SetTexture(const wchar_t* szFileName)
 void SoD3DModelKK::SetNormalTexture(const wchar_t* szFileName)
 {
 	ID3D11Resource* texResource = nullptr;
-	HR(DirectX::CreateDDSTextureFromFile(D3DApp::Get()->GetD3DDevice() ,
-		szFileName, &texResource, &m_pNormalTexture))
+	HR(DirectX::CreateDDSTextureFromFile(D3DApp::Get()->GetD3DDevice(),
+		szFileName, &texResource, &m_pNormalTexture));
 	ReleaseCOM(texResource); // view saves reference
 	
 }

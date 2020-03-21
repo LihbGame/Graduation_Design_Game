@@ -142,8 +142,10 @@ int StKKModel::GetKeyFrameIndexByID(int nAnimID, float fTime) const
 	//
 	int nTime = (int)(fTime * 1000.0f);
 	int curTime = nTime % pAnim->nTimeLength;
+	
 	int nKeyFrameInterval = pAnim->nTimeLength / pAnim->nKeyFrameCount;
 	int nIndex = curTime / nKeyFrameInterval;
+	
 	if (nIndex < 0)
 	{
 		nIndex = 0;

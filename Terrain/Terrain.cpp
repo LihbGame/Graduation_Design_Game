@@ -18,22 +18,35 @@ Terrain::~Terrain()
 	ReleaseCOM(mBoxIB);
 }
 
-void Terrain::Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset)
+void Terrain::InitTerrain(ID3D11Device* md3dDevice,int MapSize, int UnitMapOffset, std::vector<UnitSence>& sence)
 {
 	XMMATRIX boxScale = XMMatrixScaling(15.0f, 15.0f, 15.0f);
 	XMMATRIX boxOffset = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-	//resize 
-	mInstance.resize(MapSize* MapSize);
-
-	float offset_border = -7.5f;
-	for (int i = 0; i < MapSize; ++i)
-	{		
-		for (int j = 0; j < MapSize; ++j)
+	float offsetX = 0.0f;
+	float offsetY = 0.0f;
+	float offsetZ = 0.0f;
+	InstancedData temp;
+	for (int index = 0; index < sence.size(); ++index)
+	{
+		offsetX = sence[index].SenceOffset.x;
+		offsetY = sence[index].SenceOffset.y;
+		offsetZ = sence[index].SenceOffset.z;
+		for (int i = 0; i < MapSize; ++i)
 		{
-			boxOffset = XMMatrixTranslation((i * UnitMapOffset - 60.0), offset_border, (j * UnitMapOffset - 60.0));
-			XMStoreFloat4x4(&mInstance[i*MapSize+j].World, boxScale * boxOffset);
-			mInstance[i*MapSize+j].TexIndex = rand() % 4;
+			for (int j = 0; j < MapSize; ++j)
+			{
+				if (sence[index].SenceData[i][j] == '+')
+				{
+					boxOffset = XMMatrixTranslation(offsetX + i * UnitMapOffset, 0.0f, offsetZ + j * UnitMapOffset);
+					XMStoreFloat4x4(&temp.World, boxScale * boxOffset);
+					temp.TexIndex = rand() % 4;
+					//实例化数据
+					mInstance.push_back(temp);
+					//场景数据
+					 sence[index].TansformData.push_back(temp.World);
+				}
+			}
 		}
 	}
 
@@ -59,6 +72,117 @@ void Terrain::Init(ID3D11Device* md3dDevice,int MapSize,int UnitMapOffset)
 	mTerrainMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	mTerrainMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mTerrainMat.Specular = XMFLOAT4(0.9f, 0.9f, 0.9f, 16.0f);
+}
+
+void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset, std::vector<UnitSence>& sence, std::vector <Model_Tansform_Info*>& PlayerInfo)
+{
+	float offsetX = 0.0f;
+	float offsetY = 0.0f;
+	float offsetZ = 0.0f;
+	for (int index = 0; index < sence.size(); ++index)
+	{
+		offsetX = sence[index].SenceOffset.x;
+		offsetY = sence[index].SenceOffset.y;
+		offsetZ = sence[index].SenceOffset.z;
+		for (int i = 0; i < MapSize; ++i)
+		{
+			for (int j = 0; j < MapSize; ++j)
+			{
+				offsetX += i * UnitMapOffset;
+				offsetZ += j * UnitMapOffset;
+				char temp = sence[index].SenceData[i][j];
+				
+				//Model 1  (蜘蛛怪)
+				if (temp == '1')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f));
+					ModelInfo.Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					//动态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 2 (树)
+				else if (temp == '2')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
+						* XMMatrixScaling(0.15f, 0.15f, 0.15f)
+						* XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 3 (白鹤)
+				else if (temp == '3')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+						* XMMatrixScaling(5.2f, 5.2f, 5.2f)
+						* XMMatrixTranslation(offsetX, 77.5f, offsetZ));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 4 (石山)
+				else if (temp == '4')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationX(MathHelper::Pi / 2)
+						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
+						* XMMatrixScaling(0.007f, 0.007f, 0.007f)
+						* XMMatrixTranslation(offsetX, 3.5f, offsetZ));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 5  (房屋1)
+				else if (temp == '5')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+						* XMMatrixScaling(2.0f, 2.0f, 2.0f)
+						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 6 (神像)
+				else if (temp == '6')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
+						* XMMatrixScaling(5.0f, 5.0f, 5.0f)
+						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 7 (小孩石像)
+				else if (temp == '7')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
+						* XMMatrixScaling(6.0f, 6.0f, 6.0f)
+						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+					//静态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//Model 8 PLAYER MODEL
+				else if (temp == '8')
+				{
+					Model_Tansform_Info ModelInfo;
+					ModelInfo.Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)  * XMMatrixScaling(0.002f, 0.002f, 0.002f));
+					ModelInfo.Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					
+					//动态物体
+					sence[index].ModelInfo[temp] = ModelInfo;
+				}
+				//reset offset
+				offsetX = sence[index].SenceOffset.x;
+				offsetZ = sence[index].SenceOffset.z;
+			}
+		}
+	}
+
+	//PLAYER info
+	PlayerInfo.push_back(&sence[0].ModelInfo['8']);
 }
 
 

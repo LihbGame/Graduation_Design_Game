@@ -41,7 +41,7 @@ SamplerComparisonState samShadow
     AddressU = uint(BORDER /* 4 */);
     AddressV = uint(BORDER /* 4 */);
     AddressW = uint(BORDER /* 4 */);
-    BorderColor = float4(0, 0, 0, 0);
+    BorderColor = float4(1, 1, 1, 0);
     ComparisonFunc = uint(LESS /* 2 */);
 };
 SamplerState SampleLinear

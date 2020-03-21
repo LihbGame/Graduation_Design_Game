@@ -37,6 +37,9 @@
     <Filter Include="ParticleSystem">
       <UniqueIdentifier>{df793dd6-4584-4743-900b-66ff6057eca1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SenceManager">
+      <UniqueIdentifier>{2f61da47-12ee-4925-be6f-7a6350bd2549}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -320,6 +323,9 @@
     <ClInclude Include="..\..\ParticleSystem\ParticleSystem.h">
       <Filter>ParticleSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\SenceManager\SenceManager.h">
+      <Filter>SenceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -522,6 +528,9 @@
     </ClCompile>
     <ClCompile Include="..\..\ParticleSystem\ParticleSystem.cpp">
       <Filter>ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SenceManager\SenceManager.cpp">
+      <Filter>SenceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
