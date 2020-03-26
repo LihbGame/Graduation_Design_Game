@@ -95,84 +95,67 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 				//Model 1  (蜘蛛怪)
 				if (temp == '1')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f));
-					ModelInfo.Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					sence[index].ModelInfo[temp].Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f));
+					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
 					//动态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 2 (树)
 				else if (temp == '2')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(0.15f, 0.15f, 0.15f)
 						* XMMatrixTranslation(offsetX, 7.5f, offsetZ));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 3 (白鹤)
 				else if (temp == '3')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixScaling(5.2f, 5.2f, 5.2f)
 						* XMMatrixTranslation(offsetX, 77.5f, offsetZ));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 4 (石山)
 				else if (temp == '4')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationX(MathHelper::Pi / 2)
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(0.007f, 0.007f, 0.007f)
 						* XMMatrixTranslation(offsetX, 3.5f, offsetZ));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 5  (房屋1)
 				else if (temp == '5')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixScaling(2.0f, 2.0f, 2.0f)
 						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 6 (神像)
 				else if (temp == '6')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(5.0f, 5.0f, 5.0f)
 						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 7 (小孩石像)
 				else if (temp == '7')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
+					//静态物体
+					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(6.0f, 6.0f, 6.0f)
 						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
-					//静态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
 				}
 				//Model 8 PLAYER MODEL
 				else if (temp == '8')
 				{
-					Model_Tansform_Info ModelInfo;
-					ModelInfo.Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)  * XMMatrixScaling(0.002f, 0.002f, 0.002f));
-					ModelInfo.Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
-					
 					//动态物体
-					sence[index].ModelInfo[temp] = ModelInfo;
+					sence[index].ModelInfo[temp].Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.1f, 0.1f, 0.1f));
+					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
 				}
 				//reset offset
 				offsetX = sence[index].SenceOffset.x;
@@ -187,7 +170,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 
 
 
-void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight& DirLight,ShadowMap* pShadowMap)
+void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight& DirLight,ShadowMap* pShadowMap,bool isClip)
 {
 	md3dImmediateContext->IASetInputLayout(InputLayouts::InstancedBasic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -204,10 +187,15 @@ void Terrain::Render(ID3D11DeviceContext* md3dImmediateContext, DirectionalLight
 	// Set per frame constants.
 	Effects::InstancedBasicFX->SetDirLights(DirLight);
 	Effects::InstancedBasicFX->SetEyePosW(Camera::Get()->GetPosition());
-	
-
-	ID3DX11EffectTechnique* activeTech = Effects::InstancedBasicFX->Light1TexTech;
-
+	ID3DX11EffectTechnique* activeTech;
+	if (!isClip)
+	{
+		 activeTech = Effects::InstancedBasicFX->Light1TexTech;
+	}
+	else
+	{
+		activeTech = Effects::InstancedBasicFX->Light1TexClipTech;
+	}
 	D3DX11_TECHNIQUE_DESC techDesc;
 	activeTech->GetDesc(&techDesc);
 	for (UINT p = 0; p < techDesc.Passes; ++p)

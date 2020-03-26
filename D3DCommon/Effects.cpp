@@ -101,6 +101,7 @@ InstancedBasicEffect::InstancedBasicEffect(ID3D11Device* device, const std::wstr
 
 	Light0TexTech = mFX->GetTechniqueByName("Light0Tex");
 	Light1TexTech = mFX->GetTechniqueByName("Light1Tex");
+	Light1TexClipTech= mFX->GetTechniqueByName("Light1TexClip");
 	Light2TexTech = mFX->GetTechniqueByName("Light2Tex");
 	Light3TexTech = mFX->GetTechniqueByName("Light3Tex");
 
@@ -180,8 +181,41 @@ ParticleEffect::~ParticleEffect()
 #pragma endregion
 
 
+#pragma region WaterRefractionMaskEffect
+
+WaterRefractionMaskEffect::WaterRefractionMaskEffect(ID3D11Device* device, const std::wstring& filename)
+	: GEffect(device, filename)
+{
+	WaterTech=mFX->GetTechniqueByName("WaterTech");
+	WorldViewProj = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
+}
+
+WaterRefractionMaskEffect::~WaterRefractionMaskEffect()
+{
+}
+#pragma endregion
+
+#pragma region WaterEffect
+
+WaterEffect::WaterEffect(ID3D11Device* device, const std::wstring& filename)
+	: GEffect(device, filename)
+{
+	WaterTech = mFX->GetTechniqueByName("Water");
+	WorldViewProj = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
+	World = mFX->GetVariableByName("gWorld")->AsMatrix();
+	EyePosW= mFX->GetVariableByName("gEyePosW")->AsVector();
+	WaveParams = mFX->GetVariableByName("gWaveParams")->AsVector();
+	NormalMap = mFX->GetVariableByName("gNormalMap")->AsShaderResource();
+	ReflectionMap = mFX->GetVariableByName("gReflectionMap")->AsShaderResource();
+	RefractionMap = mFX->GetVariableByName("gRefractionMap")->AsShaderResource();
+}
+
+WaterEffect::~WaterEffect()
+{
+}
 
 
+#pragma endregion
 
 #pragma region Effects
 
@@ -190,6 +224,8 @@ SkyEffect* Effects::SkyFX = 0;
 InstancedBasicEffect* Effects::InstancedBasicFX = 0;
 ParticleEffect* Effects::FireFX = 0;
 ParticleEffect* Effects::RainFX = 0;
+WaterRefractionMaskEffect* Effects::WaterRefractionMaskFX=0;
+WaterEffect* Effects::WaterFX=0;
 
 void Effects::InitAll(ID3D11Device* device)
 {
@@ -198,6 +234,8 @@ void Effects::InitAll(ID3D11Device* device)
 	InstancedBasicFX = new InstancedBasicEffect(device, L"shader/InstancedBasic.fxo");
 	FireFX = new ParticleEffect(device, L"shader/Fire.fxo");
 	RainFX = new ParticleEffect(device, L"shader/Rain.fxo");
+	WaterRefractionMaskFX= new WaterRefractionMaskEffect(device, L"shader/WaterRefractionMask.fxo");
+	WaterFX = new WaterEffect(device, L"shader/Water.fxo");
 }
 
 void Effects::DestroyAll()
@@ -207,5 +245,9 @@ void Effects::DestroyAll()
 	SafeDelete(InstancedBasicFX);
 	SafeDelete(FireFX);
 	SafeDelete(RainFX);
+	SafeDelete(WaterRefractionMaskFX);
+	SafeDelete(WaterFX);
 }
 #pragma endregion
+
+

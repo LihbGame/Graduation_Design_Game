@@ -40,6 +40,9 @@
     <Filter Include="SenceManager">
       <UniqueIdentifier>{2f61da47-12ee-4925-be6f-7a6350bd2549}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Water">
+      <UniqueIdentifier>{f78ffaa1-fea9-46e4-8f38-f2c11cd111f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc">
@@ -326,6 +329,9 @@
     <ClInclude Include="..\..\SenceManager\SenceManager.h">
       <Filter>SenceManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Water\Water.h">
+      <Filter>Water</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -532,6 +538,9 @@
     <ClCompile Include="..\..\SenceManager\SenceManager.cpp">
       <Filter>SenceManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Water\Water.cpp">
+      <Filter>Water</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
@@ -571,6 +580,12 @@
       <Filter>Shader</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\Rain.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\WaterRefractionMask.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Water.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
   </ItemGroup>

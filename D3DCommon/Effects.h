@@ -20,6 +20,53 @@ protected:
 };
 #pragma endregion
 
+#pragma region WaterEffect
+
+class WaterEffect :public GEffect
+{
+public:
+	WaterEffect(ID3D11Device* device, const std::wstring& filename);
+	~WaterEffect();
+
+	void SetWorldViewProj(CXMMATRIX M) { WorldViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }
+	void SetWorld(CXMMATRIX M) { World->SetMatrix(reinterpret_cast<const float*>(&M)); }
+	void SetNormalMap(ID3D11ShaderResourceView* tex) { NormalMap->SetResource(tex); }
+	void SetReflectionMap(ID3D11ShaderResourceView* tex) { ReflectionMap->SetResource(tex); }
+	void SetRefractionMap(ID3D11ShaderResourceView* tex) { RefractionMap->SetResource(tex); }
+	void SetEyePosW(const XMFLOAT3& v) { EyePosW->SetRawValue(&v, 0, sizeof(XMFLOAT3)); }
+	void SetWaveParams(const XMFLOAT4& v) { WaveParams->SetRawValue(&v, 0, sizeof(XMFLOAT4)); }
+
+
+
+
+	ID3DX11EffectTechnique* WaterTech;
+	ID3DX11EffectMatrixVariable* WorldViewProj;
+	ID3DX11EffectMatrixVariable* World;
+	ID3DX11EffectVectorVariable* EyePosW;
+	ID3DX11EffectVectorVariable* WaveParams;
+	ID3DX11EffectShaderResourceVariable* NormalMap;
+	ID3DX11EffectShaderResourceVariable* ReflectionMap;
+	ID3DX11EffectShaderResourceVariable* RefractionMap;
+};
+
+
+#pragma endregion
+
+
+#pragma region WaterRefractionMaskEffect
+class WaterRefractionMaskEffect:public GEffect
+{
+public:
+	WaterRefractionMaskEffect(ID3D11Device* device, const std::wstring& filename);
+	~WaterRefractionMaskEffect();
+	void SetWorldViewProj(CXMMATRIX M) { WorldViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }
+
+	ID3DX11EffectTechnique* WaterTech;
+	ID3DX11EffectMatrixVariable* WorldViewProj;
+};
+
+#pragma endregion
+
 #pragma region BasicEffect
 class BasicEffect : public GEffect
 {
@@ -149,6 +196,7 @@ public:
 
 	ID3DX11EffectTechnique* Light0TexTech;
 	ID3DX11EffectTechnique* Light1TexTech;
+	ID3DX11EffectTechnique* Light1TexClipTech;
 	ID3DX11EffectTechnique* Light2TexTech;
 	ID3DX11EffectTechnique* Light3TexTech;
 
@@ -244,6 +292,10 @@ public:
 	//Particle Effect
 	static ParticleEffect* FireFX;
 	static ParticleEffect* RainFX;
+	//Water Refraction Mask Effect 
+	static WaterRefractionMaskEffect* WaterRefractionMaskFX;
+	//water effect
+	static WaterEffect* WaterFX;
 };
 #pragma endregion
 

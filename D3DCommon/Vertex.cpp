@@ -19,6 +19,15 @@ const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::Basic32[3] =
 };
 
 
+const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::PosNormalTexTan[4] =
+{
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+
+
 const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::InstancedBasic32[9] =
 {
 	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -51,20 +60,34 @@ ID3D11InputLayout* InputLayouts::Pos = 0;
 ID3D11InputLayout* InputLayouts::Basic32 = 0;
 ID3D11InputLayout* InputLayouts::InstancedBasic32 = 0;
 ID3D11InputLayout* InputLayouts::Particle = 0;
-
+ID3D11InputLayout* InputLayouts::WaterMaskPos = 0;
+ID3D11InputLayout* InputLayouts::Water = 0;
 void InputLayouts::InitAll(ID3D11Device* device)
 {
 	D3DX11_PASS_DESC passDesc;
 
 
 	//
-	// Pos
+	// Sky Pos
 	//
 
 	Effects::SkyFX->SkyTech->GetPassByIndex(0)->GetDesc(&passDesc);
 	HR(device->CreateInputLayout(InputLayoutDesc::Pos, 1, passDesc.pIAInputSignature,
 		passDesc.IAInputSignatureSize, &Pos));
 
+	//
+	// Water mask Pos
+	//
+	Effects::WaterRefractionMaskFX->WaterTech->GetPassByIndex(0)->GetDesc(&passDesc);
+	HR(device->CreateInputLayout(InputLayoutDesc::Basic32, 3, passDesc.pIAInputSignature,
+		passDesc.IAInputSignatureSize, &WaterMaskPos));
+
+	//
+	// Water  Pos
+	//
+	Effects::WaterFX->WaterTech->GetPassByIndex(0)->GetDesc(&passDesc);
+	HR(device->CreateInputLayout(InputLayoutDesc::PosNormalTexTan, 4, passDesc.pIAInputSignature,
+		passDesc.IAInputSignatureSize, &Water));
 
 
 
@@ -100,6 +123,7 @@ void InputLayouts::DestroyAll()
 	ReleaseCOM(Basic32);
 	ReleaseCOM(InstancedBasic32);
 	ReleaseCOM(Particle);
+	ReleaseCOM(WaterMaskPos)
 }
 
 #pragma endregion

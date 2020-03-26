@@ -21,6 +21,7 @@
 #include "ShadowMap.h"
 #include "ParticleSystem.h"
 #include "SenceManager.h"
+#include "Water.h"
 //debug
 std::string str;
 
@@ -108,13 +109,13 @@ private:
 	//Load Texture
 	void LoadTexture();
 
-	//build  shadow instance data
+	//Build  shadow instance data
 	//static
 	void BuildStaticInstanceData();
 	//dynamic
 	void BuildDynamicInstanceData();
 
-	//draw shadow map
+	//Draw shadow map
 	void BuildShadowMap();
 
 	//Init Particle System
@@ -123,8 +124,15 @@ private:
 	void DrawParticle();
 	//Cull Sence
 	void CullSence();
+
+	///Water///
+	//Draw water Refraction map
+	void DrawWater();
+	void DrawWaterRefractionMap();
+	void DrawWaterReflectionMap();
 private:
 	ID3D11Buffer* mLandVB;
+	ID3D11Buffer* mWaterTangetVB;
 	ID3D11Buffer* mLandIB;
 
 	ID3D11Buffer* mWavesVB;
@@ -133,7 +141,7 @@ private:
 	//instance buffer data
 	ID3D11Buffer* mFBXInstanceBuffer[Model_Num];
 	//water texture
-	ID3D11ShaderResourceView* mSRV;
+	ID3D11ShaderResourceView* mWaterNormalSRV;
 
 	Waves mWaves;
 
@@ -204,6 +212,9 @@ private:
 	Terrain mTerrain;
 	//ShadowMap
 	ShadowMap* mShadowMap;
+	//water maps
+	Water* mWater;
+	XMFLOAT4 WaveParams;
 	//Particle System
 	ID3D11ShaderResourceView* mFireTexSRV;
 	ID3D11ShaderResourceView* mRainTexSRV;
@@ -240,7 +251,8 @@ GameApp::GameApp(HINSTANCE hInstance)
 	XMStoreFloat4x4(&mWavesWorld, I);
 	XMStoreFloat4x4(&mView, I);
 	XMStoreFloat4x4(&mProj, I);
-
+	
+	WaveParams = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	
 	//camera init
@@ -264,8 +276,8 @@ GameApp::GameApp(HINSTANCE hInstance)
 
 	//Direction light init
 	gDirLights.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	gDirLights.Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	gDirLights.Specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	gDirLights.Diffuse = XMFLOAT4(0.6f, 0.6f, 0.6f, 1.0f);
+	gDirLights.Specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	gDirLights.Direction = XMFLOAT3(0.57735f, -0.57735f, -0.57735f);
 
 
@@ -291,7 +303,7 @@ GameApp::~GameApp()
 	ReleaseCOM(mRandomTexSRV);
 	ReleaseCOM(mFireTexSRV);
 	ReleaseCOM(mRainTexSRV);
-	ReleaseCOM(mSRV);
+	ReleaseCOM(mWaterNormalSRV);
 
 
 	Effects::DestroyAll();
@@ -311,6 +323,8 @@ GameApp::~GameApp()
 	SafeDelete(mSkyBox);
 	//shadow map release
 	SafeDelete(mShadowMap);
+	//water release
+	SafeDelete(mWater);
 }
 
 bool GameApp::Init()
@@ -344,7 +358,7 @@ bool GameApp::Init()
 	RenderStates::InitAll(md3dDevice);
 	
 	//sky box init
-	mSkyBox = new Sky(md3dDevice,L"Textures/space3.dds",1000.0f);
+	mSkyBox = new Sky(md3dDevice,L"Textures/sunsetcube1024.dds",1000.0f);
 	
 	//shadow map init
 	mShadowMap = new ShadowMap(md3dDevice, SMapSize, SMapSize);
@@ -353,6 +367,9 @@ bool GameApp::Init()
 		mShadowMap->BuildShadowTransform(gDirLights);
 	}
 	
+	//water maps init
+	mWater = new Water(md3dDevice, mClientWidth, mClientHeight);
+
 	//load textures
 	LoadTexture();
 	
@@ -393,64 +410,69 @@ void GameApp::OnResize()
 void GameApp::UpdateScene(float dt)
 {
 
-
-	//每帧寻路
-	//判断动画状态
-	if (FindPath())
-	{//寻路成功
-		if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y) && !isMove)
+	if (!menu)
+	{
+		//每帧寻路
+		//判断动画状态
+		if (FindPath())
+		{//寻路成功
+			if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y) && !isMove)
+			{
+				mAnim = Anim_State::Idle;
+			}
+			else
+			{
+				mAnim = Anim_State::Run;
+			}
+		}
+		else//寻路失败
 		{
 			mAnim = Anim_State::Idle;
 		}
-		else
+		if (Mapindex.x < 0 && unitlen == Unit_MapOffset)
 		{
-			mAnim = Anim_State::Run;
+			mAnim = Anim_State::Idle;
 		}
+
+		//更新模型实例化buffer
+		BuildStaticInstanceData();
+		BuildDynamicInstanceData();
+
+		//mCamera->SetPosition(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60);
+		//mFire.SetEmitPos(XMFLOAT3(PlayerWorldPosition.x-10, PlayerWorldPosition.y +5 , PlayerWorldPosition.z +10 ));
+
+		mEyePosW = mCamera->GetPosition();
+
+		// Tile water texture.
+		XMMATRIX wavesScale = XMMatrixScaling(10.0f, 10.0f, 0.0f);
+
+		// Translate texture over time.
+		mWaterTexOffset.y += 0.05f * dt;
+		mWaterTexOffset.x += 0.05f * dt;
+		XMMATRIX wavesOffset = XMMatrixTranslation(mWaterTexOffset.x, mWaterTexOffset.y, 0.0f);
+
+		// Combine scale and translation.
+		XMStoreFloat4x4(&mWaterTexTransform, wavesScale * wavesOffset);
+
+		//获取按键消息
+		GetKeyState(dt);
+
+		//culling sence
+		CullSence();
+
+		//Update Fbx Animation
+		UpdateFbxAnimation(dt);
+
+		//gui update
+		m_pGameGUI->Update(dt);
+		//Fire Particle Update
+		//mFire.Update(dt, mTimer.TotalTime());
+		//Rain Particle Update
+		mRain.Update(dt, mTimer.TotalTime());
+
+		//update water
+		WaveParams.w = mTimer.TotalTime();
 	}
-	else//寻路失败
-	{
-		mAnim = Anim_State::Idle;
-	}
-	if (Mapindex.x < 0&& unitlen== Unit_MapOffset)
-	{
-		mAnim = Anim_State::Idle;
-	}
-
-	//更新模型实例化buffer
-	BuildStaticInstanceData();
-	BuildDynamicInstanceData();
-
-	//mCamera->SetPosition(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60);
-	//mFire.SetEmitPos(XMFLOAT3(PlayerWorldPosition.x-10, PlayerWorldPosition.y +5 , PlayerWorldPosition.z +10 ));
-
-	mEyePosW = mCamera->GetPosition();
-
-	// Tile water texture.
-	XMMATRIX wavesScale = XMMatrixScaling(10.0f, 10.0f, 0.0f);
-
-	// Translate texture over time.
-	mWaterTexOffset.y += 0.05f * dt;
-	mWaterTexOffset.x += 0.05f * dt;
-	XMMATRIX wavesOffset = XMMatrixTranslation(mWaterTexOffset.x, mWaterTexOffset.y, 0.0f);
-
-	// Combine scale and translation.
-	XMStoreFloat4x4(&mWaterTexTransform, wavesScale * wavesOffset);
-
-	//获取按键消息
-	GetKeyState(dt);
-
-	//culling sence
-	CullSence();
-
-	//Update Fbx Animation
-	UpdateFbxAnimation(dt);
-
-	//gui update
-	m_pGameGUI->Update(dt);
-	//Fire Particle Update
-	//mFire.Update(dt, mTimer.TotalTime());
-	//Rain Particle Update
-	mRain.Update(dt, mTimer.TotalTime());
 }
 
 void GameApp::DrawScene()
@@ -464,9 +486,11 @@ void GameApp::DrawScene()
 
 		//shadow map
 		BuildShadowMap();
+
 		
 
-		md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&GColors::Silver));
+
+		md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&GColors::White));
 		md3dImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		md3dImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
 		md3dImmediateContext->RSSetViewports(1, &mScreenViewport);
@@ -477,104 +501,39 @@ void GameApp::DrawScene()
 		//restore default states, as the SkyFX changes them in the effect file.
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-
-		md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
-		md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		
-
-		UINT stride = sizeof(Vertex::Basic32);
-		UINT offset = 0;
-
-		XMMATRIX view = mCamera->View();
-		XMMATRIX proj = mCamera->Proj();
-		XMMATRIX viewProj = view * proj;
-
-		// Set per frame constants.
-		Effects::BasicFX->SetEyePosW(mEyePosW);
-		Effects::BasicFX->SetFogColor(GColors::Silver);
-		Effects::BasicFX->SetFogStart(mTimer.TotalTime());
-		Effects::BasicFX->SetFogRange(175.0f);
-
-		ID3DX11EffectTechnique* boxTech;
-		ID3DX11EffectTechnique* landAndWavesTech;
-
-		switch (mRenderOptions)
-		{
-		case Render_Options::Lighting:
-			boxTech = Effects::BasicFX->Light3Tech;
-			landAndWavesTech = Effects::BasicFX->Light3Tech;
-			break;
-		case Render_Options::Textures:
-			boxTech = Effects::BasicFX->Light3TexAlphaClipTech;
-			landAndWavesTech = Effects::BasicFX->Light3TexTech;
-			break;
-		case Render_Options::TexturesAndFog:
-			boxTech = Effects::BasicFX->Light3TexAlphaClipFogTech;
-			landAndWavesTech = Effects::BasicFX->Light1TexFogTech;
-			break;
-		}
-
-		D3DX11_TECHNIQUE_DESC techDesc;
-
-
-
-
 		//
 		// Draw the terrain with alpha clipping.
 		// 
 
-		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap);
+		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
 		//	// Restore default render state.
 			//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 		//}
 
-		//
-		// Draw the  water with texture and fog (no alpha clipping needed).
-		//
+	
 
-		landAndWavesTech->GetDesc(&techDesc);
-		for (UINT p = 0; p < techDesc.Passes; ++p)
-		{
-			//
-			// Draw the hills.
-			//
-			
-			md3dImmediateContext->IASetVertexBuffers(0, 1, &mLandVB, &stride, &offset);
-			md3dImmediateContext->IASetIndexBuffer(mLandIB, DXGI_FORMAT_R32_UINT, 0);
-
-			// Set per object constants.
-			XMMATRIX world = XMMatrixTranslation(0.0f, 0.0f, 0.0f) * XMLoadFloat4x4(&mLandWorld);
-			XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-			XMMATRIX worldViewProj = world * view * proj;
-			Effects::BasicFX->SetDirLights(&gDirLights);
-			Effects::BasicFX->SetWave(true);
-			Effects::BasicFX->SetWorld(world);
-			Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-			Effects::BasicFX->SetWorldViewProj(worldViewProj);
-			Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mWaterTexTransform));
-			Effects::BasicFX->SetMaterial(mWavesMat);
-			Effects::BasicFX->SetDiffuseMap(mSRV);
-			Effects::BasicFX->SetFogRange(175.0f);
-			landAndWavesTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-			md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
-
-		}
 		//fbx model
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
 		RenderFbxModel();
-		//render gui
-		m_pGameGUI->Render();
+
+		
+
 		//draw particle
-		//md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff); // restore default
 		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
 		DrawParticle();
 
+		//water
+		DrawWater();
+
+
+
+		//render gui
+		m_pGameGUI->Render();
+
+	
 		// restore default states.
-		md3dImmediateContext->RSSetState(0);
-		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
 		HR(mSwapChain->Present(0, 0));
 	}
 	
@@ -668,7 +627,7 @@ void GameApp::BuildLandGeometryBuffers()
 
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(2000.0f, 2000.0f, 200, 200, grid);
+	geoGen.CreateGrid(1000.0f, 1000.0f, 300, 300, grid);
 
 	mLandIndexCount = grid.Indices.size();
 
@@ -678,6 +637,7 @@ void GameApp::BuildLandGeometryBuffers()
 	//
 
 	std::vector<Vertex::Basic32> vertices(grid.Vertices.size());
+	std::vector<Vertex::PosNormalTexTan> Watervertices(grid.Vertices.size());
 	for (UINT i = 0; i < grid.Vertices.size(); ++i)
 	{
 		XMFLOAT3 p = grid.Vertices[i].Position;
@@ -687,6 +647,12 @@ void GameApp::BuildLandGeometryBuffers()
 		vertices[i].Pos = p;
 		vertices[i].Normal = XMFLOAT3(0.0f,1.0f,0.0f);
 		vertices[i].Tex = grid.Vertices[i].TexC;
+
+
+		Watervertices[i].Pos = p;
+		Watervertices[i].Normal = grid.Vertices[i].Normal;
+		Watervertices[i].Tex = grid.Vertices[i].TexC;
+		Watervertices[i].TangentU = grid.Vertices[i].TangentU;
 	}
 
 	D3D11_BUFFER_DESC vbd;
@@ -698,6 +664,10 @@ void GameApp::BuildLandGeometryBuffers()
 	D3D11_SUBRESOURCE_DATA vinitData;
 	vinitData.pSysMem = &vertices[0];
 	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mLandVB));
+	//water tanget pos
+	vbd.ByteWidth = sizeof(Vertex::PosNormalTexTan) * grid.Vertices.size();
+	vinitData.pSysMem = &Watervertices[0];
+	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mWaterTangetVB));
 
 	//
 	// Pack the indices of all the meshes into one index buffer.
@@ -1022,100 +992,6 @@ void GameApp::GetKeyState(float dt)
 
 void GameApp::InitFbxModel()
 {
-
-	///////fbx model tansform information initialization(与模型下标统一)
-	////{
-	////	//Model 1  (蜘蛛怪)
-	////	m_ModeInfo[0].Model_Instance_Num = Model1_Instance;
-	////	m_ModeInfo[0].Mat_tansform_Rot_Scal.resize(Model1_Instance);
-	////	m_ModeInfo[0].Mat_tansform_Translation.resize(Model1_Instance);
-	////	for (int i = 0; i < Model1_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-2.0f, 19.0f) * Unit_MapOffset;
-	////		int location_offset_z = (int)MathHelper::RandF(-2.0f, 19.0f) * Unit_MapOffset;
-	////		m_ModeInfo[0].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f);
-	////		m_ModeInfo[0].Mat_tansform_Translation[i] = XMMatrixTranslation(location_offset_x+4.5f, 0.0f, 3.0f + location_offset_z);
-	////	}
-	////	//Model 2 (树)
-	////	m_ModeInfo[1].Model_Instance_Num = Model2_Instance;
-	////	m_ModeInfo[1].Mat_World.resize(Model2_Instance);
-	////	for (int i = 0; i < Model2_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-	////		int location_offset_z = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-	////		m_ModeInfo[1].Mat_World[i] = XMMatrixRotationY(location_offset_x % 3) 
-	////			* XMMatrixScaling(0.15f, 0.15f, 0.15f)
-	////			*XMMatrixTranslation(-13.0f + location_offset_x, 0.0f, 5.0f + location_offset_z);
-	////	}
-	////	//Model 3 (白鹤)
-	////	m_ModeInfo[2].Model_Instance_Num = Model3_Instance;
-	////	m_ModeInfo[2].Mat_World.resize(Model3_Instance);
-	////	for (int i = 0; i < Model3_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-1.0f, 64.0f) * 4;
-	////		int location_offset_z = (int)MathHelper::RandF(-1.0f, 64.0f) * 4;
-	////		m_ModeInfo[2].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
-	////			* XMMatrixScaling(5.2f, 5.2f,5.2f)
-	////			* XMMatrixTranslation(20.0f + location_offset_x, 70.0f, 5.0f + location_offset_z);
-	////	}
-	////	//Model 4 (石山)
-	////	m_ModeInfo[3].Model_Instance_Num = Model4_Instance;
-	////	m_ModeInfo[3].Mat_World.resize(Model4_Instance);
-	////	for (int i = 0; i < Model4_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-	////		int location_offset_z = (int)MathHelper::RandF(-5.0f, 16.0f) * Unit_MapOffset;
-	////		m_ModeInfo[3].Mat_World[i] = XMMatrixRotationX(MathHelper::Pi / 2) 
-	////			* XMMatrixRotationY(location_offset_x % 3) 
-	////			* XMMatrixScaling(0.007f, 0.007f, 0.007f)
-	////			* XMMatrixTranslation(5.0f + location_offset_x, -4.0f, -9.0f + location_offset_z);
-	////	}
-	////	//Model 5  (房屋1)
-	////	m_ModeInfo[4].Model_Instance_Num = Model5_Instance;
-	////	m_ModeInfo[4].Mat_World.resize(Model5_Instance);
-	////	for (int i = 0; i < Model5_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-50.0f, 50.0f) * 4;
-	////		int location_offset_z = (int)MathHelper::RandF(-50.0f, 50.0f) * 4;
-	////		m_ModeInfo[4].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
-	////			* XMMatrixScaling(2.0f, 2.0f, 2.0f)
-	////			* XMMatrixTranslation(20.0f + location_offset_x, 0.0f, 100.0f + location_offset_z);
-	////	}
-	////	//Model 6 (神像)
-	////	m_ModeInfo[5].Model_Instance_Num = Model6_Instance;
-	////	m_ModeInfo[5].Mat_World.resize(Model6_Instance);
-	////	for (int i = 0; i < Model6_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-	////		int location_offset_z = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-	////		m_ModeInfo[5].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
-	////			* XMMatrixRotationY(location_offset_x % 3) 
-	////			* XMMatrixScaling(5.0f, 5.0f, 5.0f)
-	////			* XMMatrixTranslation(location_offset_x+5.0f, 0.0f, location_offset_z + 5.0f);
-	////	}
-	////	//Model 7 (小孩石像)
-	////	m_ModeInfo[6].Model_Instance_Num = Model7_Instance;
-	////	m_ModeInfo[6].Mat_World.resize(Model7_Instance);
-	////	for (int i = 0; i < Model7_Instance; ++i)
-	////	{
-	////		int location_offset_x = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-	////		int location_offset_z = (int)MathHelper::RandF(-3.0f, 16.0f) * Unit_MapOffset;
-	////		m_ModeInfo[6].Mat_World[i] = XMMatrixRotationX(-MathHelper::Pi / 2) 
-	////			* XMMatrixRotationY(location_offset_x % 3) 
-	////			* XMMatrixScaling(6.0f, 6.0f, 6.0f)
-	////			* XMMatrixTranslation(location_offset_x+5.0f, 0.0f, location_offset_z + 5.0f);
-	////	}
-	////	//Model 8 PLAYER MODEL
-	////	m_ModeInfo[7].Model_Instance_Num = Model8_Instance;
-	////	m_ModeInfo[7].Mat_tansform_Rot_Scal.resize(Model8_Instance);
-	////	m_ModeInfo[7].Mat_tansform_Translation.resize(Model8_Instance);
-	////	for (int i = 0; i < Model8_Instance; ++i)
-	////	{
-	////		m_ModeInfo[7].Mat_tansform_Rot_Scal[i] = XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixRotationY(0) * XMMatrixScaling(0.002f ,0.002f, 0.002f);
-	////		m_ModeInfo[7].Mat_tansform_Translation[i] = XMMatrixTranslation(PlayerPositionX, 0.0f, PlayerPositionY);
-	////	}
-	////}
-
 	//player position init
 	XMFLOAT4X4 PlayerTranslation;
 	XMStoreFloat4x4(&PlayerTranslation, m_PlayerInfo[0]->Mat_tansform_Translation[0]);
@@ -1176,12 +1052,13 @@ void GameApp::InitFbxModel()
 	}
 	//Model 8 PLAYER MODEL
 	{
-		m_Models[7].CreateFileFbx("model/MercFemale.FBX");
-		m_Models[7].CreateFileKkb("model/MercFemale.kkb");
-		m_Models[7].CreateFileKkf("model/MercFemale_Run.kkf", Anim_State::Run);
-		m_Models[7].CreateFileKkf("model/MercFemale_IdleLoop.kkf", Anim_State::Idle);
-		m_Models[7].CreateImage(L"model/MercFemale_Albedo.dds");
-		m_Models[7].CreateNormalTexture(L"model/MercFemale_Albedo_NRM.dds");
+
+		m_Models[7].CreateFileFbx("model/TraumaGuard.FBX");
+		m_Models[7].CreateFileKkb("model/TraumaGuard.kkb");
+		m_Models[7].CreateFileKkf("model/TraumaGuard_Run.kkf", Anim_State::Run);
+		m_Models[7].CreateFileKkf("model/TraumaGuard_ActiveIdleLoop.kkf", Anim_State::Idle);
+		m_Models[7].CreateImage(L"model/TraumaGuard_Albedo.dds");
+		m_Models[7].CreateNormalTexture(L"model/TraumaGuard_Normal.dds");
 		m_Models[7].SetModelTansInfo(m_PlayerInfo[0]);
 	}
 
@@ -1217,7 +1094,7 @@ void GameApp::LoadTexture()
 {
 	ID3D11Resource* texResource = nullptr;
 	HR(DirectX::CreateDDSTextureFromFile(md3dDevice,
-		L"Textures/water3.dds", &texResource, &mSRV));
+		L"Textures/wavesbump.dds", &texResource, &mWaterNormalSRV));
 	ReleaseCOM(texResource); // view saves reference
 
 }
@@ -1429,6 +1306,134 @@ void GameApp::CullSence()
 			VisibleTerrainData.push_back(TerrainSenceData[i]);
 		}
 	}
+}
+
+void GameApp::DrawWater()
+{
+	//Refraction Map
+	//DrawWaterRefractionMap();
+
+	//Reflection Map
+	DrawWaterReflectionMap();
+
+	//Draw water
+	md3dImmediateContext->IASetInputLayout(InputLayouts::Water);
+	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	D3DX11_TECHNIQUE_DESC techDesc;
+	Effects::WaterFX->WaterTech->GetDesc(&techDesc);
+	UINT stride = sizeof(Vertex::PosNormalTexTan);
+	UINT offset = 0;
+
+	for (UINT p = 0; p < techDesc.Passes; ++p)
+	{
+		md3dImmediateContext->IASetVertexBuffers(0, 1, &mWaterTangetVB, &stride, &offset);
+		md3dImmediateContext->IASetIndexBuffer(mLandIB, DXGI_FORMAT_R32_UINT, 0);
+		// Set per object constants.
+		XMMATRIX world = XMMatrixTranslation(0.0f, 0.0f, 0.0f) * XMLoadFloat4x4(&mLandWorld);
+		XMMATRIX worldViewProj = world * mCamera->View() * mCamera->Proj();
+		Effects::WaterFX->SetWorld(world);
+		Effects::WaterFX->SetWorldViewProj(worldViewProj);
+		Effects::WaterFX->SetEyePosW(mCamera->GetPosition());
+		Effects::WaterFX->SetWaveParams(WaveParams);
+		//change to single sample 
+		ID3D11Resource* Dst = 0;
+		ID3D11Resource* Src = 0;
+		mWater->SingleReflectionSRV()->GetResource(&Dst);
+		mWater->ReflectionSRV()->GetResource(&Src);
+		md3dImmediateContext->ResolveSubresource(Dst,0, Src, 0,DXGI_FORMAT_R8G8B8A8_UNORM);
+
+
+		Effects::WaterFX->SetReflectionMap(mWater->SingleReflectionSRV());
+		Effects::WaterFX->SetRefractionMap(mWater->SingleRefractionSRV());
+		Effects::WaterFX->SetNormalMap(mWaterNormalSRV);
+		Effects::WaterFX->WaterTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+		md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
+	}
+
+}
+
+void GameApp::DrawWaterRefractionMap()
+{
+	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	md3dImmediateContext->RSSetState(0);
+	md3dImmediateContext->OMSetDepthStencilState(0, 0);
+	// Render refractive mesh (water) into alpha channel, as white to create the Refraction Mask
+	md3dImmediateContext->OMSetBlendState(RenderStates::WriteAlphaBS, blendFactor, 0xffffffff);
+	md3dImmediateContext->IASetInputLayout(InputLayouts::WaterMaskPos);
+	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	D3DX11_TECHNIQUE_DESC techDesc;
+	Effects::WaterRefractionMaskFX->WaterTech->GetDesc(&techDesc);
+	UINT stride = sizeof(Vertex::Basic32);
+	UINT offset = 0;
+	for (UINT p = 0; p < techDesc.Passes; ++p)
+	{
+		md3dImmediateContext->IASetVertexBuffers(0, 1, &mLandVB, &stride, &offset);
+		md3dImmediateContext->IASetIndexBuffer(mLandIB, DXGI_FORMAT_R32_UINT, 0);
+		// Set per object constants.
+		XMMATRIX world = XMMatrixTranslation(0.0f, 0.0f, 0.0f) * XMLoadFloat4x4(&mLandWorld);
+		XMMATRIX worldViewProj = world * mCamera->View() * mCamera->Proj();
+		Effects::WaterRefractionMaskFX->SetWorldViewProj(worldViewProj);
+		Effects::WaterRefractionMaskFX->WaterTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+		md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
+	}
+
+	md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
+	// Copy backbuffer into refraction map texture
+	ID3D11Resource* Dst = 0;
+	ID3D11Resource* Src = 0;
+	mWater->SingleRefractionSRV()->GetResource(&Dst);
+	mRenderTargetView->GetResource(&Src);
+	md3dImmediateContext->ResolveSubresource(Dst, 0, Src, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	//reset
+	md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
+}
+
+void GameApp::DrawWaterReflectionMap()
+{
+	ID3D11RenderTargetView* RenderTargetView[1] = { mWater->ReflectionRTV() };
+	ID3D11DepthStencilView* DepthStencilView[1] = { mWater->ReflectionDepthMapDSV() };
+	md3dImmediateContext->ClearRenderTargetView(*RenderTargetView, reinterpret_cast<const float*>(&GColors::White));
+	md3dImmediateContext->ClearDepthStencilView(*DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	md3dImmediateContext->OMSetRenderTargets(1, RenderTargetView, *DepthStencilView);
+	//md3dImmediateContext->RSSetViewports(1, &mScreenViewport);
+	
+
+	// Apply reflection on WorldViewProj matrix
+	XMMATRIX View= mCamera->View();
+	XMMATRIX Proj = mCamera->Proj();
+	mCamera->SetView(XMMatrixScaling(1.0f, -1.0f, 1.0f) * View);
+
+	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	//render sence
+	{
+		
+		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
+		//sky box render
+		mSkyBox->Draw(md3dImmediateContext, *mCamera);
+		//restore default states, as the SkyFX changes them in the effect file.
+		md3dImmediateContext->RSSetState(0);
+		md3dImmediateContext->OMSetDepthStencilState(0, 0);
+
+		// Draw the terrain 
+		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
+		mTerrain.Render(md3dImmediateContext, gDirLights, mShadowMap,false);
+		md3dImmediateContext->OMSetDepthStencilState(0, 0);
+
+		//fbx model
+		RenderFbxModel();
+
+		//draw particle
+		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
+		DrawParticle();
+	}
+
+	//RESET States
+	mCamera->SetView(View);
+	md3dImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
+	md3dImmediateContext->RSSetState(0);
+	md3dImmediateContext->OMSetDepthStencilState(0, 0);
+	md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xFFFFFFFF);
 }
 
 

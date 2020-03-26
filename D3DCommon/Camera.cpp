@@ -166,6 +166,11 @@ XMMATRIX Camera::ViewProj()const
 	return XMMatrixMultiply(View(), Proj());
 }
 
+void Camera::SetView(XMMATRIX view)
+{
+	XMStoreFloat4x4(&mView, view);
+}
+
 void Camera::Strafe(float d)
 {
 	// mPosition += d*mRight

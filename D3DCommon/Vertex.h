@@ -42,6 +42,7 @@ public:
 	static const D3D11_INPUT_ELEMENT_DESC Basic32[3];
 	static const D3D11_INPUT_ELEMENT_DESC InstancedBasic32[9];
 	static const D3D11_INPUT_ELEMENT_DESC Particle[5];
+	static const D3D11_INPUT_ELEMENT_DESC PosNormalTexTan[4];
 };
 
 class InputLayouts
@@ -51,9 +52,11 @@ public:
 	static void DestroyAll();
 
 	static ID3D11InputLayout* Pos;
+	static ID3D11InputLayout* WaterMaskPos;
 	static ID3D11InputLayout* Basic32;
 	static ID3D11InputLayout* InstancedBasic32;
 	static ID3D11InputLayout* Particle;
+	static ID3D11InputLayout* Water;
 };
 
 #endif // VERTEX_H
