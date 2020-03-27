@@ -352,7 +352,7 @@ fxgroup
                 mul r2.xy, r1.xyxx, l(0.020000, 0.020000, 0.000000, 0.000000)  // r2.x <- vRefrBump.x; r2.y <- vRefrBump.y
                 
                 #line 137
-                mul r1.xyz, r1.xyzx, l(0.050000, 0.050000, 1.000000, 0.000000)  // r1.x <- vReflBump.x; r1.y <- vReflBump.y; r1.z <- vReflBump.z
+                mul r1.xyz, r1.xyzx, l(0.020000, 0.020000, 1.000000, 0.000000)  // r1.x <- vReflBump.x; r1.y <- vReflBump.y; r1.z <- vReflBump.z
                 
                 #line 141
                 div r2.zw, v5.xxxy, v5.wwww  // r2.z <- vProj.x; r2.w <- vProj.y

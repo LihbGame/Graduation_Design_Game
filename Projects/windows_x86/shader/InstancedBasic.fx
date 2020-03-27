@@ -82,6 +82,7 @@ struct VertexOut
 	float2 Tex     : TEXCOORD0;
     float3 TangentW : TANGENT;
     uint TexIndex    : INDEX;
+    uint MipmapIndex : INDEX1;
     float4 ShadowPosH : TEXCOORD1;
 };
 
@@ -109,6 +110,9 @@ VertexOut VS(VertexIn vin, uniform bool gUseClip)
     {
         vout.ClipValue = 1.0f;
     }
+    //mipmap index
+    vout.MipmapIndex = length(gEyePosW - vout.PosW)/60+1;
+
 
 	// Output vertex attributes for interpolation across triangle.
 	//vout.Tex   = mul(float4(vin.Tex, 0.0f, 1.0f), gTexTransform).xy;
@@ -144,24 +148,24 @@ float4 PS(VertexOut pin, uniform int gLightCount, uniform bool gUseTexure, unifo
         switch(pin.TexIndex)
         {
         case 0:
-            texColor = gDiffuseMap[0].Sample(samAnisotropic, pin.Tex);
-            normalMapSample = gNormalMap[0].Sample(SampleLinear, pin.Tex).rgb;
+            texColor = gDiffuseMap[0].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex);
+            normalMapSample = gNormalMap[0].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex).rgb;
             break;
         case 1:
-            texColor = gDiffuseMap[1].Sample(samAnisotropic, pin.Tex);
-            normalMapSample = gNormalMap[1].Sample(SampleLinear, pin.Tex).rgb;
+            texColor = gDiffuseMap[1].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex);
+            normalMapSample = gNormalMap[1].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex).rgb;
             break;
         case 2:
-            texColor = gDiffuseMap[2].Sample(samAnisotropic, pin.Tex);
-            normalMapSample = gNormalMap[2].Sample(SampleLinear, pin.Tex).rgb;
+            texColor = gDiffuseMap[2].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex);
+            normalMapSample = gNormalMap[2].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex).rgb;
             break;
         case 3:
-            texColor = gDiffuseMap[3].Sample(samAnisotropic, pin.Tex);
-            normalMapSample = gNormalMap[3].Sample(SampleLinear, pin.Tex).rgb;
+            texColor = gDiffuseMap[3].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex);
+            normalMapSample = gNormalMap[3].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex).rgb;
             break;
         case 4:
-            texColor = gDiffuseMap[4].Sample(samAnisotropic, pin.Tex);
-            normalMapSample = gNormalMap[4].Sample(SampleLinear, pin.Tex).rgb;
+            texColor = gDiffuseMap[4].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex);
+            normalMapSample = gNormalMap[4].SampleLevel(samAnisotropic, pin.Tex, pin.MipmapIndex).rgb;
             break;
         }
 		
