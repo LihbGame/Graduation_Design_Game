@@ -627,7 +627,7 @@ void GameApp::BuildLandGeometryBuffers()
 
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(1000.0f, 1000.0f, 300, 300, grid);
+	geoGen.CreateGrid(1000.0f, 1000.0f, 10, 10, grid);
 
 	mLandIndexCount = grid.Indices.size();
 
@@ -1311,7 +1311,7 @@ void GameApp::CullSence()
 void GameApp::DrawWater()
 {
 	//Refraction Map
-	//DrawWaterRefractionMap();
+	DrawWaterRefractionMap();
 
 	//Reflection Map
 	DrawWaterReflectionMap();
@@ -1341,7 +1341,8 @@ void GameApp::DrawWater()
 		mWater->SingleReflectionSRV()->GetResource(&Dst);
 		mWater->ReflectionSRV()->GetResource(&Src);
 		md3dImmediateContext->ResolveSubresource(Dst,0, Src, 0,DXGI_FORMAT_R8G8B8A8_UNORM);
-
+		ReleaseCOM(Dst);
+		ReleaseCOM(Src);
 
 		Effects::WaterFX->SetReflectionMap(mWater->SingleReflectionSRV());
 		Effects::WaterFX->SetRefractionMap(mWater->SingleRefractionSRV());
@@ -1383,8 +1384,10 @@ void GameApp::DrawWaterRefractionMap()
 	ID3D11Resource* Src = 0;
 	mWater->SingleRefractionSRV()->GetResource(&Dst);
 	mRenderTargetView->GetResource(&Src);
+	//HR(mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Src)));
 	md3dImmediateContext->ResolveSubresource(Dst, 0, Src, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
-
+	ReleaseCOM(Dst);
+	ReleaseCOM(Src);
 	//reset
 	md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
 }
@@ -1432,7 +1435,7 @@ void GameApp::DrawWaterReflectionMap()
 	mCamera->SetView(View);
 	md3dImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
 	md3dImmediateContext->RSSetState(0);
-	md3dImmediateContext->OMSetDepthStencilState(0, 0);
+	md3dImmediateContext->OMSetDepthStencilState(RenderStates::LessEqualsDSS, 0);
 	md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xFFFFFFFF);
 }
 

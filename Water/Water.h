@@ -9,7 +9,6 @@ public:
 
 
 	ID3D11ShaderResourceView* ReflectionSRV();
-	ID3D11ShaderResourceView* RefractionSRV();
 	ID3D11ShaderResourceView* SingleReflectionSRV();
 	ID3D11ShaderResourceView* SingleRefractionSRV();
 
@@ -24,7 +23,6 @@ private:
 	UINT mHeight;
 
 	ID3D11ShaderResourceView* mReflectionSRV;
-	ID3D11ShaderResourceView* mRefractionSRV;
 
 	ID3D11ShaderResourceView* mSingleReflectionSRV;
 	ID3D11ShaderResourceView* mSingleRefractionSRV;

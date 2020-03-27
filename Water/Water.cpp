@@ -4,7 +4,6 @@ Water::Water(ID3D11Device* device, UINT width, UINT height)
 	: mWidth(width),
 	mHeight(height), 
 	mReflectionSRV(0),
-	mRefractionSRV(0), 
 	mReflectionRTV(0),
 	mDepthMapDSV(0)
 {									
@@ -39,7 +38,6 @@ Water::Water(ID3D11Device* device, UINT width, UINT height)
 	srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	HR(device->CreateShaderResourceView(ReflectionMap, &srvDesc, &mReflectionSRV));
-	HR(device->CreateShaderResourceView(RefractionMap, &srvDesc, &mRefractionSRV));
 
 
 	//depth map
@@ -100,7 +98,6 @@ Water::Water(ID3D11Device* device, UINT width, UINT height)
 Water::~Water()
 {
 	ReleaseCOM(mReflectionSRV);
-	ReleaseCOM(mRefractionSRV);
 	ReleaseCOM(mReflectionRTV);
 	ReleaseCOM(mDepthMapDSV);
 	ReleaseCOM(mSingleReflectionSRV);
@@ -112,10 +109,6 @@ ID3D11ShaderResourceView* Water::ReflectionSRV()
 	return mReflectionSRV;
 }
 
-ID3D11ShaderResourceView* Water::RefractionSRV()
-{
-	return mRefractionSRV;
-}
 
 ID3D11ShaderResourceView* Water::SingleReflectionSRV()
 {
