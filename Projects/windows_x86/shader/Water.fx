@@ -134,7 +134,7 @@ float4 PS(VertexOut pin) : SV_Target
 
     // Apply individual bump scale for refraction and reflection
     float3 vRefrBump = vBumpTex.xyz * float3(0.02, 0.02, 1.0);
-    float3 vReflBump = vBumpTex.xyz * float3(0.02, 0.02, 1.0);
+    float3 vReflBump = vBumpTex.xyz * float3(0.1, 0.1, 1.0);
 
 
     // Compute projected coordinates

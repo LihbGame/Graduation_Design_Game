@@ -52,6 +52,14 @@ const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::Particle[5] =
 };
 
 
+const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::Terrain[3] =
+{
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+
+
 #pragma endregion
 
 #pragma region InputLayouts
@@ -62,6 +70,8 @@ ID3D11InputLayout* InputLayouts::InstancedBasic32 = 0;
 ID3D11InputLayout* InputLayouts::Particle = 0;
 ID3D11InputLayout* InputLayouts::WaterMaskPos = 0;
 ID3D11InputLayout* InputLayouts::Water = 0;
+ID3D11InputLayout* InputLayouts::Terrain = 0;
+
 void InputLayouts::InitAll(ID3D11Device* device)
 {
 	D3DX11_PASS_DESC passDesc;
@@ -115,6 +125,14 @@ void InputLayouts::InitAll(ID3D11Device* device)
 	Effects::FireFX->StreamOutTech->GetPassByIndex(0)->GetDesc(&passDesc);
 	HR(device->CreateInputLayout(InputLayoutDesc::Particle, 5, passDesc.pIAInputSignature,
 		passDesc.IAInputSignatureSize, &Particle));
+
+	//
+	// Terrain
+	//
+
+	Effects::TerrainFX->Light1Tech->GetPassByIndex(0)->GetDesc(&passDesc);
+	HR(device->CreateInputLayout(InputLayoutDesc::Terrain, 3, passDesc.pIAInputSignature,
+		passDesc.IAInputSignatureSize, &Terrain));
 }
 
 void InputLayouts::DestroyAll()
@@ -123,7 +141,8 @@ void InputLayouts::DestroyAll()
 	ReleaseCOM(Basic32);
 	ReleaseCOM(InstancedBasic32);
 	ReleaseCOM(Particle);
-	ReleaseCOM(WaterMaskPos)
+	ReleaseCOM(WaterMaskPos);
+	ReleaseCOM(Terrain);
 }
 
 #pragma endregion

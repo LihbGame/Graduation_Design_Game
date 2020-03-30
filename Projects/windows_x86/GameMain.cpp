@@ -22,6 +22,7 @@
 #include "ParticleSystem.h"
 #include "SenceManager.h"
 #include "Water.h"
+#include "HeightmapTerrain.h"
 //debug
 std::string str;
 
@@ -124,6 +125,8 @@ private:
 	void DrawParticle();
 	//Cull Sence
 	void CullSence();
+	//Heightmap  Terrain
+	void HeightmapTerrainInit();
 
 	///Water///
 	//Draw water Refraction map
@@ -210,6 +213,7 @@ private:
 	Sky* mSkyBox;
 	//Terrain
 	Terrain mTerrain;
+	HeightmapTerrain mHMapTerrain;
 	//ShadowMap
 	ShadowMap* mShadowMap;
 	//water maps
@@ -348,7 +352,8 @@ bool GameApp::Init()
 	//Terrain Init
 	mTerrain.InitTerrain(md3dDevice,Map_size, Unit_MapOffset, TerrainSenceData);
 	mTerrain.InitModel(md3dDevice, Map_size, Unit_MapOffset, ModelSenceData,m_PlayerInfo);
-	
+	HeightmapTerrainInit();
+
 	//×ª»»µØÍ¼
 	m_GameMap.ConvertMap(AIMapData);
 	
@@ -472,6 +477,16 @@ void GameApp::UpdateScene(float dt)
 
 		//update water
 		WaveParams.w = mTimer.TotalTime();
+
+		//update camera position on terrain
+		XMFLOAT3 camPos = mCamera->GetPosition();
+		float y = mHMapTerrain.GetHeight(camPos.x, camPos.z);
+		if (camPos.y <= (y + 2))
+		{
+			mCamera->SetPosition(camPos.x, y + 2.0f, camPos.z);
+		}
+
+
 	}
 }
 
@@ -488,8 +503,6 @@ void GameApp::DrawScene()
 		BuildShadowMap();
 
 		
-
-
 		md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&GColors::White));
 		md3dImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		md3dImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
@@ -501,24 +514,19 @@ void GameApp::DrawScene()
 		//restore default states, as the SkyFX changes them in the effect file.
 		md3dImmediateContext->RSSetState(0);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		//
-		// Draw the terrain with alpha clipping.
-		// 
 
+		// Draw the terrain
 		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
+		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights);
 
-		//	// Restore default render state.
-			//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
-		//}
+		// Restore default render state.
+		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
 
-	
 
 		//fbx model
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
 		RenderFbxModel();
-
-		
 
 		//draw particle
 		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
@@ -527,12 +535,9 @@ void GameApp::DrawScene()
 		//water
 		DrawWater();
 
-
-
 		//render gui
 		m_pGameGUI->Render();
 
-	
 		// restore default states.
 		HR(mSwapChain->Present(0, 0));
 	}
@@ -1248,14 +1253,14 @@ void GameApp::InitParticleSystem()
 	mRandomTexSRV = d3dHelper::CreateRandomTexture1DSRV(md3dDevice);
 
 	std::vector<std::wstring> flares;
-	flares.push_back(L"Textures\\flare0.dds");
+	flares.push_back(L"Textures/flare0.dds");
 	mFireTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, flares);
 	//Fire Particle
 	mFire.Init(md3dDevice, Effects::FireFX, mFireTexSRV, mRandomTexSRV, 50000);
 	mFire.SetEmitPos(XMFLOAT3(0.0f, 50.0f, 100.0f));
 	//Rain Particle
 	std::vector<std::wstring> raindrops;
-	raindrops.push_back(L"Textures\\raindrop.dds");
+	raindrops.push_back(L"Textures/raindrop.dds");
 	mRainTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, raindrops);
 
 	mRain.Init(md3dDevice, Effects::RainFX, mRainTexSRV, mRandomTexSRV, 10000);
@@ -1306,6 +1311,25 @@ void GameApp::CullSence()
 			VisibleTerrainData.push_back(TerrainSenceData[i]);
 		}
 	}
+}
+
+void GameApp::HeightmapTerrainInit()
+{
+
+	HeightmapTerrain::InitInfo TerrainInfo;
+	TerrainInfo.HeightMapFilename = L"Textures/terrain.raw";
+	TerrainInfo.LayerMapFilename0 = L"Textures/grass.dds";
+	TerrainInfo.LayerMapFilename1 = L"Textures/darkdirt.dds";
+	TerrainInfo.LayerMapFilename2 = L"Textures/stone.dds";
+	TerrainInfo.LayerMapFilename3 = L"Textures/lightdirt.dds";
+	TerrainInfo.LayerMapFilename4 = L"Textures/snow.dds";
+	TerrainInfo.BlendMapFilename = L"Textures/blend.dds";
+	TerrainInfo.HeightScale = 50.0f;
+	TerrainInfo.HeightmapWidth = 2049;
+	TerrainInfo.HeightmapHeight = 2049;
+	TerrainInfo.CellSpacing = 0.5f;
+
+	mHMapTerrain.Init(md3dDevice, md3dImmediateContext, TerrainInfo);
 }
 
 void GameApp::DrawWater()
@@ -1422,7 +1446,7 @@ void GameApp::DrawWaterReflectionMap()
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
 		mTerrain.Render(md3dImmediateContext, gDirLights, mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-
+		mHMapTerrain.Draw(md3dImmediateContext, *mCamera, &gDirLights);
 		//fbx model
 		RenderFbxModel();
 

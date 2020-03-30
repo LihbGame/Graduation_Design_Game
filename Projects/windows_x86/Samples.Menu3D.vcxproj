@@ -188,6 +188,7 @@
     <ClCompile Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.cpp" />
     <ClCompile Include="..\..\ShadowMap\ShadowMap.cpp" />
     <ClCompile Include="..\..\SkyBox\Sky.cpp" />
+    <ClCompile Include="..\..\Terrain\HeightmapTerrain.cpp" />
     <ClCompile Include="..\..\Terrain\Terrain.cpp" />
     <ClCompile Include="..\..\Water\Water.cpp" />
     <ClCompile Include="GameMain.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="..\..\ShadowMap\FBXShadowMapShaderkkNoBone.h" />
     <ClInclude Include="..\..\ShadowMap\ShadowMap.h" />
     <ClInclude Include="..\..\SkyBox\Sky.h" />
+    <ClInclude Include="..\..\Terrain\HeightmapTerrain.h" />
     <ClInclude Include="..\..\Terrain\Terrain.h" />
     <ClInclude Include="..\..\Water\Water.h" />
     <ResourceCompile Include="resources.rc" />
@@ -470,6 +472,13 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shader\Water.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shader\Terrain.fx">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(RelativeDir)\%(Filename).fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RelativeDir)\%(Filename).fxo</Outputs>
