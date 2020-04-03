@@ -3,7 +3,7 @@
  
 cbuffer cbPerFrame
 {
-	DirectionalLight gDirLights[3];
+	DirectionalLight gDirLights;
 	float3 gEyePosW;
 
 	float  gFogStart;
@@ -25,7 +25,7 @@ cbuffer cbPerFrame
 	float gTexelCellSpaceU;
 	float gTexelCellSpaceV;
 	float gWorldCellSpace;
-	float2 gTexScale = 10.0f;
+	float2 gTexScale = 20.0f;
 	
 	float4 gWorldFrustumPlanes[6];
 };
@@ -44,6 +44,15 @@ Texture2DArray gLayerMapArray;
 Texture2D gBlendMap;
 Texture2D gHeightMap;
 Texture2D gGrassMap;
+
+SamplerState samAnisotropic
+{
+	Filter = ANISOTROPIC;
+	MaxAnisotropy = 16;
+
+	AddressU = WRAP;
+	AddressV = WRAP;
+};
 
 SamplerState samLinear
 {
@@ -111,7 +120,7 @@ bool AabbBehindPlaneTest(float3 center, float3 extents, float4 plane)
 	float3 n = abs(plane.xyz);
 	
 	// This is always positive.
-	float r = dot(extents, n)+10.0f;
+	float r = dot(extents, n)+15.0f;
 	
 	// signed distance from center point to plane.
 	float s = dot( float4(center, 1.0f), plane );
@@ -309,24 +318,28 @@ float4 PS(DomainOut pin,
 	//
 	
 	// Sample layers in texture array.
-	float4 c0 = gGrassMap.Sample(samLinear, pin.TiledTex);
-	//float4 c1 = gLayerMapArray.Sample( samLinear, float3(pin.TiledTex, 0.0f) );
-	//float4 c2 = gLayerMapArray.Sample( samLinear, float3(pin.TiledTex, 1.0f) );
-	//float4 c3 = gLayerMapArray.Sample( samLinear, float3(pin.TiledTex, 2.0f) );
-	//float4 c4 = gLayerMapArray.Sample( samLinear, float3(pin.TiledTex, 3.0f) ); 
+	float4 c0 = gGrassMap.Sample(samAnisotropic, pin.TiledTex);
+	//float3 normalMapSample = gBlendMap.Sample(samLinear, pin.TiledTex).rgb;
+	//float4 c1 = gLayerMapArray.Sample(samAnisotropic, float3(pin.TiledTex, 0.0f));
+	float4 c2 = gLayerMapArray.Sample(samLinear, float3(pin.TiledTex, 1.0f) );
+	float4 c3 = gLayerMapArray.Sample(samLinear, float3(pin.TiledTex, 2.0f) );
+	float4 c4 = gLayerMapArray.Sample(samLinear, float3(pin.TiledTex, 3.0f) );
 	
+
 	// Sample the blend map.
-	float4 t  = gBlendMap.Sample( samLinear, pin.Tex ); 
+	float4 t  = gBlendMap.Sample(samAnisotropic, pin.Tex );
     
     // Blend the layers on top of each other.
     float4 texColor = c0;
-   // texColor = lerp(texColor, c1, t.r);
-   // texColor = lerp(texColor, c2, t.g);
-   // texColor = lerp(texColor, c3, t.b);
- 
+    //texColor = lerp(texColor, c1, t.r);
+    texColor.rgb = lerp(texColor.rgb, c2, t.g);
+    texColor = lerp(texColor, c3, t.b);
+	texColor = lerp(texColor, c4, t.a);
 	//
 	// Lighting.
 	//
+
+
 
 	float4 litColor = texColor;
 	if( gLightCount > 0  )
@@ -337,11 +350,9 @@ float4 PS(DomainOut pin,
 		float4 spec    = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		// Sum the light contribution from each light source.  
-		[unroll]
-		for(int i = 0; i < gLightCount; ++i)
 		{
 			float4 A, D, S;
-			ComputeDirectionalLight(gMaterial, gDirLights[i], normalW, toEye, 
+			ComputeDirectionalLight(gMaterial, gDirLights, normalW, toEye,
 				A, D, S);
 
 			ambient += A;
@@ -363,7 +374,6 @@ float4 PS(DomainOut pin,
 		// Blend the fog color and the lit color.
 		litColor = lerp(litColor, gFogColor, fogLerp);
 	}
-
     return litColor;
 }
 
@@ -375,7 +385,7 @@ technique11 Light1
         SetHullShader( CompileShader( hs_5_0, HS() ) );
         SetDomainShader( CompileShader( ds_5_0, DS() ) );
 		SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_5_0, PS(1, false) ) );
+        SetPixelShader( CompileShader( ps_5_0, PS(1, true) ) );
     }
 }
 

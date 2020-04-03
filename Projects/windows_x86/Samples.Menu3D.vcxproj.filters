@@ -335,6 +335,9 @@
     <ClInclude Include="..\..\Terrain\HeightmapTerrain.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Terrain\Grass.h">
+      <Filter>Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -547,6 +550,9 @@
     <ClCompile Include="..\..\Terrain\HeightmapTerrain.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Terrain\Grass.cpp">
+      <Filter>Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\Data\PasswordBox.xaml">
@@ -595,6 +601,9 @@
       <Filter>Shader</Filter>
     </CustomBuild>
     <CustomBuild Include="shader\Terrain.fx">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="shader\Grass.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
   </ItemGroup>

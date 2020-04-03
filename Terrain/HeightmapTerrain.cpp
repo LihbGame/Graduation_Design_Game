@@ -23,9 +23,7 @@ mNumPatchVertCols(0)
 
 	mMat.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	mMat.Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 64.0f);
-	mMat.Reflect = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
-
+	mMat.Specular = XMFLOAT4(0.1f, 0.1f, 0.1f, 16.0f);
 }
 
 HeightmapTerrain::~HeightmapTerrain()
@@ -98,8 +96,11 @@ void HeightmapTerrain::SetWorld(CXMMATRIX M)
 	XMStoreFloat4x4(&mWorld, M);
 }
 
-void HeightmapTerrain::Init(ID3D11Device* device, ID3D11DeviceContext* dc, const InitInfo& initInfo)
+void HeightmapTerrain::Init(ID3D11Device* device, ID3D11DeviceContext* dc, const InitInfo& initInfo, ID3D11ShaderResourceView* RandomTexSRV)
 {
+
+	
+
 	mInfo = initInfo;
 
 	// Divide heightmap into patches such that each patch has CellsPerPatch.
@@ -133,10 +134,20 @@ void HeightmapTerrain::Init(ID3D11Device* device, ID3D11DeviceContext* dc, const
 	HR(DirectX::CreateDDSTextureFromFile(device,
 		mInfo.LayerMapFilename0.c_str(), &texResource, &mGrassMapSRV));
 	ReleaseCOM(texResource); 
+
+
+	//grass init
+	mGrass.Init(device, 2048.0f, 2048.0f, 1000, 1000, RandomTexSRV, mHeightMapSRV);
 }
 
 void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3])
 {
+
+	//grass draw
+	mGrass.Draw(dc, cam, lights);
+
+
+
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST);
 	dc->IASetInputLayout(InputLayouts::Terrain);
 
@@ -146,9 +157,6 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	dc->IASetIndexBuffer(mQuadPatchIB, DXGI_FORMAT_R16_UINT, 0);
 
 	XMMATRIX viewProj = cam.ViewProj();
-	XMMATRIX world = XMLoadFloat4x4(&mWorld);
-	XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-	XMMATRIX worldViewProj = world * viewProj;
 
 	XMFLOAT4 worldPlanes[6];
 	ExtractFrustumPlanes(worldPlanes, viewProj);
@@ -158,10 +166,10 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	Effects::TerrainFX->SetEyePosW(cam.GetPosition());
 	Effects::TerrainFX->SetDirLights(lights);
 	Effects::TerrainFX->SetFogColor(GColors::Silver);
-	Effects::TerrainFX->SetFogStart(15.0f);
-	Effects::TerrainFX->SetFogRange(175.0f);
-	Effects::TerrainFX->SetMinDist(20.0f);
-	Effects::TerrainFX->SetMaxDist(500.0f);
+	Effects::TerrainFX->SetFogStart(2000.0f);
+	Effects::TerrainFX->SetFogRange(3000.0f);
+	Effects::TerrainFX->SetMinDist(1000.0f);
+	Effects::TerrainFX->SetMaxDist(2000.0f);
 	Effects::TerrainFX->SetMinTess(0.0f);
 	Effects::TerrainFX->SetMaxTess(6.0f);
 	Effects::TerrainFX->SetTexelCellSpaceU(1.0f / mInfo.HeightmapWidth);
@@ -191,6 +199,10 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	// to turn off tessellation.
 	dc->HSSetShader(0, 0, 0);
 	dc->DSSetShader(0, 0, 0);
+
+
+	
+
 }
 
 void HeightmapTerrain::LoadHeightmap()
@@ -440,4 +452,10 @@ void HeightmapTerrain::BuildHeightmapSRV(ID3D11Device* device)
 
 	// SRV saves reference.
 	ReleaseCOM(hmapTex);
+}
+
+void HeightmapTerrain::Update(float dt)
+{
+	mGrass.update(dt);
+
 }

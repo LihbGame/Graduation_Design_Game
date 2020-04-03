@@ -336,6 +336,9 @@ bool GameApp::Init()
 	//³õÊ¼»¯¸¸Àà
 	if (!D3DApp::Init())
 		return false;
+	//Random Tex SRV
+	mRandomTexSRV = d3dHelper::CreateRandomTexture1DSRV(md3dDevice);
+
 
 	//Terrain Sence Manager
 
@@ -406,7 +409,7 @@ void GameApp::OnResize()
 {
 	D3DApp::OnResize();
 
-	mCamera->SetLens(0.25f * MathHelper::Pi, AspectRatio(), 1.0f, 1500.0f);
+	mCamera->SetLens(0.25f * MathHelper::Pi, AspectRatio(), 1.0f, 15000.0f);
 	
 	//create Camera Frustum
 	BoundingFrustum::CreateFromMatrix(CameraFrustum, mCamera->Proj());
@@ -479,14 +482,14 @@ void GameApp::UpdateScene(float dt)
 		WaveParams.w = mTimer.TotalTime();
 
 		//update camera position on terrain
-		XMFLOAT3 camPos = mCamera->GetPosition();
+		/*XMFLOAT3 camPos = mCamera->GetPosition();
 		float y = mHMapTerrain.GetHeight(camPos.x, camPos.z);
 		if (camPos.y <= (y + 2))
 		{
 			mCamera->SetPosition(camPos.x, y + 2.0f, camPos.z);
-		}
-
-
+		}*/
+		//UPDATE GRASS
+		mHMapTerrain.Update(mTimer.TotalTime());
 	}
 }
 
@@ -516,7 +519,7 @@ void GameApp::DrawScene()
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
 		// Draw the terrain
-		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
+		//mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights);
 
@@ -526,14 +529,14 @@ void GameApp::DrawScene()
 
 		//fbx model
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
-		RenderFbxModel();
+		//RenderFbxModel();
 
 		//draw particle
 		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
-		DrawParticle();
+		//DrawParticle();
 
 		//water
-		DrawWater();
+		//DrawWater();
 
 		//render gui
 		m_pGameGUI->Render();
@@ -632,7 +635,7 @@ void GameApp::BuildLandGeometryBuffers()
 
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(1000.0f, 1000.0f, 10, 10, grid);
+	geoGen.CreateGrid(10000.0f, 10000.0f, 10, 10, grid);
 
 	mLandIndexCount = grid.Indices.size();
 
@@ -878,21 +881,21 @@ bool GameApp::FindPath()
 				switch (m_Dir)
 				{
 				case MOVE_DOWN:
-					x += 1.0f;
+					x += 2.0f;
 					break;
 				case MOVE_LEFT:
-					z -= 1.0f;
+					z -= 2.0f;
 					break;
 				case MOVE_RIGHT:
-					z += 1.0f;
+					z += 2.0f;
 					break;
 				case MOVE_UP:
-					x -= 1.0f;
+					x -= 2.0f;
 					break;
 				default:
 					break;
 				}
-				unitlen++;
+				unitlen+=2;
 
 				if ((PlayerPositionIndex.x == Mapindex.x) && (PlayerPositionIndex.y == Mapindex.y) && unitlen == Unit_MapOffset)
 				{
@@ -1250,7 +1253,7 @@ void GameApp::BuildShadowMap()
 
 void GameApp::InitParticleSystem()
 {
-	mRandomTexSRV = d3dHelper::CreateRandomTexture1DSRV(md3dDevice);
+	
 
 	std::vector<std::wstring> flares;
 	flares.push_back(L"Textures/flare0.dds");
@@ -1324,12 +1327,12 @@ void GameApp::HeightmapTerrainInit()
 	TerrainInfo.LayerMapFilename3 = L"Textures/lightdirt.dds";
 	TerrainInfo.LayerMapFilename4 = L"Textures/snow.dds";
 	TerrainInfo.BlendMapFilename = L"Textures/blend.dds";
-	TerrainInfo.HeightScale = 50.0f;
+	TerrainInfo.HeightScale = 200.0f;
 	TerrainInfo.HeightmapWidth = 2049;
 	TerrainInfo.HeightmapHeight = 2049;
-	TerrainInfo.CellSpacing = 0.5f;
+	TerrainInfo.CellSpacing = 1.0f;
 
-	mHMapTerrain.Init(md3dDevice, md3dImmediateContext, TerrainInfo);
+	mHMapTerrain.Init(md3dDevice, md3dImmediateContext, TerrainInfo, mRandomTexSRV);
 }
 
 void GameApp::DrawWater()

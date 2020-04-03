@@ -285,7 +285,7 @@ public:
 	void SetFogColor(const FXMVECTOR v) { FogColor->SetFloatVector(reinterpret_cast<const float*>(&v)); }
 	void SetFogStart(float f) { FogStart->SetFloat(f); }
 	void SetFogRange(float f) { FogRange->SetFloat(f); }
-	void SetDirLights(const DirectionalLight* lights) { DirLights->SetRawValue(lights, 0, 3 * sizeof(DirectionalLight)); }
+	void SetDirLights(const DirectionalLight* lights) { DirLights->SetRawValue(lights, 0, sizeof(DirectionalLight)); }
 	void SetMaterial(const Material& mat) { Mat->SetRawValue(&mat, 0, sizeof(Material)); }
 
 	void SetMinDist(float f) { MinDist->SetFloat(f); }
@@ -336,6 +336,39 @@ public:
 #pragma endregion
 
 
+#pragma region GrassEffect
+class GrassEffect : public GEffect
+{
+public:
+	GrassEffect(ID3D11Device* device, const std::wstring& filename);
+	~GrassEffect();
+
+	void SetViewProj(CXMMATRIX M) { ViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }
+
+	void SetGameTime(float f) { GameTime->SetFloat(f); }
+
+	void SetEyePosW(const XMFLOAT3& v) { EyePosW->SetRawValue(&v, 0, sizeof(XMFLOAT3)); }
+
+	void SetGrassTex(ID3D11ShaderResourceView* tex) { GrassTex->SetResource(tex); }
+	void SetRandomTex(ID3D11ShaderResourceView* tex) { RandomTex->SetResource(tex); }
+	void SetGrassBlendTex(ID3D11ShaderResourceView* tex) { GrassBlendTex->SetResource(tex); }
+	void SetHeightMapTex(ID3D11ShaderResourceView* tex) { HeightMapTex->SetResource(tex); }
+
+	ID3DX11EffectTechnique* DrawTech;
+
+	ID3DX11EffectMatrixVariable* ViewProj;
+	ID3DX11EffectScalarVariable* GameTime;
+	ID3DX11EffectVectorVariable* EyePosW;
+	ID3DX11EffectShaderResourceVariable* GrassTex;
+	ID3DX11EffectShaderResourceVariable* RandomTex;
+	ID3DX11EffectShaderResourceVariable* GrassBlendTex;
+	ID3DX11EffectShaderResourceVariable* HeightMapTex;
+};
+#pragma endregion
+
+
+
+
 #pragma region Effects
 class Effects
 {
@@ -358,6 +391,8 @@ public:
 	static WaterEffect* WaterFX;
 	//Terrain Effect
 	static TerrainEffect* TerrainFX;
+	//Grass Effect
+	static GrassEffect* GrassFX;
 };
 #pragma endregion
 

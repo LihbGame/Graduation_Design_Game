@@ -258,7 +258,26 @@ TerrainEffect::~TerrainEffect()
 }
 #pragma endregion
 
+#pragma region GrassEffect
 
+GrassEffect::GrassEffect(ID3D11Device* device, const std::wstring& filename)
+	: GEffect(device, filename)
+{
+	DrawTech = mFX->GetTechniqueByName("DrawTech");
+
+	ViewProj = mFX->GetVariableByName("gViewProj")->AsMatrix();
+	GameTime = mFX->GetVariableByName("gGameTime")->AsScalar();
+	EyePosW = mFX->GetVariableByName("gEyePosW")->AsVector();
+	GrassTex = mFX->GetVariableByName("gGrassTex")->AsShaderResource();
+	GrassBlendTex = mFX->GetVariableByName("gGrassBlendTex")->AsShaderResource();
+	RandomTex = mFX->GetVariableByName("gRandomTex")->AsShaderResource();
+	HeightMapTex = mFX->GetVariableByName("gTerrainTex")->AsShaderResource();
+}
+
+GrassEffect::~GrassEffect()
+{
+}
+#pragma endregion
 
 #pragma region Effects
 
@@ -270,6 +289,7 @@ ParticleEffect* Effects::RainFX = 0;
 WaterRefractionMaskEffect* Effects::WaterRefractionMaskFX=0;
 WaterEffect* Effects::WaterFX=0;
 TerrainEffect* Effects::TerrainFX = 0;
+GrassEffect* Effects::GrassFX = 0;
 
 void Effects::InitAll(ID3D11Device* device)
 {
@@ -281,6 +301,7 @@ void Effects::InitAll(ID3D11Device* device)
 	WaterRefractionMaskFX= new WaterRefractionMaskEffect(device, L"shader/WaterRefractionMask.fxo");
 	WaterFX = new WaterEffect(device, L"shader/Water.fxo");
 	TerrainFX = new TerrainEffect(device, L"shader/Terrain.fxo");
+	GrassFX = new GrassEffect(device, L"shader/Grass.fxo");
 }
 
 void Effects::DestroyAll()
@@ -293,6 +314,7 @@ void Effects::DestroyAll()
 	SafeDelete(WaterRefractionMaskFX);
 	SafeDelete(WaterFX);
 	SafeDelete(TerrainFX);
+	SafeDelete(GrassFX);
 }
 #pragma endregion
 

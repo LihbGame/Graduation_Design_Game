@@ -1,6 +1,8 @@
 #pragma once
 
 #include "d3dUtil.h"
+#include "Grass.h"
+
 
 class Camera;
 struct DirectionalLight;
@@ -34,10 +36,10 @@ public:
 	XMMATRIX GetWorld()const;
 	void SetWorld(CXMMATRIX M);
 
-	void Init(ID3D11Device* device, ID3D11DeviceContext* dc, const InitInfo& initInfo);
+	void Init(ID3D11Device* device, ID3D11DeviceContext* dc, const InitInfo& initInfo, ID3D11ShaderResourceView* RandomTexSRV);
 
 	void Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3]);
-
+	void Update(float dt);
 private:
 	void LoadHeightmap();
 	void Smooth();
@@ -48,7 +50,7 @@ private:
 	void BuildQuadPatchVB(ID3D11Device* device);
 	void BuildQuadPatchIB(ID3D11Device* device);
 	void BuildHeightmapSRV(ID3D11Device* device);
-
+	
 private:
 
 	// Divide heightmap into patches such that each patch has CellsPerPatch cells
@@ -78,4 +80,7 @@ private:
 
 	std::vector<XMFLOAT2> mPatchBoundsY;
 	std::vector<float> mHeightmap;
+
+	//grass
+	Grass mGrass;
 };
