@@ -208,6 +208,8 @@ WaterEffect::WaterEffect(ID3D11Device* device, const std::wstring& filename)
 	NormalMap = mFX->GetVariableByName("gNormalMap")->AsShaderResource();
 	ReflectionMap = mFX->GetVariableByName("gReflectionMap")->AsShaderResource();
 	RefractionMap = mFX->GetVariableByName("gRefractionMap")->AsShaderResource();
+	HeighMap = mFX->GetVariableByName("gHeighMap")->AsShaderResource();
+	FoamMap = mFX->GetVariableByName("gFoamMap")->AsShaderResource();
 }
 
 WaterEffect::~WaterEffect()
@@ -251,6 +253,7 @@ TerrainEffect::TerrainEffect(ID3D11Device* device, const std::wstring& filename)
 	BlendMap = mFX->GetVariableByName("gBlendMap")->AsShaderResource();
 	HeightMap = mFX->GetVariableByName("gHeightMap")->AsShaderResource();
 	GrassMap = mFX->GetVariableByName("gGrassMap")->AsShaderResource();
+	isReflection = mFX->GetVariableByName("isReflection")->AsScalar();
 }
 
 TerrainEffect::~TerrainEffect()

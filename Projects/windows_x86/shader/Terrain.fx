@@ -25,9 +25,10 @@ cbuffer cbPerFrame
 	float gTexelCellSpaceU;
 	float gTexelCellSpaceV;
 	float gWorldCellSpace;
-	float2 gTexScale = 20.0f;
+	float2 gTexScale = 10.0f;
 	
 	float4 gWorldFrustumPlanes[6];
+	bool isReflection;
 };
 
 cbuffer cbPerObject
@@ -243,6 +244,7 @@ struct DomainOut
     float3 PosW     : POSITION;
 	float2 Tex      : TEXCOORD0;
 	float2 TiledTex : TEXCOORD1;
+	float ClipValue : SV_ClipDistance0;//裁剪值关键字
 };
 
 // The domain shader is called for every vertex created by the tessellator.  
@@ -269,8 +271,17 @@ DomainOut DS(PatchTess patchTess,
 	dout.TiledTex = dout.Tex*gTexScale; 
 	
 	// Displacement mapping
-	dout.PosW.y = gHeightMap.SampleLevel(samHeightmap, dout.Tex, 0).r - 20.0f;
-	
+	dout.PosW.y = gHeightMap.SampleLevel(samHeightmap, dout.Tex, 0).r;
+	//在世界空间，对于乘以裁剪面小于零的进行裁剪，裁剪不满足条件的几何体部分
+	if (isReflection)
+	{
+		float4 ClipPlane = float4(0.0f, 1.0f, 0.0f, 0.0f);
+		dout.ClipValue = dot(dout.PosW, ClipPlane);
+	}
+	else
+	{
+		dout.ClipValue = 1.0f;
+	}
 	// NOTE: We tried computing the normal in the shader using finite difference, 
 	// but the vertices move continuously with fractional_even which creates
 	// noticable light shimmering artifacts as the normal changes.  Therefore,

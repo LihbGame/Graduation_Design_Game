@@ -35,7 +35,8 @@ public:
 	void SetRefractionMap(ID3D11ShaderResourceView* tex) { RefractionMap->SetResource(tex); }
 	void SetEyePosW(const XMFLOAT3& v) { EyePosW->SetRawValue(&v, 0, sizeof(XMFLOAT3)); }
 	void SetWaveParams(const XMFLOAT4& v) { WaveParams->SetRawValue(&v, 0, sizeof(XMFLOAT4)); }
-
+	void SetHeighMap(ID3D11ShaderResourceView* tex) { HeighMap->SetResource(tex);}
+	void SetFoamMap(ID3D11ShaderResourceView* tex) { FoamMap->SetResource(tex); }
 
 
 
@@ -47,6 +48,8 @@ public:
 	ID3DX11EffectShaderResourceVariable* NormalMap;
 	ID3DX11EffectShaderResourceVariable* ReflectionMap;
 	ID3DX11EffectShaderResourceVariable* RefractionMap;
+	ID3DX11EffectShaderResourceVariable* HeighMap;
+	ID3DX11EffectShaderResourceVariable* FoamMap;
 };
 
 
@@ -301,6 +304,7 @@ public:
 	void SetBlendMap(ID3D11ShaderResourceView* tex) { BlendMap->SetResource(tex); }
 	void SetHeightMap(ID3D11ShaderResourceView* tex) { HeightMap->SetResource(tex); }
 	void SetGrassMap(ID3D11ShaderResourceView* tex) { GrassMap->SetResource(tex); }
+	void SetReflection(bool Reflection) { isReflection->SetBool(Reflection); }
 
 	ID3DX11EffectTechnique* Light1Tech;
 	ID3DX11EffectTechnique* Light2Tech;
@@ -327,6 +331,7 @@ public:
 	ID3DX11EffectScalarVariable* TexelCellSpaceV;
 	ID3DX11EffectScalarVariable* WorldCellSpace;
 	ID3DX11EffectVectorVariable* WorldFrustumPlanes;
+	ID3DX11EffectScalarVariable* isReflection;
 
 	ID3DX11EffectShaderResourceVariable* LayerMapArray;
 	ID3DX11EffectShaderResourceVariable* BlendMap;

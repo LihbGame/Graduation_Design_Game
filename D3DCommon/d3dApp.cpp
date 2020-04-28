@@ -423,6 +423,8 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool D3DApp::InitMainWindow()
 {
+	HCURSOR Cursor = ::LoadCursorFromFile("texture/Arrow.cur");
+	
 	WNDCLASS wc;
 	wc.style         = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc   = MainWndProc; 
@@ -430,7 +432,7 @@ bool D3DApp::InitMainWindow()
 	wc.cbWndExtra    = 0;
 	wc.hInstance     = mhAppInst;
 	wc.hIcon         = LoadIcon(0, IDI_APPLICATION);
-	wc.hCursor       = LoadCursor(0, IDC_ARROW);
+	wc.hCursor       = Cursor;
 	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	wc.lpszMenuName  = 0;
 	wc.lpszClassName = LPCSTR("D3DWndClassName");

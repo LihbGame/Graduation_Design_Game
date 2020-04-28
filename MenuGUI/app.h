@@ -25,6 +25,7 @@
 #include "LakeAndMountains.png.bin.h"
 #include "SkyAndSun.jpg.bin.h"
 #include "Koala.jpg.bin.h"
+#include "Arrow.png.bin.h"
 #include "weblysleekuisb.ttf.bin.h"
 #include "weblysleekuisl.ttf.bin.h"
 #include "SoundTrack.mp3.bin.h"
@@ -160,7 +161,8 @@ private:
             { "Images/FrontTrees.png", FrontTrees_png, sizeof(FrontTrees_png) },
             { "Images/LakeAndMountains.png", LakeAndMountains_png, sizeof(LakeAndMountains_png) },
             { "Images/SkyAndSun.jpg", SkyAndSun_jpg, sizeof(SkyAndSun_jpg) },
-            { "Koala.jpg", Koala_jpg, sizeof(Koala_jpg) }
+            { "Koala.jpg", Koala_jpg, sizeof(Koala_jpg) },
+            { "Images/Arrow.png", Arrow_png, sizeof(Arrow_png) }
         };
 
         return *new EmbeddedTextureProvider(textures, NS_COUNTOF(textures));

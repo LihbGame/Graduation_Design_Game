@@ -85,14 +85,20 @@ Water::Water(ID3D11Device* device, UINT width, UINT height)
 	HR(device->CreateShaderResourceView(SingleReflectionMap, &SinglesrvDesc, &mSingleReflectionSRV));
 	HR(device->CreateShaderResourceView(SingleRefractionMap, &SinglesrvDesc, &mSingleRefractionSRV));
 
-
-
 	// View saves a reference to the texture so we can release our reference.
 	ReleaseCOM(ReflectionMap);
 	ReleaseCOM(RefractionMap);
 	ReleaseCOM(depthMap);
 	ReleaseCOM(SingleReflectionMap);
 	ReleaseCOM(SingleRefractionMap);
+
+	//foam srv
+	ID3D11Resource* texResource = nullptr;
+	HR(DirectX::CreateDDSTextureFromFile(device,
+		L"Textures/Foam.dds", &texResource, &mFoamSRV));
+	ReleaseCOM(texResource); // view saves reference
+
+
 }									 
 
 Water::~Water()
@@ -118,6 +124,11 @@ ID3D11ShaderResourceView* Water::SingleReflectionSRV()
 ID3D11ShaderResourceView* Water::SingleRefractionSRV()
 {
 	return mSingleRefractionSRV;
+}
+
+ID3D11ShaderResourceView* Water::FoamSRV()
+{
+	return mFoamSRV;
 }
 
 ID3D11RenderTargetView* Water::ReflectionRTV()

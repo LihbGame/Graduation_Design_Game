@@ -606,6 +606,9 @@
     <CustomBuild Include="shader\Grass.fx">
       <Filter>Shader</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\Data\Images\Arrow.png">
+      <Filter>UIData</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\LightHelper.fx">

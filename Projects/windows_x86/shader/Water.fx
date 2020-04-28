@@ -11,6 +11,7 @@ cbuffer cbPerObject
 {
     float4x4 gWorld;
 	float4x4 gWorldViewProj;
+    float gFoamMax = 2.0f;
 }; 
 
 
@@ -19,6 +20,10 @@ cbuffer cbPerObject
 Texture2D gNormalMap;
 Texture2D gReflectionMap;
 Texture2D gRefractionMap;
+Texture2D gHeighMap;
+Texture2D gFoamMap;
+
+
 
 SamplerState samLinearBump
 {
@@ -56,6 +61,7 @@ struct VertexOut
     float2 Wave2      : TEXCOORD3;
     float2 Wave3      : TEXCOORD4;
     float4 ScreenPos  : TEXCOORD5;
+    float2 HeighTex  : TEXCOORD6;
 };
 
 
@@ -100,6 +106,8 @@ VertexOut VS(VertexIn vin)
     vout.Wave1.xy = vTexCoords.xy * 2.0 + fTranslation * 4.0;
     vout.Wave2.xy = vTexCoords.xy * 4.0 + fTranslation * 2.0;
     vout.Wave3.xy = vTexCoords.xy * 8.0 + fTranslation;
+    //Heigh Tex
+    vout.HeighTex = vin.TexCoord0;
 
     // perspective corrected projection
     float4 vHPos = mul(float4(vin.Pos, 1.0f), gWorldViewProj);
@@ -149,7 +157,7 @@ float4 PS(VertexOut pin) : SV_Target
     // Compute Fresnel term
     float NdotL = max(dot(vEye, vReflBump), 0);
     float facing = (1.0 - NdotL);
-    float fresnel = Fresnel(NdotL, 0.2, 5.0);
+    float fresnel = Fresnel(NdotL, 0.02, 5.0);
 
     // Use distance to lerp between refraction and deep water color
     float fDistScale = saturate(10.0 / pin.Wave0.w);
@@ -159,8 +167,26 @@ float4 PS(VertexOut pin) : SV_Target
     float3 waterColor = (WaterColor * facing + WaterDeepColor * (1.0 - facing));
     float3 cReflect = fresnel * vReflection;
 
+    //Foam and heigh to water
+    
+    float Heigh= gHeighMap.Sample(samLinear, pin.HeighTex.xy).r;
+
+    float4 Foam = float4(0.0f, 0.0f, 0.0f, 0.0f);
+    float time = abs(sin(gWaveParams.w));
+    if (-Heigh >= time && -Heigh <= time+gFoamMax)
+    {
+        Foam.rgb = gFoamMap.Sample(samLinear, pin.HeighTex.xy).rgb;
+        float timewave = time * (-Heigh / (time + gFoamMax));
+        Foam *= (1 - timewave) * 0.2f ;
+    }
+    if (-Heigh < time)
+    {
+        clip(-1.0f);
+    }
+
+
     // final water = reflection_color * fresnel + water_color
-    return float4(cReflect + waterColor, 1);
+    return float4(cReflect + waterColor + Foam, 1.0f);
 }
 
 technique11 Water

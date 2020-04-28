@@ -521,7 +521,7 @@ void GameApp::DrawScene()
 		// Draw the terrain
 		//mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights);
+		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
 
 		// Restore default render state.
 		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
@@ -533,10 +533,10 @@ void GameApp::DrawScene()
 
 		//draw particle
 		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
-		//DrawParticle();
+		DrawParticle();
 
 		//water
-		//DrawWater();
+		DrawWater();
 
 		//render gui
 		m_pGameGUI->Render();
@@ -635,7 +635,7 @@ void GameApp::BuildLandGeometryBuffers()
 
 	GeometryGenerator geoGen;
 
-	geoGen.CreateGrid(10000.0f, 10000.0f, 10, 10, grid);
+	geoGen.CreateGrid(2048.0f, 2048.0f, 10, 10, grid);
 
 	mLandIndexCount = grid.Indices.size();
 
@@ -1327,7 +1327,7 @@ void GameApp::HeightmapTerrainInit()
 	TerrainInfo.LayerMapFilename3 = L"Textures/lightdirt.dds";
 	TerrainInfo.LayerMapFilename4 = L"Textures/snow.dds";
 	TerrainInfo.BlendMapFilename = L"Textures/blend.dds";
-	TerrainInfo.HeightScale = 200.0f;
+	TerrainInfo.HeightScale = 100.0f;
 	TerrainInfo.HeightmapWidth = 2049;
 	TerrainInfo.HeightmapHeight = 2049;
 	TerrainInfo.CellSpacing = 1.0f;
@@ -1374,6 +1374,8 @@ void GameApp::DrawWater()
 		Effects::WaterFX->SetReflectionMap(mWater->SingleReflectionSRV());
 		Effects::WaterFX->SetRefractionMap(mWater->SingleRefractionSRV());
 		Effects::WaterFX->SetNormalMap(mWaterNormalSRV);
+		Effects::WaterFX->SetFoamMap(mWater->FoamSRV());
+		Effects::WaterFX->SetHeighMap(mHMapTerrain.GetHeightMapSRV());
 		Effects::WaterFX->WaterTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
 		md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
 	}
@@ -1449,7 +1451,7 @@ void GameApp::DrawWaterReflectionMap()
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
 		mTerrain.Render(md3dImmediateContext, gDirLights, mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		mHMapTerrain.Draw(md3dImmediateContext, *mCamera, &gDirLights);
+		mHMapTerrain.Draw(md3dImmediateContext, *mCamera, &gDirLights,true);
 		//fbx model
 		RenderFbxModel();
 
@@ -1471,6 +1473,7 @@ void GameApp::DrawWaterReflectionMap()
 //////////main
 void MenuGUI() 
 {
+	
 
 	launcher.Run();
 }
@@ -1480,8 +1483,8 @@ void MenuGUI()
 
 	 if (!theApp.Init())
 		 return ;
-
-
+	
+	 
 	 theApp.Run();
  }
 

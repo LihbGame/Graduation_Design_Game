@@ -186,149 +186,164 @@ fxgroup
                 //   v[0][0].x <- gin[0].PosW.x; v[0][0].y <- gin[0].PosW.y; v[0][0].z <- gin[0].PosW.z; v[0][0].w <- gin[0].PosW.w; 
                 //   x0 <- v
                 //
-                #line 137 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Grass.fx"
-                mov r0.xyz, -v[0][0].xyzx
-                add r0.xyz, r0.xyzx, cb0[0].xyzx
-                dp3 r0.x, r0.xyzx, r0.xyzx
-                sqrt r0.x, r0.x
-                ge r0.x, l(150.000000), r0.x
-                if_nz r0.x
+                #line 138 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Grass.fx"
+                mov r0.xz, v[0][0].xxzx  // r0.x <- PosW.x; r0.z <- PosW.z
                 
-                #line 139
-                  mov r0.xz, v[0][0].xxzx  // r0.x <- PosW.x; r0.z <- PosW.z
+                #line 140
+                add r0.w, r0.x, l(1024.000000)  // r0.w <- c
                 
                 #line 141
-                  add r0.w, r0.x, l(1024.000000)  // r0.w <- c
+                itof r1.x, l(-1)
+                mov r1.y, l(-1024.000000)
+                add r1.y, r0.z, r1.y
+                mul r1.x, r1.y, r1.x  // r1.x <- d
                 
                 #line 142
-                  itof r1.x, l(-1)
-                  mov r1.y, l(-1024.000000)
-                  add r1.y, r0.z, r1.y
-                  mul r1.x, r1.y, r1.x  // r1.x <- d
+                div r2.x, r0.w, l(2048.000000)  // r2.x <- UVoffset.x
+                div r2.y, r1.x, l(2048.000000)  // r2.y <- UVoffset.y
                 
                 #line 143
-                  div r2.x, r0.w, l(2048.000000)  // r2.x <- UVoffset.x
-                  div r2.y, r1.x, l(2048.000000)  // r2.y <- UVoffset.y
-                
-                #line 144
-                  itof r0.w, l(0)
-                  sample_l_indexable(texture2d)(float,float,float,float) r0.w, r2.xyxx, t0.yzwx, s0, r0.w
-                  mov r1.x, l(-20.000000)
-                  add r0.y, r0.w, r1.x  // r0.y <- y
+                itof r0.w, l(0)
+                sample_l_indexable(texture2d)(float,float,float,float) r0.y, r2.xyxx, t0.yxzw, s0, r0.w
+                mov r0.y, r0.y  // r0.y <- y
                 
                 #line 145
-                  mov r0.y, r0.y  // r0.y <- PosW.y
+                mov r0.y, r0.y  // r0.y <- PosW.y
                 
-                #line 147
+                #line 146
+                mov r1.xyz, -r0.xyzx
+                add r1.xyz, r1.xyzx, cb0[0].xyzx
+                dp3 r0.w, r1.xyzx, r1.xyzx
+                sqrt r0.w, r0.w
+                ge r0.w, l(100.000000), r0.w
+                lt r1.x, l(0.000000), r0.y
+                and r0.w, r0.w, r1.x
+                if_nz r0.w
+                
+                #line 148
                   div r0.w, cb0[0].w, l(10.000000)  // r0.w <- time
                 
-                #line 150
+                #line 151
                   mul r1.x, r2.y, r2.x
                   itof r1.y, l(0)
                   sample_l_indexable(texture1d)(float,float,float,float) r1.xyz, r1.x, t1.xyzw, s1, r1.y  // r1.x <- randomRGB.x; r1.y <- randomRGB.y; r1.z <- randomRGB.z
                 
-                #line 151
-                  add r1.w, r1.z, r1.x
-                  add r1.y, r1.y, r1.w
-                  sincos r1.y, null, r1.y
-                  mov r1.w, -r1.y
-                  max r1.y, r1.w, r1.y  // r1.y <- random
-                
-                #line 153
-                  mov r1.w, l(0)  // r1.w <- windCoEff
+                #line 152
+                  add r1.z, r1.z, r1.x
+                  add r1.z, r1.y, r1.z
+                  sincos r1.z, null, r1.z  // r1.z <- random
                 
                 #line 154
-                  mul r2.x, r0.w, r1.x
-                  mul r2.x, r2.x, l(3.140000)
-                  itof r2.y, l(5)
-                  mul r2.x, r2.y, r2.x
-                  sincos r2.x, null, r2.x  // r2.x <- wind.x
-                  mul r2.y, r0.w, r1.z
-                  mul r2.y, r2.y, l(3.140000)
-                  itof r2.z, l(5)
-                  mul r2.y, r2.z, r2.y
-                  sincos r2.y, null, r2.y  // r2.y <- wind.y
+                  mov r1.w, l(0)  // r1.w <- windCoEff
                 
                 #line 155
-                  add r3.x, r1.x, r2.x  // r3.x <- wind.x
+                  mul r1.x, r0.w, r1.x
+                  mul r1.x, r1.x, l(3.140000)
+                  itof r2.x, l(5)
+                  mul r1.x, r1.x, r2.x
+                  sincos r1.x, null, r1.x  // r1.x <- wind.x
+                  mul r1.y, r0.w, r1.y
+                  mul r1.y, r1.y, l(3.140000)
+                  itof r2.x, l(5)
+                  mul r1.y, r1.y, r2.x
+                  sincos r1.y, null, r1.y  // r1.y <- wind.y
                 
                 #line 156
-                  add r3.y, r1.z, r2.y  // r3.y <- wind.y
+                  itof r2.x, l(25)
+                  div r2.x, v[0][0].x, r2.x
+                  add r2.x, r0.w, r2.x
+                  sincos r2.x, null, r2.x
+                  itof r2.y, l(15)
+                  div r2.y, v[0][0].x, r2.y
+                  add r2.y, r0.w, r2.y
+                  itof r2.z, l(50)
+                  add r2.y, r2.z, r2.y
+                  sincos r2.y, null, r2.y
+                  add r2.x, r2.y, r2.x
+                  mul r2.x, r2.x, l(0.500000)
+                  add r2.x, r1.x, r2.x  // r2.x <- wind.x
                 
                 #line 157
-                  mov r1.x, -r1.y
-                  add r1.x, r1.x, l(1.000000)
-                  mov r1.z, l(-0.700000)
-                  add r1.z, r1.z, l(1.000000)
-                  mul r1.x, r1.z, r1.x
-                  add r1.x, r1.x, l(0.700000)
-                  mul r1.xz, r1.xxxx, r3.xxyx  // r1.x <- wind.x; r1.z <- wind.y
+                  itof r1.x, l(80)
+                  div r1.x, v[0][0].z, r1.x
+                  add r1.x, r0.w, r1.x
+                  sincos null, r1.x, r1.x
+                  add r2.y, r1.x, r1.y  // r2.y <- wind.y
                 
-                #line 159
-                  mov r2.x, l(2.500000)  // r2.x <- oscillationStrength
+                #line 158
+                  mov r1.x, -r1.z
+                  add r1.x, r1.x, l(1.000000)
+                  mov r1.y, l(-0.700000)
+                  add r1.y, r1.y, l(1.000000)
+                  mul r1.x, r1.y, r1.x
+                  add r1.x, r1.x, l(0.700000)
+                  mul r1.xy, r1.xxxx, r2.xyxx  // r1.x <- wind.x; r1.y <- wind.y
                 
                 #line 160
-                  mov r1.y, r1.y  // r1.y <- sinSkewCoeff
+                  mov r2.x, l(2.500000)  // r2.x <- oscillationStrength
                 
                 #line 161
+                  mov r1.z, r1.z  // r1.z <- sinSkewCoeff
+                
+                #line 162
                   mul r0.w, r0.w, r2.x
-                  add r0.w, r1.y, r0.w
+                  add r0.w, r1.z, r0.w
                   sincos r0.w, null, r0.w
                   add r0.w, r0.w, l(1.000000)
                   itof r2.x, l(2)
                   div r0.w, r0.w, r2.x  // r0.w <- lerpCoeff
                 
-                #line 162
-                  mul r2.xy, r1.xzxx, l(0.950000, 0.950000, 0.000000, 0.000000)  // r2.x <- leftWindBound.x; r2.y <- leftWindBound.y
-                
                 #line 163
-                  mul r1.xz, r1.xxzx, l(1.050000, 0.000000, 1.050000, 0.000000)  // r1.x <- rightWindBound.x; r1.z <- rightWindBound.y
+                  mul r2.xy, r1.xyxx, l(0.950000, 0.950000, 0.000000, 0.000000)  // r2.x <- leftWindBound.x; r2.y <- leftWindBound.y
                 
-                #line 165
+                #line 164
+                  mul r1.xy, r1.xyxx, l(1.050000, 1.050000, 0.000000, 0.000000)  // r1.x <- rightWindBound.x; r1.y <- rightWindBound.y
+                
+                #line 166
                   mov r2.zw, -r2.xxxy
-                  add r1.xz, r1.xxzx, r2.zzwz
-                  mul r1.xz, r0.wwww, r1.xxzx
-                  add r1.xz, r1.xxzx, r2.xxyx  // r1.x <- wind.x; r1.z <- wind.y
-                
-                #line 167
-                  mov r0.w, l(3.140000)
-                  add r0.w, r0.w, l(3.140000)
-                  mul r0.w, r0.w, r1.y
-                  add r0.w, r0.w, l(-3.140000)  // r0.w <- randomAngle
+                  add r1.xy, r1.xyxx, r2.zwzz
+                  mul r1.xy, r0.wwww, r1.xyxx
+                  add r1.xy, r1.xyxx, r2.xyxx  // r1.x <- wind.x; r1.y <- wind.y
                 
                 #line 168
+                  mov r0.w, l(3.140000)
+                  add r0.w, r0.w, l(3.140000)
+                  mul r0.w, r0.w, r1.z
+                  add r0.w, r0.w, l(-3.140000)  // r0.w <- randomAngle
+                
+                #line 169
                   itof r2.x, l(0)
                   mov r2.y, -r2.x
                   add r2.y, r2.y, l(1.000000)
-                  mul r1.y, r1.y, r2.y
-                  add r1.y, r1.y, r2.x  // r1.y <- randomMagnitude
+                  mul r1.z, r1.z, r2.y
+                  add r1.z, r1.z, r2.x  // r1.z <- randomMagnitude
                 
-                #line 169
+                #line 170
                   sincos r2.x, null, r0.w  // r2.x <- randomWindDir.x
                   sincos null, r2.y, r0.w  // r2.y <- randomWindDir.y
                 
-                #line 170
-                  mul r2.xy, r1.yyyy, r2.xyxx
-                  add r1.xy, r1.xzxx, r2.xyxx  // r1.y <- wind.y
+                #line 171
+                  mul r2.xy, r1.zzzz, r2.xyxx
+                  add r1.xy, r1.xyxx, r2.xyxx
                 
-                #line 172
+                #line 173
                   dp2 r0.w, r1.xyxx, r1.xyxx
                   sqrt r0.w, r0.w  // r0.w <- windForce
                 
-                #line 176
+                #line 177
                   mov r2.xyz, -v[0][0].xyzx
                   add r2.xyz, r2.xyzx, cb0[0].xyzx
                   dp3 r1.z, r2.xyzx, r2.xyzx
                   rsq r1.z, r1.z
                   mul r2.xy, r1.zzzz, r2.zxzz  // r2.x <- look.z; r2.y <- look.x
                 
-                #line 177
+                #line 178
                   mov r2.z, l(0)
                   dp3 r1.z, r2.xyzx, r2.xyzx
                   rsq r1.z, r1.z
                   mul r2.xyz, r1.zzzz, r2.xyzx  // r2.z <- look.y
                 
-                #line 178
+                #line 179
                   itof r3.xyz, l(0, 0, 1, 0)
                   mul r4.xyz, r2.xyzx, r3.zxyz
                   mul r3.xyz, r2.zxyz, r3.xyzx
@@ -338,26 +353,26 @@ fxgroup
                   rsq r1.z, r1.z
                   mul r3.xyz, r1.zzzz, r3.xyzx  // r3.x <- right.x; r3.y <- right.y; r3.z <- right.z
                 
-                #line 179
+                #line 180
                   mul r4.xyz, r2.zxyz, r3.zxyz
                   mul r2.xyz, r2.xyzx, r3.yzxy
                   mov r2.xyz, -r2.xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx  // r2.x <- up.x; r2.y <- up.y; r2.z <- up.z
                 
-                #line 183
-                  mov r1.z, l(1.000000)  // r1.z <- HalfWidth
-                
                 #line 184
+                  mov r1.z, l(0.500000)  // r1.z <- HalfWidth
+                
+                #line 185
                   itof r2.w, l(8)
                   mul r2.w, r1.z, r2.w  // r2.w <- PerHeight
                 
-                #line 187
+                #line 188
                   mul r2.xyz, r2.xyzx, r2.wwww  // r2.x <- Height.x; r2.y <- Height.y; r2.z <- Height.z
                 
-                #line 188
+                #line 189
                   mul r3.xyz, r3.xyzx, r1.zzzz  // r3.x <- Width.x; r3.y <- Width.y; r3.z <- Width.z
                 
-                #line 191
+                #line 192
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(0, 0, 0, 0)
@@ -366,13 +381,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[0].xyzw, r4.xyzw
                 
-                #line 192
+                #line 193
                   mul r4.xy, r1.wwww, r1.xyxx
                   mov r4.zw, x0[0].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[0].xz, r4.xxyx
                 
-                #line 193
+                #line 194
                   mul r1.z, r1.w, r0.w
                   mul r1.z, r1.z, l(0.800000)
                   mov r2.w, x0[0].y
@@ -380,7 +395,7 @@ fxgroup
                   add r1.z, r1.z, r2.w
                   mov x0[0].y, r1.z
                 
-                #line 194
+                #line 195
                   add r4.xyz, r0.xyzx, r3.xyzx
                   itof r5.xyz, l(0, 0, 0, 0)
                   mul r5.xyz, r2.xyzx, r5.xyzx
@@ -388,13 +403,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[1].xyzw, r4.xyzw
                 
-                #line 195
+                #line 196
                   mul r4.xy, r1.wwww, r1.xyxx
                   mov r4.zw, x0[1].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[1].xz, r4.xxyx
                 
-                #line 196
+                #line 197
                   mul r1.z, r1.w, r0.w
                   mul r1.z, r1.z, l(0.800000)
                   mov r2.w, x0[1].y
@@ -402,13 +417,13 @@ fxgroup
                   add r1.z, r1.z, r2.w
                   mov x0[1].y, r1.z
                 
-                #line 197
+                #line 198
                   itof r1.z, l(1)
                   mov r2.w, -cb1[0].y
                   add r1.z, r1.z, r2.w
                   add r1.z, r1.z, r1.w  // r1.z <- windCoEff
                 
-                #line 199
+                #line 200
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(1, 1, 1, 0)
@@ -417,13 +432,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[2].xyzw, r4.xyzw
                 
-                #line 200
+                #line 201
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[2].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[2].xz, r4.xxyx
                 
-                #line 201
+                #line 202
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[2].y
@@ -431,7 +446,7 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[2].y, r1.w
                 
-                #line 202
+                #line 203
                   add r4.xyz, r0.xyzx, r3.xyzx
                   itof r5.xyz, l(1, 1, 1, 0)
                   mul r5.xyz, r2.xyzx, r5.xyzx
@@ -439,13 +454,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[3].xyzw, r4.xyzw
                 
-                #line 203
+                #line 204
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[3].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[3].xz, r4.xxyx
                 
-                #line 204
+                #line 205
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[3].y
@@ -453,13 +468,13 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[3].y, r1.w
                 
-                #line 205
+                #line 206
                   itof r1.w, l(1)
                   mov r2.w, -cb1[2].y
                   add r1.w, r1.w, r2.w
                   add r1.z, r1.w, r1.z
                 
-                #line 207
+                #line 208
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(2, 2, 2, 0)
@@ -468,13 +483,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[4].xyzw, r4.xyzw
                 
-                #line 208
+                #line 209
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[4].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[4].xz, r4.xxyx
                 
-                #line 209
+                #line 210
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[4].y
@@ -482,7 +497,7 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[4].y, r1.w
                 
-                #line 210
+                #line 211
                   add r4.xyz, r0.xyzx, r3.xyzx
                   itof r5.xyz, l(2, 2, 2, 0)
                   mul r5.xyz, r2.xyzx, r5.xyzx
@@ -490,13 +505,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[5].xyzw, r4.xyzw
                 
-                #line 211
+                #line 212
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[5].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[5].xz, r4.xxyx
                 
-                #line 212
+                #line 213
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[5].y
@@ -504,13 +519,13 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[5].y, r1.w
                 
-                #line 213
+                #line 214
                   itof r1.w, l(1)
                   mov r2.w, -cb1[4].y
                   add r1.w, r1.w, r2.w
                   add r1.z, r1.w, r1.z
                 
-                #line 215
+                #line 216
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(3, 3, 3, 0)
@@ -519,13 +534,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[6].xyzw, r4.xyzw
                 
-                #line 216
+                #line 217
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[6].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[6].xz, r4.xxyx
                 
-                #line 217
+                #line 218
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[6].y
@@ -533,7 +548,7 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[6].y, r1.w
                 
-                #line 218
+                #line 219
                   add r4.xyz, r0.xyzx, r3.xyzx
                   itof r5.xyz, l(3, 3, 3, 0)
                   mul r5.xyz, r2.xyzx, r5.xyzx
@@ -541,13 +556,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[7].xyzw, r4.xyzw
                 
-                #line 219
+                #line 220
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[7].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[7].xz, r4.xxyx
                 
-                #line 220
+                #line 221
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[7].y
@@ -555,13 +570,13 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[7].y, r1.w
                 
-                #line 221
+                #line 222
                   itof r1.w, l(1)
                   mov r2.w, -cb1[6].y
                   add r1.w, r1.w, r2.w
                   add r1.z, r1.w, r1.z
                 
-                #line 223
+                #line 224
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(4, 4, 4, 0)
@@ -570,13 +585,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[8].xyzw, r4.xyzw
                 
-                #line 224
+                #line 225
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[8].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[8].xz, r4.xxyx
                 
-                #line 225
+                #line 226
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[8].y
@@ -584,7 +599,7 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[8].y, r1.w
                 
-                #line 226
+                #line 227
                   add r4.xyz, r0.xyzx, r3.xyzx
                   itof r5.xyz, l(4, 4, 4, 0)
                   mul r5.xyz, r2.xyzx, r5.xyzx
@@ -592,13 +607,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[9].xyzw, r4.xyzw
                 
-                #line 227
+                #line 228
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[9].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[9].xz, r4.xxyx
                 
-                #line 228
+                #line 229
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[9].y
@@ -606,13 +621,13 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[9].y, r1.w
                 
-                #line 229
+                #line 230
                   itof r1.w, l(1)
                   mov r2.w, -cb1[8].y
                   add r1.w, r1.w, r2.w
                   add r1.z, r1.w, r1.z
                 
-                #line 231
+                #line 232
                   mov r4.xyz, -r3.xyzx
                   add r4.xyz, r0.xyzx, r4.xyzx
                   itof r5.xyz, l(5, 5, 5, 0)
@@ -621,13 +636,13 @@ fxgroup
                   mov r4.w, l(1.000000)
                   mov x0[10].xyzw, r4.xyzw
                 
-                #line 232
+                #line 233
                   mul r4.xy, r1.zzzz, r1.xyxx
                   mov r4.zw, x0[10].xxxz
                   add r4.xy, r4.xyxx, r4.zwzz
                   mov x0[10].xz, r4.xxyx
                 
-                #line 233
+                #line 234
                   mul r1.w, r0.w, r1.z
                   mul r1.w, r1.w, l(0.800000)
                   mov r2.w, x0[10].y
@@ -635,7 +650,7 @@ fxgroup
                   add r1.w, r1.w, r2.w
                   mov x0[10].y, r1.w
                 
-                #line 234
+                #line 235
                   add r0.xyz, r0.xyzx, r3.xyzx
                   itof r3.xyz, l(5, 5, 5, 0)
                   mul r2.xyz, r2.xyzx, r3.xyzx
@@ -643,13 +658,13 @@ fxgroup
                   mov r2.w, l(1.000000)
                   mov x0[11].xyzw, r2.xyzw
                 
-                #line 235
+                #line 236
                   mul r0.xy, r1.zzzz, r1.xyxx
                   mov r1.xy, x0[11].xzxx
                   add r0.xy, r0.xyxx, r1.xyxx
                   mov x0[11].xz, r0.xxyx
                 
-                #line 236
+                #line 237
                   mul r0.x, r0.w, r1.z
                   mul r0.x, r0.x, l(0.800000)
                   mov r0.y, x0[11].y
@@ -657,192 +672,192 @@ fxgroup
                   add r0.x, r0.x, r0.y
                   mov x0[11].y, r0.x
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[0].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw  // r1.x <- gout.PosH.x
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw  // r1.y <- gout.PosH.y
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw  // r1.z <- gout.PosH.z
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw  // r1.w <- gout.PosH.w
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[0].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[1].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[1].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[2].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[2].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[3].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[3].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[4].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[4].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[5].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[5].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[6].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[6].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[7].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[7].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[8].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[8].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[9].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[9].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[10].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[10].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 249
+                #line 250
                   mov r0.xyzw, x0[11].xyzw
                   dp4 r1.x, r0.xyzw, cb0[1].xyzw
                   dp4 r1.y, r0.xyzw, cb0[2].xyzw
                   dp4 r1.z, r0.xyzw, cb0[3].xyzw
                   dp4 r1.w, r0.xyzw, cb0[4].xyzw
                 
-                #line 250
+                #line 251
                   mov r0.xy, cb1[11].xyxx  // r0.x <- gout.Tex.x; r0.y <- gout.Tex.y
                 
-                #line 251
+                #line 252
                   mov o0.xyzw, r1.xyzw
                   mov o1.xy, r0.xyxx
                   emit_stream m0
                 
-                #line 253
+                #line 255
                 endif 
                 
-                #line 254
+                #line 256
                 ret 
-                // Approximately 431 instruction slots used
+                // Approximately 446 instruction slots used
                             
             };
             PixelShader = asm {
@@ -890,10 +905,10 @@ fxgroup
                 //   v1.x <- pin.Tex.x; v1.y <- pin.Tex.y; 
                 //   o0.x <- <DrawPS return value>.x; o0.y <- <DrawPS return value>.y; o0.z <- <DrawPS return value>.z; o0.w <- <DrawPS return value>.w
                 //
-                #line 258 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Grass.fx"
+                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Grass.fx"
                 sample_indexable(texture2d)(float,float,float,float) r0.xyzw, v1.xyxx, t0.xyzw, s0  // r0.x <- color.x; r0.y <- color.y; r0.z <- color.z; r0.w <- color.w
                 
-                #line 259
+                #line 261
                 sample_indexable(texture2d)(float,float,float,float) r1.x, v1.xyxx, t1.xyzw, s1
                 mov r1.y, l(-0.100000)
                 add r1.x, r1.y, r1.x
@@ -901,7 +916,7 @@ fxgroup
                 and r1.x, r1.x, l(-1)
                 discard_nz r1.x
                 
-                #line 260
+                #line 262
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 9 instruction slots used

@@ -37,7 +37,7 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid Margin="0,0,0,-1" d:IsLocked="True">
+        <Grid Margin="0,0,0,-1" d:IsLocked="True" >
             <Grid.Resources>
                 <ImageSource x:Key="Image.SkyAndSun">Images/SkyAndSun.jpg</ImageSource>
                 <ImageSource x:Key="Image.Mountains">Images/LakeAndMountains.png</ImageSource>

@@ -38,8 +38,11 @@ public:
 
 	void Init(ID3D11Device* device, ID3D11DeviceContext* dc, const InitInfo& initInfo, ID3D11ShaderResourceView* RandomTexSRV);
 
-	void Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3]);
+	void Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3],bool isReflection);
 	void Update(float dt);
+
+	ID3D11ShaderResourceView* GetHeightMapSRV() { return mHeightMapSRV; }
+
 private:
 	void LoadHeightmap();
 	void Smooth();

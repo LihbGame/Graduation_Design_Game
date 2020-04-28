@@ -137,10 +137,10 @@ void HeightmapTerrain::Init(ID3D11Device* device, ID3D11DeviceContext* dc, const
 
 
 	//grass init
-	mGrass.Init(device, 2048.0f, 2048.0f, 1000, 1000, RandomTexSRV, mHeightMapSRV);
+	mGrass.Init(device, 2048.0f, 2048.0f, 2000, 2000, RandomTexSRV, mHeightMapSRV);
 }
 
-void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3])
+void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, DirectionalLight lights[3], bool isReflection)
 {
 
 	//grass draw
@@ -162,16 +162,17 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	ExtractFrustumPlanes(worldPlanes, viewProj);
 
 	// Set per frame constants.
+	Effects::TerrainFX->SetReflection(isReflection);
 	Effects::TerrainFX->SetViewProj(viewProj);
 	Effects::TerrainFX->SetEyePosW(cam.GetPosition());
 	Effects::TerrainFX->SetDirLights(lights);
 	Effects::TerrainFX->SetFogColor(GColors::Silver);
 	Effects::TerrainFX->SetFogStart(2000.0f);
 	Effects::TerrainFX->SetFogRange(3000.0f);
-	Effects::TerrainFX->SetMinDist(1000.0f);
-	Effects::TerrainFX->SetMaxDist(2000.0f);
+	Effects::TerrainFX->SetMinDist(200.0f);
+	Effects::TerrainFX->SetMaxDist(200.0f);
 	Effects::TerrainFX->SetMinTess(0.0f);
-	Effects::TerrainFX->SetMaxTess(6.0f);
+	Effects::TerrainFX->SetMaxTess(4.0f);
 	Effects::TerrainFX->SetTexelCellSpaceU(1.0f / mInfo.HeightmapWidth);
 	Effects::TerrainFX->SetTexelCellSpaceV(1.0f / mInfo.HeightmapHeight);
 	Effects::TerrainFX->SetWorldCellSpace(mInfo.CellSpacing);
@@ -227,7 +228,7 @@ void HeightmapTerrain::LoadHeightmap()
 	mHeightmap.resize(mInfo.HeightmapHeight * mInfo.HeightmapWidth, 0);
 	for (UINT i = 0; i < mInfo.HeightmapHeight * mInfo.HeightmapWidth; ++i)
 	{
-		mHeightmap[i] = (in[i] / 255.0f) * mInfo.HeightScale;
+		mHeightmap[i] = (in[i] / 255.0f) * mInfo.HeightScale-20.0f;
 	}
 }
 
