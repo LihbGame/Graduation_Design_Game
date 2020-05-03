@@ -271,6 +271,7 @@
     <ClInclude Include="..\..\Terrain\Terrain.h" />
     <ClInclude Include="..\..\Water\Water.h" />
     <ResourceCompile Include="resources.rc" />
+    <None Include="ClassDiagram.cd" />
     <None Include="Noesis.ico" />
     <CustomBuild Include="..\..\Data\App.xaml">
       <FileType>Document</FileType>

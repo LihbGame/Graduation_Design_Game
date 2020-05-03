@@ -1,0 +1,1474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Menu3D::Name" Collapsed="true">
+    <Position X="67" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIhAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAQCAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\app.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::App" Collapsed="true">
+    <Position X="56.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\App.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::MainMenu" Collapsed="true">
+    <Position X="56.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\MainMenu.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::MainWindow" Collapsed="true">
+    <Position X="58.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAEAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\MainWindow.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::MenuDescription" Collapsed="true">
+    <Position X="61.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAhAACAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\MenuDescription.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::MultiplierConverter" Collapsed="true">
+    <Position X="65.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\MultiplierConverter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::OptionSelector" Collapsed="true">
+    <Position X="70.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEBFRAAAAQwEAAIQAUASgEACAAAAAAQACAAAAIAIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\OptionSelector.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::PasswordBox" Collapsed="true">
+    <Position X="58.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\PasswordBox.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::SettingsMenu" Collapsed="true">
+    <Position X="67" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\SettingsMenu.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::StartMenu" Collapsed="true">
+    <Position X="67" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\StartMenu.xaml.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu3D::ViewModel" Collapsed="true">
+    <Position X="56.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AADABEsIAIgAkAAAkAQBCAAAEMAYAgggAAgAIAIAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\ViewModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppLauncher" Collapsed="true">
+    <Position X="58.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\app.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="60" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQCicAABiAAAJlARAAAQQAEwAIBogBwgAFEAMAgAgI=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="D3DApp" Collapsed="true">
+    <Position X="8.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABEABBEEAgAABLY4AQIAAEkhIyAAJAJIACAEACBAo=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dApp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="d3dHelper" Collapsed="true">
+    <Position X="56.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQCAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dUtil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextHelper" Collapsed="true">
+    <Position X="68.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dUtil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Convert" Collapsed="true">
+    <Position X="65.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dUtil.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GEffect" Collapsed="true">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAAAAAIAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WaterEffect" Collapsed="true">
+    <Position X="1.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAQACAACAJAIAACAAAAAAAgAAAAAAAAAAAnAMBAGAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WaterRefractionMaskEffect" Collapsed="true">
+    <Position X="3.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAgCAAAAAAAAAAAAAAAAAAABAAAAEAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicEffect" Collapsed="true">
+    <Position X="5.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RgCQAAAABBAAAwAEJBAAQAAAIBAACAAEDARAkAAEQBA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkyEffect" Collapsed="true">
+    <Position X="8" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAQAABAAAAAAAAAAAAAAAAAAABAAAAECIA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InstancedBasicEffect" Collapsed="true">
+    <Position X="10.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAAAAIAABBAIA4AEJBUBQBAAIBBAAAAEDAQEsAAEQBA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParticleEffect" Collapsed="true">
+    <Position X="12.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAEAAIBoAAAAMLAAAAAIAAAAAAAAAEAAQACAAAFAABE=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TerrainEffect" Collapsed="true">
+    <Position X="14.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAAAAIAARFAAEIKEBBAAQBABcRCAOgUUCAUIAIMEAhA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GrassEffect" Collapsed="true">
+    <Position X="17" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAAAAIAgQAAAkKAAAAAIAAAAABAEAABABQCAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Effects" Collapsed="true">
+    <Position X="58.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAAIAAgAAAAAgAAAAEAAAkAAAAAAIBAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Effects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameTimer" Collapsed="true">
+    <Position X="61.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhAAAAgAACAABAAJAAAIAgAAAAAAAAUAIAAAAAAAQQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\GameTimer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeometryGenerator" Collapsed="true">
+    <Position X="63.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAgkAAQAAAAAAIAAQAAgAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\GeometryGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MathHelper" Collapsed="true">
+    <Position X="60" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAABABAIAAAAEAAiIAAAAAAIEAAAgAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\MathHelper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderStates" Collapsed="true">
+    <Position X="61.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAEACAQAAAAAAAAAFAACgAAIAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\RenderStates.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShaderCompiler" Collapsed="true">
+    <Position X="70.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAACAEAAAAAAAAAAAAAAgAABAAAAAABAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\ShaderCompiler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="68.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAEAAAAEABAAAAFAAAAAAIAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\ShaderCompiler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureMgr" Collapsed="true">
+    <Position X="70.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAEIBABAAAAAAAAAAAAAAAAiAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\TextureMgr.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputLayoutDesc" Collapsed="true">
+    <Position X="68.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACCAAAAAAAAAAAQACAAAAAAEAAAAAAACA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputLayouts" Collapsed="true">
+    <Position X="70.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACCAAAAAAAAAABAACgAAAEAEAAAAIAACA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waves" Collapsed="true">
+    <Position X="60" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAgAAAAAAAAAAAQBAIAEEAQBELQAEgAAICAABARhA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Waves.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameApp" Collapsed="true">
+    <Position X="8.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CsKegeLQYJYgD80ARKmQpMLIAvADiIxiJAaCSBgCyIA=</HashCode>
+      <FileName>GameMain.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameGUI" Collapsed="true">
+    <Position X="60" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACUAAAAAAAAAAIABKAAAAAAAAAAAAEAAEBACAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\GameGUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoArray" Collapsed="true">
+    <Position X="60" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAIAAAAAgIgC4AAighCAACCIAAAAgCAAAAIAQAgA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoArray.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoArrayUID" Collapsed="true">
+    <Position X="61.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAIAAAAAgAAIMAAAggBAACCIAIAEgAIAAAIAAAgQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoArrayUID.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoBitFlag" Collapsed="true">
+    <Position X="63.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAIAAAQgAECAAAAAAAAAAAAAAAAAAAAABAQCA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoBitFlag.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoCmdLineHelp" Collapsed="true">
+    <Position X="65.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABIAAAAAAAAAABAAAAAAAAAAAAAAAAAEAAAAAoA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoCmdLineHelp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model" Collapsed="true">
+    <Position X="63.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQCAQBABAQAAAgAAAIAAAAAAACAKAAQDAgAABABAAE=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DLogicFlowHelp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DModelBase" Collapsed="true">
+    <Position X="1.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAgAEAgAAAEIEAAACAAAgCEAAAgAIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DModelFbx" Collapsed="true">
+    <Position X="0.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABgEAAABAoAAAAAAABAAAAAAACADAAABCQAAAhAYAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelFbx.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DModelKK" Collapsed="true">
+    <Position X="2.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIEBAABAoAAACAAAAAAAQAAACkCAABBCAAAAgAIAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelKK.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DModelManager" Collapsed="true">
+    <Position X="67" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQIQACAAChIAAAAAAIABgABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DShaderBase" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAIAAAAAACABAAAAAAAAEQAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DShaderManager" Collapsed="true">
+    <Position X="68.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAgAABAAAAhAAAAAAAQAAACAAAAAAABAAACAABA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DShaderModelFbx" Collapsed="true">
+    <Position X="0.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAAAAAAAIAgAAAAAAAAAAAgCAACAAACEAAABiAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderModelFbx.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DShaderModelKK" Collapsed="true">
+    <Position X="3" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBABAAAQAAEEYEghgAAAIAAIACwIAACIAJAQAAQACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderModelKK.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DShaderModelKKNoBone" Collapsed="true">
+    <Position X="5.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAAAEEEIEghAAAAIEAIAAwIAgCgAJAQAAAACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderModelKKNoBone.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DTexture" Collapsed="true">
+    <Position X="70.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAIAAAAAAAICAQAAEAAAgCAAChRAIABAABAAAAoBA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DTexture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoD3DTextureManager" Collapsed="true">
+    <Position X="56.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAIBAQAAEhAmAAAAAIBAACAAQQACAGgACAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DTextureManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoReadFile" Collapsed="true">
+    <Position X="58.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAEBACAEAAAEEgBAAAEAAAAAAAAABAAAAAGABAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoReadFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoSimpleLoadFile" Collapsed="true">
+    <Position X="60" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAEAAAABCgAAAAAAAAAAAAAAIAAAIAAABABAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoSimpleLoadFile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoSimpleLog" Collapsed="true">
+    <Position X="61.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAAACAACCAAAABhAAQAAAAAQAgBACgAAAAAAAQRIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoSimpleLog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoTimeHelp" Collapsed="true">
+    <Position X="63.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAABCAAABAAAAAAAgAgAAQAAAIAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoTimeHelp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoTinyString" Collapsed="true">
+    <Position X="65.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIBgAAgAABAAAAAAAAAAQAAAAAAAgAABAAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoTinyString.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StFBXManager" Collapsed="true">
+    <Position X="68.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIgAAAIAAAQAAGjoAAAAEA4AAAgI4AIAGhIAABACICA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StFBXModel" Collapsed="true">
+    <Position X="70.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAEAAgAAACBoAARACAAAiAAAAAgAAABAAQAAAAAAgo=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKFileKkbRead" Collapsed="true">
+    <Position X="56.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAASAAAhAAAAAAACAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKFileKkbRead.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKFileKkbWrite" Collapsed="true">
+    <Position X="58.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQgQUIABBAAAACCAIAIAAAAAAAEAAIEASAAAAABA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKFileKkbWrite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKFileKkfRead" Collapsed="true">
+    <Position X="60" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAACAAACAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKFileKkfRead.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKFileKkfWrite" Collapsed="true">
+    <Position X="61.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgQAAgAAAAAAAAAIAAAEAAAAAAAAJEICAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKFileKkfWrite.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKFileKkmRead" Collapsed="true">
+    <Position X="63.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKFileKkmRead.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StKKModel" Collapsed="true">
+    <Position X="65.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACRRAAAwAAAAAAIIAAIAAoABAAAAAAAAEBEA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGameMapelement" Collapsed="true">
+    <Position X="63.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgBAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgCCAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGameMap" Collapsed="true">
+    <Position X="61.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAQAAQAgAAAAAAAAAAAAACAAAIAAEAAAQAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGamePathFinder" Collapsed="true">
+    <Position X="5.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAQAAAAAAAAAAIBAAAAAIAAAAYAgAAAAAAAAAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\GamePathFinder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPathFinderBFS" Collapsed="true">
+    <Position X="5.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAABAQAAAAAAAAABAAAAIAAAQAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\GamePathFinder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sky" Collapsed="true">
+    <Position X="58.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEEAAAAAAAAgEAAAAAAAAAAACAACAAEAAgACAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\SkyBox\Sky.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grass" Collapsed="true">
+    <Position X="65.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAgEggAMAAAAKAASAAAEAAAAgEACAAAEAgA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\Terrain\Grass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeightmapTerrain" Collapsed="true">
+    <Position X="67" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICUIAQCCCQAQAgEAAgAAAABCAEkBAAAAgAADc0EAIIQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\Terrain\HeightmapTerrain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Terrain" Collapsed="true">
+    <Position X="67" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAECAAAAgAABAAAAQAAAAIggAAAAACAAFAAACBIAgA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\Terrain\Terrain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FBXShadowMapShaderkk" Collapsed="true">
+    <Position X="7.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAAAYYEgBgAAAAAAAAigIAQCAAJAQAAAACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\ShadowMap\FBXShadowMapShaderkk.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FBXShadowMapShaderkkNoBone" Collapsed="true">
+    <Position X="9.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAAAIAghAAAAIAAIABwIAACAAIAQAAIACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\ShadowMap\FBXShadowMapShaderkkNoBone.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShadowMap" Collapsed="true">
+    <Position X="56.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAAAAAgAIABBAAAQABAIABgAAAABAQAAAkAAAAAAI=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\ShadowMap\ShadowMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParticleSystem" Collapsed="true">
+    <Position X="56.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAhACAAABABoKAQEAAQAMAAIAEAAgAAAAiAKAIAEg=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\ParticleSystem\ParticleSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SenceManager" Collapsed="true">
+    <Position X="65.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABECAAAAAAAAAACQAAAAAAAAAAAAgBAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\SenceManager\SenceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Water" Collapsed="true">
+    <Position X="58.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAZAAAAAAAAAAAgGAkABAIADAgAAAAAAI=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\Water\Water.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Noesis::RepeatButton" Collapsed="true">
+    <Position X="63.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BiAAABAIAACCAAAAAABEgAAOAAMACCABAAAAAgIAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Include\NsGui\RepeatButton.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Noesis::ObservableCollection&lt;T&gt;" Collapsed="true">
+    <Position X="68.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMIAAEAAAAAABABAAAAABAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>D:\noesisGUI\Include\NsGui\ObservableCollection.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Noesis::Ptr&lt;T&gt;" Collapsed="true">
+    <Position X="60" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAABAAACAAAAgAEQAAAAAAAAAAhAAAABAA=</HashCode>
+      <FileName>D:\noesisGUI\Include\NsCore\Ptr.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="`anonymous-namespace'::D3D11Texture" Collapsed="true">
+    <Position X="70.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABABAABAAAAAQQAQAAAAAJAAAEAAAAAQQAAAEAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="`anonymous-namespace'::D3D11RenderTarget" Collapsed="true">
+    <Position X="68.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABCAAAAAAQAQAAAAAoAAQAAAgCAIAAAAgACAEA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoesisApp::D3D11RenderDevice" Collapsed="true">
+    <Position X="67" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgligEWAGsghE4lCAhECwMCCADA0JKBqUUAIJSwGGxE=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="DDS_PIXELFORMAT" Collapsed="true">
+    <Position X="63.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAQAAAIAAAAAAAAAAAAAAAAAAACAFIAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DDS_HEADER" Collapsed="true">
+    <Position X="60" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAASAAAAAAAgQIQIAAIAAEgAAAAAAAAAAQIAAAAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DDS_HEADER_DXT10" Collapsed="true">
+    <Position X="61.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAgAAAAAAACAAAAAAAAAAAQAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Model_Tansform_Info" Collapsed="true">
+    <Position X="56.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAACAAAAAAAAEAAAAAAEAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dApp.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_STATE_BLOCK_MASK" Collapsed="true">
+    <Position X="56.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>HvCAQAIAADAEAESABACAwQGADCAIAQQQIAACQACIMSg=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_EFFECT_TYPE_DESC" Collapsed="true">
+    <Position X="63.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAGAAAAIQAAAAAAAAAREAAQAEAAgAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_EFFECT_VARIABLE_DESC" Collapsed="true">
+    <Position X="65.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAABAAAAAgACAAAAAAAAAQAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_EFFECT_SHADER_DESC" Collapsed="true">
+    <Position X="61.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAQgAAAAEAAAAACAQCACAAAAAAAACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_PASS_DESC" Collapsed="true">
+    <Position X="68.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAIBAAAAAIAAQAQAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_PASS_SHADER_DESC" Collapsed="true">
+    <Position X="70.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_TECHNIQUE_DESC" Collapsed="true">
+    <Position X="58.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_GROUP_DESC" Collapsed="true">
+    <Position X="67" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="D3DX11_EFFECT_DESC" Collapsed="true">
+    <Position X="60" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAEAAAAAEAAAAAAAAAAIEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectionalLight" Collapsed="true">
+    <Position X="65.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAQAAAAAAAgAAAiAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\LightHelper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PointLight" Collapsed="true">
+    <Position X="65.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAACgAgAgAAAAAAAACAAAAAAAAAIEAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\LightHelper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SpotLight" Collapsed="true">
+    <Position X="67" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAABACgAgAiAAAAAAAACAAAAAAAgAAEAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\LightHelper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Material" Collapsed="true">
+    <Position X="70.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAgAAAAABAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\LightHelper.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoD3DModelInitParam_Fbx" Collapsed="true">
+    <Position X="70.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelFbx.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoD3DModelInitParam_KK" Collapsed="true">
+    <Position X="56.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelKK.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="stShaderModelFbxParam" Collapsed="true">
+    <Position X="65.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAFgAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAIA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderModelFbx.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="stShaderModelKKParam" Collapsed="true">
+    <Position X="67" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAAgAFAAAAAQIAAGACAQAAAAIgJAAIAAAAAgCABE=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderModelKK.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoMathFloat2" Collapsed="true">
+    <Position X="58.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoMathFloat3" Collapsed="true">
+    <Position X="60" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoMathMatrix3" Collapsed="true">
+    <Position X="61.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoMathMatrix4" Collapsed="true">
+    <Position X="63.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SoMathQuaternion" Collapsed="true">
+    <Position X="65.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhgAQAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="stTimeTM" Collapsed="true">
+    <Position X="68.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAgAAAAAAAAAACAAEAQAAAAAAAAIABAAAAAAY=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoTimeHelp.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXMeshData" Collapsed="true">
+    <Position X="65.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgABAAEAAAAAAAAgZCAAAhAAAAAACABAAAEAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXBoneIndexSkinWeight" Collapsed="true">
+    <Position X="58.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAACAAAAAAAACAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXControlPoint" Collapsed="true">
+    <Position X="60" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAQAAAAAAAAAAEAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXControlPointGroup" Collapsed="true">
+    <Position X="61.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABJCAAAICAAKAAAAgAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXBone" Collapsed="true">
+    <Position X="68.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAQAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAEIEA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXBoneGroup" Collapsed="true">
+    <Position X="56.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAACAAAAgCAAAAEIAAABAAAQJAAAAABA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXKeyFrame" Collapsed="true">
+    <Position X="63.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAABAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXBoneAnimation" Collapsed="true">
+    <Position X="70.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABgACAACAEgAgAACAAAIAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StFBXModelAnimation" Collapsed="true">
+    <Position X="67" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAQAACAQBIgAAAAAUYAAAAAAAQAAAABEAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKKVertexStruct_Pos_Normal_UV" Collapsed="true">
+    <Position X="61.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAIAAAAg=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKKVertexStruct_Pos_Normal_UV_Bone" Collapsed="true">
+    <Position X="63.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAIAQAAAAIAAAAIAAAAg=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKKBoneTransform" Collapsed="true">
+    <Position X="70.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKKModelData" Collapsed="true">
+    <Position X="60" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAYIAAAAQAAQAAAQAAQBFAAAAAIAICAAAAAAAgABAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKKModelAnimation" Collapsed="true">
+    <Position X="58.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAIAAAAAAAAAgAAAAQAAAAAAAAgBAAgAAQAAAAAAg=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKkbFileHead" Collapsed="true">
+    <Position X="68.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAAAAABAAAAgAAAAIQAEAAAAAAAAJAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="StKkfFileHead" Collapsed="true">
+    <Position X="56.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAACAAAAAAAAAAAABAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PathNode" Collapsed="true">
+    <Position X="63.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TankPosition" Collapsed="true">
+    <Position X="70.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="InstancedData" Collapsed="true">
+    <Position X="68.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\Terrain\Terrain.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Boundingsphere" Collapsed="true">
+    <Position X="58.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\ShadowMap\ShadowMap.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="UnitSence" Collapsed="true">
+    <Position X="58.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgCgAAAAAAAAAgAAQAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\SenceManager\SenceManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Noesis::NotifyCollectionChangedEventArgs" Collapsed="true">
+    <Position X="60" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAFAAEAAAAAAAAAAggAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>D:\noesisGUI\Include\NsGui\INotifyCollectionChanged.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="`anonymous-namespace'::handle_closer" Collapsed="true">
+    <Position X="67" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="`anonymous-namespace'::Program" Collapsed="true">
+    <Position X="68.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Render\D3D11RenderDevice\Src\D3D11RenderDevice.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vertex::Basic32" Collapsed="true">
+    <Position X="56.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAACIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vertex::PosNormalTexTan" Collapsed="true">
+    <Position X="67" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAgAAAAAAAAAAAAACIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vertex::Particle" Collapsed="true">
+    <Position X="61.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAEAAAAAAAIAAAAAAEQAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vertex::Terrain" Collapsed="true">
+    <Position X="56.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAACAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NoesisApp::MSAA" Collapsed="true">
+    <Position X="58.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Render\D3D11RenderDevice\Src\D3D11RenderDevice.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="LPD3D11EFFECTTYPE" Collapsed="true">
+    <Position X="13.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTVARIABLE" Collapsed="true">
+    <Position X="28" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTSCALARVARIABLE" Collapsed="true">
+    <Position X="20.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTVECTORVARIABLE" Collapsed="true">
+    <Position X="24.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTMATRIXVARIABLE" Collapsed="true">
+    <Position X="27" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTSTRINGVARIABLE" Collapsed="true">
+    <Position X="29.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTCLASSINSTANCEVARIABLE" Collapsed="true">
+    <Position X="31.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTINTERFACEVARIABLE" Collapsed="true">
+    <Position X="33.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTSHADERRESOURCEVARIABLE" Collapsed="true">
+    <Position X="36" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTUNORDEREDACCESSVIEWVARIABLE" Collapsed="true">
+    <Position X="38.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTRENDERTARGETVIEWVARIABLE" Collapsed="true">
+    <Position X="40.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTDEPTHSTENCILVIEWVARIABLE" Collapsed="true">
+    <Position X="42.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTCONSTANTBUFFER" Collapsed="true">
+    <Position X="45" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTSHADERVARIABLE" Collapsed="true">
+    <Position X="47.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTBLENDVARIABLE" Collapsed="true">
+    <Position X="49.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTDEPTHSTENCILVARIABLE" Collapsed="true">
+    <Position X="51.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTRASTERIZERVARIABLE" Collapsed="true">
+    <Position X="54" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTSAMPLERVARIABLE" Collapsed="true">
+    <Position X="22.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTPASS" Collapsed="true">
+    <Position X="12.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTTECHNIQUE" Collapsed="true">
+    <Position X="9.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECTGROUP" Collapsed="true">
+    <Position X="5.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="LPD3D11EFFECT" Collapsed="true">
+    <Position X="1.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="soint8" Collapsed="true">
+    <Position X="63.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="soint16" Collapsed="true">
+    <Position X="58.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="soint32" Collapsed="true">
+    <Position X="60" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="soint" Collapsed="true">
+    <Position X="56.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="soint64" Collapsed="true">
+    <Position X="61.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="souint8" Collapsed="true">
+    <Position X="56.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="souint16" Collapsed="true">
+    <Position X="67" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="souint32" Collapsed="true">
+    <Position X="68.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="souint" Collapsed="true">
+    <Position X="65.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="souint64" Collapsed="true">
+    <Position X="70.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoIntType.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="VPath" Collapsed="true">
+    <Position X="58.25" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Interface Name="ID3DX11EffectType" Collapsed="true">
+    <Position X="13.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAQAAAJAAAgAAAAAAAAAAAAAAAAAAgQAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectVariable" Collapsed="true">
+    <Position X="28" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAIAJQAhAAigBAACEAAEAIDEACAQAAEEIFUA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectScalarVariable" Collapsed="true">
+    <Position X="20.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAAkAACAAAgAIAAEAAAAAAAAAACAAAAAAAACAABA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectVectorVariable" Collapsed="true">
+    <Position X="24.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIgEAgBAAAABABQAAAAAQCAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectMatrixVariable" Collapsed="true">
+    <Position X="27" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAKAAEAEAAgAAAAAQQCICBAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectStringVariable" Collapsed="true">
+    <Position X="29.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectClassInstanceVariable" Collapsed="true">
+    <Position X="31.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectInterfaceVariable" Collapsed="true">
+    <Position X="33.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectShaderResourceVariable" Collapsed="true">
+    <Position X="36" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAQAAAAAAAAACAAAAAQ=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectUnorderedAccessViewVariable" Collapsed="true">
+    <Position X="38.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectRenderTargetViewVariable" Collapsed="true">
+    <Position X="40.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAABAAAAAACIAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectDepthStencilViewVariable" Collapsed="true">
+    <Position X="42.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAAAEQAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectConstantBuffer" Collapsed="true">
+    <Position X="45" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAABAAAAAAAAAAAQgAAAggAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectShaderVariable" Collapsed="true">
+    <Position X="47.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACACAAAABAAQAAAAIAAAAAFAAEAAAADAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectBlendVariable" Collapsed="true">
+    <Position X="49.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEEAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectDepthStencilVariable" Collapsed="true">
+    <Position X="51.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAABABAAQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectRasterizerVariable" Collapsed="true">
+    <Position X="54" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectSamplerVariable" Collapsed="true">
+    <Position X="22.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAQAAAQA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectPass" Collapsed="true">
+    <Position X="12.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAgABAABAIAABgAAgAAAAAAAAAIAAAQAACAQAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectTechnique" Collapsed="true">
+    <Position X="9.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAIAABAAAgAAAAAAAAAJAAAABAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11EffectGroup" Collapsed="true">
+    <Position X="5.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAABAAAgAAAQAAAAAIEAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ID3DX11Effect" Collapsed="true">
+    <Position X="1.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAEAACQCABAAAgAAQQAAAAIIUoCAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\d3dx11effect.h</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Menu3D::State" Collapsed="true">
+    <Position X="70.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAgAAABAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\MenuGUI\ViewModel.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DDS_MISC_FLAGS2" Collapsed="true">
+    <Position X="60" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Render_Options" Collapsed="true">
+    <Position X="63.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAQAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>GameMain.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Anim_State" Collapsed="true">
+    <Position X="56.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>GameMain.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SoD3DModelType" Collapsed="true">
+    <Position X="67" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAgAAAABAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DModelBase.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SoD3DShaderType" Collapsed="true">
+    <Position X="68.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAABAAACAABCAAgAAAABAAAAgCAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\SoD3DShaderBase.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="StFBXElementType" Collapsed="true">
+    <Position X="56.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAACAAAAAAAACAAAAAAFgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StFBXDefine.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="StKKVertexType" Collapsed="true">
+    <Position X="58.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgCAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\FBX\StKKDefine.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DIRECT" Collapsed="true">
+    <Position X="61.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAEAAAAAAAQAAAAAAAAAAAAAAAEgAAAAAAAAAA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ROT_DIR" Collapsed="true">
+    <Position X="65.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAQAAAACAAAAAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\AI_Path\CGameMapElement.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DirectX::DDS_ALPHA_MODE" Collapsed="true">
+    <Position X="58.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAACAAAAAQAAAQAAAAAAAAABA=</HashCode>
+      <FileName>D:\noesisGUI\Src\Packages\Samples\Menu3D\D3DCommon\DDSTextureLoader.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>

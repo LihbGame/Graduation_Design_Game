@@ -614,6 +614,7 @@
     <None Include="shader\LightHelper.fx">
       <Filter>Shader</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\sunsetcube1024.dds">
