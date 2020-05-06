@@ -3,9 +3,9 @@
 #include "StKKModel.h"
 #include "StKKFileKkbRead.h"
 #include "StKKFileKkfRead.h"
-#include "SoReadFile.h"
-#include "SoStringHelp.h"
-#include "SoCmdLineHelp.h"
+#include "GEReadFile.h"
+#include "GEStringHelp.h"
+#include "GECmdLineHelp.h"
 //----------------------------------------------------------------
 bool StKKFileKkmRead::ReadKkm(const char* szFileName, StKKModel* pModel)
 {
@@ -18,7 +18,7 @@ bool StKKFileKkmRead::ReadKkm(const char* szFileName, StKKModel* pModel)
 		return false;
 	}
 	//
-	SoReadFile kFile;
+	GEReadFile kFile;
 	if (kFile.LoadFile(szFileName) == false)
 	{
 		return false;
@@ -32,10 +32,10 @@ bool StKKFileKkmRead::ReadKkm(const char* szFileName, StKKModel* pModel)
 	int nLineLen = kFile.GetLineLen();
 	while (szLine)
 	{
-		const char* szNameValue = SoCmdLineHelp::GetValueByKey(szLine, nLineLen, "name");
-		if (SoStrCmp(szNameValue, "body") == 0)
+		const char* szNameValue = GECmdLineHelp::GetValueByKey(szLine, nLineLen, "name");
+		if (GEStrCmp(szNameValue, "body") == 0)
 		{
-			const char* szFileKkb = SoCmdLineHelp::GetValueByKey(szLine, nLineLen, "file");
+			const char* szFileKkb = GECmdLineHelp::GetValueByKey(szLine, nLineLen, "file");
 			StKKModelData* pModelData = new StKKModelData;
 			if (StKKFileKkbRead::ReadKkb(szFileKkb, pModelData))
 			{
@@ -48,12 +48,12 @@ bool StKKFileKkmRead::ReadKkm(const char* szFileName, StKKModel* pModel)
 				break;
 			}
 		}
-		else if (SoStrCmp(szNameValue, "anim") == 0)
+		else if (GEStrCmp(szNameValue, "anim") == 0)
 		{
-			const int nAnimID = SoCmdLineHelp::GetIntByKey(szLine, nLineLen, "id", -1);
+			const int nAnimID = GECmdLineHelp::GetIntByKey(szLine, nLineLen, "id", -1);
 			if (nAnimID != -1)
 			{
-				const char* szFileKkf = SoCmdLineHelp::GetValueByKey(szLine, nLineLen, "file");
+				const char* szFileKkf = GECmdLineHelp::GetValueByKey(szLine, nLineLen, "file");
 				StKKModelAnimation* pAnim = new StKKModelAnimation;
 				if (StKKFileKkfRead::ReadKkf(szFileKkf, pAnim))
 				{

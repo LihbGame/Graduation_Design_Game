@@ -182,78 +182,6 @@
     <ClInclude Include="..\..\MenuGUI\ViewModel.h">
       <Filter>MenuGUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\FBX\SoArray.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoArrayUID.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoBitFlag.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoCmdLineHelp.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DLogicFlowHelp.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DModelBase.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DModelFbx.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DModelKK.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DModelManager.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DShaderBase.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DShaderManager.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DShaderModelFbx.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DShaderModelKK.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DShaderModelKKNoBone.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DTexture.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoD3DTextureManager.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoIntType.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoMath.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoReadFile.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoSimpleLoadFile.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoSimpleLog.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoStringHelp.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoTimeHelp.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBX\SoTinyString.h">
-      <Filter>FBX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\FBX\StFBXDefine.h">
       <Filter>FBX</Filter>
     </ClInclude>
@@ -338,6 +266,78 @@
     <ClInclude Include="..\..\Terrain\Grass.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\FBX\GEArray.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEArrayUID.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEBitFlag.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GECmdLineHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DLogicFlowHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DModelBase.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DModelFbx.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DModelKK.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DModelManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DShaderBase.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DShaderManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DShaderModelFbx.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DShaderModelKK.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DShaderModelKKNoBone.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DTexture.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GED3DTextureManager.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEIntType.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEMath.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEReadFile.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GESimpleLoadFile.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GESimpleLog.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GEStringHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GETimeHelp.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBX\GETinyString.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\D3DCommon\Camera.cpp">
@@ -408,72 +408,6 @@
     </ClCompile>
     <ClCompile Include="..\..\MenuGUI\ViewModel.cpp">
       <Filter>MenuGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoArray.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoArrayUID.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoCmdLineHelp.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DLogicFlowHelp.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DModelBase.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DModelFbx.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DModelKK.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DModelManager.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DShaderBase.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DShaderManager.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DShaderModelFbx.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DShaderModelKK.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DShaderModelKKNoBone.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DTexture.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoD3DTextureManager.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoMath.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoReadFile.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoSimpleLoadFile.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoSimpleLog.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoStringHelp.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoTimeHelp.cpp">
-      <Filter>FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FBX\SoTinyString.cpp">
-      <Filter>FBX</Filter>
     </ClCompile>
     <ClCompile Include="..\..\FBX\StFBXDefine.cpp">
       <Filter>FBX</Filter>
@@ -552,6 +486,72 @@
     </ClCompile>
     <ClCompile Include="..\..\Terrain\Grass.cpp">
       <Filter>Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GEArray.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GEArrayUID.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GECmdLineHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DLogicFlowHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DModelBase.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DModelFbx.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DModelKK.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DModelManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DShaderBase.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DShaderManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DShaderModelFbx.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DShaderModelKK.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DShaderModelKKNoBone.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DTexture.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GED3DTextureManager.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GEMath.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GEReadFile.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GESimpleLoadFile.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GESimpleLog.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GEStringHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GETimeHelp.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBX\GETinyString.cpp">
+      <Filter>FBX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

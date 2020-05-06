@@ -266,7 +266,7 @@ LRESULT D3DApp::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				else if (mResizing)
 				{
-					// If user is dragging the resize bars, we do not resize 
+					// If user is dragging the resize bars, we do not resize H
 					// the buffers here because as the user continuously 
 					// drags the resize bars, a stream of WM_SIZE messages are
 					// sent to the window, and it would be pointless (and slow)

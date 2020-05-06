@@ -61,14 +61,14 @@ float StFBXModel::GetAnimTimeLength()
 	return m_kAnimation.fAnimLength;
 }
 //----------------------------------------------------------------
-void StFBXModel::CalculateMeshBoundingBox(SoMathFloat3* pMinPos, SoMathFloat3* pMaxPos)
+void StFBXModel::CalculateMeshBoundingBox(GEMathFloat3* pMinPos, GEMathFloat3* pMaxPos)
 {
-	float fMinX = SoMath_FloatMax;
-	float fMinY = SoMath_FloatMax;
-	float fMinZ = SoMath_FloatMax;
-	float fMaxX = SoMath_FloatMin;
-	float fMaxY = SoMath_FloatMin;
-	float fMaxZ = SoMath_FloatMin;
+	float fMinX = GEMath_FloatMax;
+	float fMinY = GEMath_FloatMax;
+	float fMinZ = GEMath_FloatMax;
+	float fMaxX = GEMath_FloatMin;
+	float fMaxY = GEMath_FloatMin;
+	float fMaxZ = GEMath_FloatMin;
 
 	const int nCPCount = m_kControlPointGroup.GetSize();
 	for (int cpIndex = 0; cpIndex < nCPCount; ++cpIndex)

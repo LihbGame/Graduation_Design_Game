@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <map>
-#include "SoSimpleLoadFile.h"
+#include "GESimpleLoadFile.h"
 #include "d3dUtil.h"
 #include "d3dApp.h"
 //Manage 10x10 maps 
@@ -32,7 +32,7 @@ public:
 	bool ReadMapDataFormFile(const char* szFileName);
 	std::vector<UnitSence>& GetSenceData();
 private:
-	SoSimpleLoadFile* pLoadFile;
+	GESimpleLoadFile* pLoadFile;
 	std::vector<UnitSence> Sence;
 };
 

@@ -11,7 +11,7 @@ public:
 
 private:
 	static bool LoadFileData(const char* szFileName, StKkfFileHead** ppFileHead, char** ppTextureData, int* pTextureWidth, int* pTextureHeight);
-	static bool CreateAnimTexture(int nWidth, int nHeight, const char* pSrcBuff, SoD3DTexture** ppTexture);
+	static bool CreateAnimTexture(int nWidth, int nHeight, const char* pSrcBuff, GED3DTexture** ppTexture);
 	static void GenerateWidthHeight(int nPixelCount, int* pWidth, int* pHeight);
 };
 //----------------------------------------------------------------

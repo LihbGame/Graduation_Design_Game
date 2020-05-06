@@ -1,5 +1,5 @@
 #include "FBXShadowMapShaderkkNoBone.h"
-#include "SoD3DShaderModelKK.h"
+#include "GED3DShaderModelKK.h"
 #include "d3dApp.h"
 #include "Camera.h"
 //----------------------------------------------------------------
@@ -35,7 +35,7 @@ bool FBXShadowMapShaderkkNoBone::InitShadowShaderKKNoBone()
 		return false;
 	}
 
-	SoSimpleLoadFile kShaderFile;
+	GESimpleLoadFile kShaderFile;
 	if (kShaderFile.LoadFile(ShadowKKNoBone_File, false) == false)
 	{
 		return false;

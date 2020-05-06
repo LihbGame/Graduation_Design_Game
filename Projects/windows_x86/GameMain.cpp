@@ -14,7 +14,7 @@
 #include "RenderStates.h"
 #include "Waves.h"
 #include "Camera.h"
-#include "SoD3DLogicFlowHelp.h"
+#include "GED3DLogicFlowHelp.h"
 #include "CGameMapElement.h"
 #include "Sky.h"
 #include "Terrain.h"
@@ -385,7 +385,7 @@ bool GameApp::Init()
 	BuildLandGeometryBuffers();
 	
 	//FBX Create
-	if (!SoD3DLogicFlowHelp_Create())
+	if (!GED3DLogicFlowHelp_Create())
 		return false;
 	
 	//FBX Init and Load

@@ -3,7 +3,7 @@
 #define _StKKDefine_h_
 //----------------------------------------------------------------
 #include "d3dUtil.h"
-#include "SoD3DTexture.h"
+#include "GED3DTexture.h"
 //----------------------------------------------------------------
 //每个顶点最多受几根骨骼影响。
 #define StKK_MaxBonePerVertex 4
@@ -38,15 +38,15 @@ struct StKKVertexStruct_Pos_Normal_UV_Bone
 //----------------------------------------------------------------
 struct StKKBoneTransform
 {
-	SoMathMatrix3 Rotate;
-	SoMathFloat3 Translate;
+	GEMathMatrix3 Rotate;
+	GEMathFloat3 Translate;
 };
 //----------------------------------------------------------------
 struct StKKModelData
 {
 	ID3D11Buffer* pVertexStructBuffer;
 	ID3D11Buffer* pIndexBuffer;
-	SoD3DTexture* pVertexValueTexture;
+	GED3DTexture* pVertexValueTexture;
 	//顶点结构体类型，值为 StKKVertexType 枚举值。
 	int nVertexType;
 	int nVertexCount;
@@ -61,8 +61,8 @@ struct StKKModelData
 	int nTangentCount;
 	//UV值的个数。
 	int nUVCount;
-	SoMathFloat3 kPosMinValue;
-	SoMathFloat3 kPosMaxValue;
+	GEMathFloat3 kPosMinValue;
+	GEMathFloat3 kPosMaxValue;
 
 	StKKModelData();
 	~StKKModelData();
@@ -70,7 +70,7 @@ struct StKKModelData
 //----------------------------------------------------------------
 struct StKKModelAnimation
 {
-	SoD3DTexture* pAnimationTexture;
+	GED3DTexture* pAnimationTexture;
 	int nAnimID;
 	int nTextureWidth;
 	int nTextureHeight;
@@ -90,9 +90,9 @@ struct StKKModelAnimation
 //Kkb文件格式
 //1，StKkbFileHead
 //2，StKKVertexStruct 列表，顶点结构体
-//3，SoMathFloat3 列表，顶点值
-//4，SoMathFloat3 列表，法线值
-//5，SoMathFloat2 列表，UV值
+//3，GEMathFloat3 列表，顶点值
+//4，GEMathFloat3 列表，法线值
+//5，GEMathFloat2 列表，UV值
 //----------------------------------------------------------------
 #define StKkbFileFlagSize 5
 extern const char* StKkbFileFlagString;

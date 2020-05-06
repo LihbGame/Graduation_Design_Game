@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------
 #include "StFBXManager.h"
 #include "StFBXModel.h"
-#include "SoSimpleLog.h"
-#include "SoStringHelp.h"
+#include "GESimpleLog.h"
+#include "GEStringHelp.h"
 #include <Windows.h>
 //----------------------------------------------------------------
 StFBXManager* StFBXManager::ms_pInstance = 0;
@@ -52,7 +52,7 @@ bool StFBXManager::InitFBXManager()
 	m_pSDKManager = FbxManager::Create();
 	if (m_pSDKManager == 0)
 	{
-		SoLogError("StFBXManager::InitFBXManager : FbxManager::Create() fail");
+		GELogError("StFBXManager::InitFBXManager : FbxManager::Create() fail");
 		return false;
 	}
 
@@ -64,13 +64,13 @@ bool StFBXManager::InitFBXManager()
 	FbxString lPath = FbxGetApplicationDirectory();
 	m_pSDKManager->LoadPluginsDirectory(lPath.Buffer());
 
-	SoLogDebug("StFBXManager::InitFBXManager : success");
+	GELogDebug("StFBXManager::InitFBXManager : success");
 	return true;
 }
 //----------------------------------------------------------------
 void StFBXManager::ClearFBXManager()
 {
-	SoLogDebug("StFBXManager::ClearFBXManager : start");
+	GELogDebug("StFBXManager::ClearFBXManager : start");
 	if (m_pSDKManager)
 	{
 		m_pSDKManager->Destroy();
@@ -82,45 +82,45 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 {
 	if (szFileName == 0 || szFileName[0] == 0)
 	{
-		SoLogError("StFBXManager::LoadFBX : szFileName == 0 || szFileName[0] == 0");
+		GELogError("StFBXManager::LoadFBX : szFileName == 0 || szFileName[0] == 0");
 		return false;
 	}
 	if (pFBXModel == 0)
 	{
-		SoLogError("StFBXManager::LoadFBX : pFBXModel == 0");
+		GELogError("StFBXManager::LoadFBX : pFBXModel == 0");
 		return false;
 	}
 
 	bool br = false;
 	FbxScene* pSDKScene = 0;
 	FbxImporter* pSDKImporter = 0;
-	SoLogDebug("StFBXManager::LoadFBX : Start; FileName[%s]", szFileName);
+	GELogDebug("StFBXManager::LoadFBX : Start; FileName[%s]", szFileName);
 
 	do 
 	{
 		pSDKScene = FbxScene::Create(m_pSDKManager, "");
 		if (pSDKScene == 0)
 		{
-			SoLogError("StFBXManager::LoadFBX : FbxScene::Create() fail");
+			GELogError("StFBXManager::LoadFBX : FbxScene::Create() fail");
 			break;
 		}
 
 		pSDKImporter = FbxImporter::Create(m_pSDKManager, "");
 		if (pSDKImporter == 0)
 		{
-			SoLogError("StFBXManager::LoadFBX : FbxImporter::Create() fail");
+			GELogError("StFBXManager::LoadFBX : FbxImporter::Create() fail");
 			break;
 		}
 
 		if (pSDKImporter->Initialize(szFileName, -1, m_pSDKManager->GetIOSettings()) == false)
 		{
-			SoLogError("StFBXManager::LoadFBX : m_pSDKImporter->Initialize fail");
+			GELogError("StFBXManager::LoadFBX : m_pSDKImporter->Initialize fail");
 			break;
 		}
 
 		if (pSDKImporter->Import(pSDKScene) == false)
 		{
-			SoLogError("StFBXManager::LoadFBX : m_pSDKImporter->Import fail");
+			GELogError("StFBXManager::LoadFBX : m_pSDKImporter->Import fail");
 			break;
 		}
 
@@ -151,7 +151,7 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 		//这个函数把MeshA切分成了2个Mesh，一个Mesh使用materialA，另一个Mesh使用materialB。
 		lGeomConverter.SplitMeshesPerMaterial(pSDKScene, true);
 
-		SoLogDebug("StFBXManager::LoadFBX : Load file success");
+		GELogDebug("StFBXManager::LoadFBX : Load file success");
 
 		//开始解析
 		FbxNode* pSceneRootNode = pSDKScene->GetRootNode();
@@ -164,14 +164,14 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 		//遍历每个Mesh，检查所有的Mesh是否含有相同的顶点结构，例如都含有法线数据，都含有两套UV数据。
 		//同时也检查每个Mesh的MappingMode值，目前只支持 EMappingMode::eByPolygonVertex 值。
 		//同时计算所有的Mesh的总顶点个数。
-		SoBitFlag kVertexType;
+		GEBitFlag kVertexType;
 		int nMeshVertexTotalCount = 0;
 		bool bAllMeshOK = true;
 		ParseMeshVertexTotalCountAndVertexType(pSceneRootNode, &kVertexType, &nMeshVertexTotalCount, &bAllMeshOK);
 		if (bAllMeshOK == false)
 		{
 			::MessageBoxA(NULL, "Mesh含有不同的顶点结构，或者某个Mesh的MappingMode值不为eByPolygonVertex！详见log文件", "FBX File Error", MB_OK);
-			SoLogError("StFBXManager::LoadFBX : ParseMeshVertexTotalCountAndVertexType fail");
+			GELogError("StFBXManager::LoadFBX : ParseMeshVertexTotalCountAndVertexType fail");
 			break;
 		}
 		//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -188,7 +188,7 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 			int nProcessedVertexCount = 0;
 			int nProcessedControlPointCount = 0;
 			ParseMeshData(pSceneRootNode, pMeshData, &nProcessedVertexCount, &nProcessedControlPointCount);
-			SoLogDebug("StFBXManager::LoadFBX : VertexCount[%d] VertexType[%u] VertexStructSize[%d]", pMeshData->nVertexCount, pMeshData->kVertexType.GetValue(), pMeshData->nSizeofVertexData);
+			GELogDebug("StFBXManager::LoadFBX : VertexCount[%d] VertexType[%u] VertexStructSize[%d]", pMeshData->nVertexCount, pMeshData->kVertexType.GetValue(), pMeshData->nSizeofVertexData);
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 			//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -197,7 +197,7 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 			ParseControlPointTotalCount(pSceneRootNode, &nControlPointTotalCount);
 			pControlPointGroup->ReserveControlPointCount(nControlPointTotalCount);
 			ParseAllControlPoint(pSceneRootNode, pControlPointGroup);
-			SoLogDebug("StFBXManager::LoadFBX : ControlPointTotalCount[%d]", pControlPointGroup->GetSize());
+			GELogDebug("StFBXManager::LoadFBX : ControlPointTotalCount[%d]", pControlPointGroup->GetSize());
 			//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 			//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -217,7 +217,7 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 				pBoneGroup->GenerateChildren();
 				//计算骨骼的变换矩阵。
 				ParseAllBoneMatrixFromBoneSpaceToWorldSpace(pSceneRootNode, pSceneRootNode, pBoneGroup);
-				SoLogDebug("StFBXManager::LoadFBX : BoneTotalCount[%d]", pBoneGroup->GetSize());
+				GELogDebug("StFBXManager::LoadFBX : BoneTotalCount[%d]", pBoneGroup->GetSize());
 				//之前，控制点的蒙皮数据中存储的是骨骼名字。
 				//现在有了骨骼数据，可以将骨骼名字转换成相应的骨骼序号。
 				pControlPointGroup->MakeBoneIndexByBoneName(pBoneGroup);
@@ -249,11 +249,11 @@ bool StFBXManager::LoadFBX(const char* szFileName, StFBXModel* pFBXModel)
 		pSDKScene = 0;
 	}
 
-	SoLogDebug("StFBXManager::LoadFBX : Finish; Success[%d]", br?1:0);
+	GELogDebug("StFBXManager::LoadFBX : Finish; Success[%d]", br?1:0);
 	return br;
 }
 //----------------------------------------------------------------
-void StFBXManager::ParseMeshVertexTotalCountAndVertexType(FbxNode* pNode, SoBitFlag* pVertexType, int* pTotalCount, bool* pAllMeshOK)
+void StFBXManager::ParseMeshVertexTotalCountAndVertexType(FbxNode* pNode, GEBitFlag* pVertexType, int* pTotalCount, bool* pAllMeshOK)
 {
 	if (pNode == NULL)
 	{
@@ -296,7 +296,7 @@ void StFBXManager::ParseMeshVertexTotalCountAndVertexType(FbxNode* pNode, SoBitF
 	}
 }
 //----------------------------------------------------------------
-void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVertexType, bool* pAllMeshOK, bool bFirstMesh)
+void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, GEBitFlag* pVertexType, bool* pAllMeshOK, bool bFirstMesh)
 {
 	//肯定有顶点坐标数据
 	if (bFirstMesh)
@@ -308,7 +308,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 		const int nMappingMode = pFbxMesh->GetElementMaterial(0)->GetMappingMode();
 		if (nMappingMode != FbxGeometryElement::eAllSame)
 		{
-			SoLogError("StFBXManager::ParseSingleMeshVertexType : Material MappingMode Error [%d]", nMappingMode);
+			GELogError("StFBXManager::ParseSingleMeshVertexType : Material MappingMode Error [%d]", nMappingMode);
 			*pAllMeshOK = false;
 			return;
 		}
@@ -329,7 +329,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			}
 			else
 			{
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : Normal MappingMode Error [%d]", nMappingMode);
+				GELogError("StFBXManager::ParseSingleMeshVertexType : Normal MappingMode Error [%d]", nMappingMode);
 				*pAllMeshOK = false;
 				return;
 			}
@@ -346,7 +346,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			if (pVertexType->IsFlagExist(StFBXElement_Normal) != bNormalExist)
 			{
 				//本Mesh与其他的Mesh有差异。
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : Normal Data different");
+				GELogError("StFBXManager::ParseSingleMeshVertexType : Normal Data different");
 				*pAllMeshOK = false;
 				return;
 			}
@@ -368,7 +368,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			}
 			else
 			{
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : Tangent MappingMode Error [%d]", nMappingMode);
+				GELogError("StFBXManager::ParseSingleMeshVertexType : Tangent MappingMode Error [%d]", nMappingMode);
 				*pAllMeshOK = false;
 				return;
 			}
@@ -390,7 +390,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
    			if (pVertexType->IsFlagExist(StFBXElement_Tangent) != bTangentExist)
 			{
 				//本Mesh与其他的Mesh有差异。
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : Tangent Data different");
+				GELogError("StFBXManager::ParseSingleMeshVertexType : Tangent Data different");
 				*pAllMeshOK = false;
 				return;
 			}
@@ -411,7 +411,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			}
 			else
 			{
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : VertexColor MappingMode Error [%d]", nMappingMode);
+				GELogError("StFBXManager::ParseSingleMeshVertexType : VertexColor MappingMode Error [%d]", nMappingMode);
 				*pAllMeshOK = false;
 				return;
 			}
@@ -428,7 +428,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			if (pVertexType->IsFlagExist(StFBXElement_Color) != bColorExist)
 			{
 				//本Mesh与其他的Mesh有差异。
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : VertexColor Data different");
+				GELogError("StFBXManager::ParseSingleMeshVertexType : VertexColor Data different");
 				*pAllMeshOK = false;
 				return;
 			}
@@ -449,7 +449,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			}
 			else
 			{
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : UV1 MappingMode Error [%d]", nMappingMode);
+				GELogError("StFBXManager::ParseSingleMeshVertexType : UV1 MappingMode Error [%d]", nMappingMode);
 				*pAllMeshOK = false;
 				return;
 			}
@@ -466,7 +466,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			if (pVertexType->IsFlagExist(StFBXElement_UV1) != bUV1Exist)
 			{
 				//本Mesh与其他的Mesh有差异。
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : UV1 Data different");
+				GELogError("StFBXManager::ParseSingleMeshVertexType : UV1 Data different");
 				*pAllMeshOK = false;
 				return;
 			}
@@ -484,7 +484,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			}
 			else
 			{
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : UV2 MappingMode Error [%d]", nMappingMode);
+				GELogError("StFBXManager::ParseSingleMeshVertexType : UV2 MappingMode Error [%d]", nMappingMode);
 				*pAllMeshOK = false;
 				return;
 			}
@@ -501,7 +501,7 @@ void StFBXManager::ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVert
 			if (pVertexType->IsFlagExist(StFBXElement_UV2) != bUV2Exist)
 			{
 				//本Mesh与其他的Mesh有差异。
-				SoLogError("StFBXManager::ParseSingleMeshVertexType : UV2 Data different");
+				GELogError("StFBXManager::ParseSingleMeshVertexType : UV2 Data different");
 				*pAllMeshOK = false;
 				return;
 			}
@@ -929,7 +929,7 @@ void StFBXManager::LoadSingleControlPointSkinWeight(FbxMesh* pMesh, StFBXControl
 				}
 				else
 				{
-					SoLogError("StFBXManager::LoadSingleControlPointSkinWeight : Can not find ControlPoint by index [%d]", nControlPointIndex);
+					GELogError("StFBXManager::LoadSingleControlPointSkinWeight : Can not find ControlPoint by index [%d]", nControlPointIndex);
 				}
 			}
 		}
@@ -1001,7 +1001,7 @@ void StFBXManager::LoadSingleBoneMatrixFromBoneSpaceToWorldSpace(FbxNode* pNode,
 			const int nBoneIndex = pBoneGroup->GetBoneIndexByBoneName(pBoneName);
 			if (nBoneIndex == -1)
 			{
-				SoLogError("StFBXManager::LoadSingleBoneMatrixFromBoneSpaceToWorldSpace : Can not find bone by BoneName[%s]", pBoneName);
+				GELogError("StFBXManager::LoadSingleBoneMatrixFromBoneSpaceToWorldSpace : Can not find bone by BoneName[%s]", pBoneName);
 				continue;
 			}
 
@@ -1027,7 +1027,7 @@ void StFBXManager::ParseAllBoneAnimationData(FbxScene* pSDKScene, StFBXBoneGroup
 	FbxAnimStack* pAnimStack = pSDKScene->GetSrcObject<FbxAnimStack>(0);
 	if (pAnimStack == NULL)
 	{
-		SoLogDebug("StFBXManager::ParseAllBoneAnimationData : no FbxAnimStack found");
+		GELogDebug("StFBXManager::ParseAllBoneAnimationData : no FbxAnimStack found");
 		return;
 	}
 	pSDKScene->SetCurrentAnimationStack(pAnimStack);
@@ -1050,7 +1050,7 @@ void StFBXManager::ParseAllBoneAnimationData(FbxScene* pSDKScene, StFBXBoneGroup
 		FindBoneByIndexAndName(pSDKScene->GetRootNode(), boneIndex, szBoneName, &pBoneNode, &nAccBoneCount);
 		if (pBoneNode == NULL)
 		{
-			SoLogError("StFBXManager::ParseAllBoneAnimationData : Can not find Bone [%s]", szBoneName);
+			GELogError("StFBXManager::ParseAllBoneAnimationData : Can not find Bone [%s]", szBoneName);
 			continue;
 		}
 
@@ -1087,7 +1087,7 @@ void StFBXManager::GetGeometryTransformation(FbxNode* pNode, FbxAMatrix* pMat)
 	}
 }
 //----------------------------------------------------------------
-void StFBXManager::ConvertFbxAMatrixToSoMathMatrix4(const FbxAMatrix* pFbxAMatrix, SoMathMatrix4* pSoMatrix)
+void StFBXManager::ConvertFbxAMatrixToSoMathMatrix4(const FbxAMatrix* pFbxAMatrix, GEMathMatrix4* pSoMatrix)
 {
 	for (int row = 0; row < 4; ++row)
 	{
@@ -1124,7 +1124,7 @@ void StFBXManager::FindBoneByIndexAndName(FbxNode* pNode, int nBoneIndex, const 
 
 		if (*pAccBoneCount == nBoneIndex)
 		{
-			if (SoStrCmpNoCase(pNode->GetName(), szBoneName) == 0)
+			if (GEStrCmpNoCase(pNode->GetName(), szBoneName) == 0)
 			{
 				*ppResultNode = pNode;
 				break;

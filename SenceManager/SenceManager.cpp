@@ -2,7 +2,7 @@
 SenceManager::SenceManager()
 {
 	//≥ı ºªØ
-	pLoadFile = new SoSimpleLoadFile;
+	pLoadFile = new GESimpleLoadFile;
 }
 
 SenceManager::~SenceManager()

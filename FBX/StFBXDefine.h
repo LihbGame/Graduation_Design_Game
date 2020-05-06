@@ -2,9 +2,9 @@
 #ifndef _StFBXDefine_h_
 #define _StFBXDefine_h_
 //----------------------------------------------------------------
-#include "SoMath.h"
-#include "SoTinyString.h"
-#include "SoBitFlag.h"
+#include "GEMath.h"
+#include "GETinyString.h"
+#include "GEBitFlag.h"
 #include "StFBXUserDefine.h"
 //----------------------------------------------------------------
 //Vector3有3个float元素
@@ -44,7 +44,7 @@ struct StFBXMeshData
 	//该数组的长度就是nVertexCount。
 	int* pVertexIndex2ControlPointIndex;
 	//顶点结构体中含有哪些成员（法线，贴图坐标等等）。
-	SoBitFlag kVertexType;
+	GEBitFlag kVertexType;
 	//顶点结构体的字节数。
 	//我们约定，一个fbx文件中，所有的Mesh的顶点数据格式都相同。
 	//不同的mesh中，顶点结构体的成员相同，顶点结构体的字节数也相同。
@@ -52,7 +52,7 @@ struct StFBXMeshData
 
 	StFBXMeshData();
 	~StFBXMeshData();
-	void SetVertexType(const SoBitFlag& kType);
+	void SetVertexType(const GEBitFlag& kType);
 	void ReserveVertexCount(const int nVertexCount);
 };
 //----------------------------------------------------------------
@@ -60,7 +60,7 @@ struct StFBXMeshData
 //BoneIndex就是StFBXBoneGroup中的数组下标。
 struct StFBXBoneIndexSkinWeight
 {
-	SoTinyString kBoneName;
+	GETinyString kBoneName;
 	int nBoneIndex;
 	float fSkinWeight;
 
@@ -71,7 +71,7 @@ struct StFBXBoneIndexSkinWeight
 struct StFBXControlPoint
 {
 	//顶点坐标。
-	SoMathFloat3 kVertex;
+	GEMathFloat3 kVertex;
 	//本控制点受哪些骨骼的影响，以及影响权重。
 	StFBXBoneIndexSkinWeight kPairList[StFBX_MaxCount_BoneIndexSkinWeightPerControlPoint];
 
@@ -111,14 +111,14 @@ public:
 struct StFBXBone
 {
 	//本骨骼的名字。
-	SoTinyString kBoneName;
+	GETinyString kBoneName;
 	//父骨骼在层级列表中的序号位置。
 	int nParentIndex;
 	//子骨骼在层级列表中的序号位置。每个元素都是一个int值。
 	int kChildIndexList[StFBX_MaxCount_ChildBone];
 	//动画播放过程中，顶点坐标的计算公式：
 	//VertexAtTimeT = VertexFromControlPoint * kMatFromBoneSpaceToWorldSpace * KeyFrameMatrixAtTimeT
-	SoMathMatrix4 kMatFromBoneSpaceToModelSpace;
+	GEMathMatrix4 kMatFromBoneSpaceToModelSpace;
 
 	StFBXBone();
 	~StFBXBone();
@@ -149,7 +149,7 @@ public:
 struct StFBXKeyFrame
 {
 	float fKeyTime;
-	SoMathMatrix4 matKeyTransform;
+	GEMathMatrix4 matKeyTransform;
 
 	StFBXKeyFrame();
 };

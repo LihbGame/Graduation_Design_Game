@@ -22,10 +22,10 @@
 #include "dxerr.h"
 #include "d3dx11effect.h"
 #include "DDSTextureLoader.h"
-#include "SoArrayUID.h"
-#include "SoSimpleLoadFile.h"
-#include "SoSimpleLog.h"
-#include "Somath.h"
+#include "GEArrayUID.h"
+#include "GESimpleLoadFile.h"
+#include "GESimpleLog.h"
+#include "GEmath.h"
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 

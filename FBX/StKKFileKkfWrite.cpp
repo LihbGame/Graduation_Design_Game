@@ -5,7 +5,7 @@
 //----------------------------------------------------------------
 #include "StKKFileKkfWrite.h"
 #include "StFBXModel.h"
-#include "SoSimpleLog.h"
+#include "GESimpleLog.h"
 //----------------------------------------------------------------
 StKKFileKkfWrite::StKKFileKkfWrite()
 :m_pBoneTransformBuff(0)
@@ -30,7 +30,7 @@ bool StKKFileKkfWrite::WriteKkf(const char* szFileName, StFBXModel* pModel)
 		return false;
 	}
 
-	SoLogDebug("StKKFileKkfWrite::WriteKkf : Start; FileName[%s]", szFileName);
+	GELogDebug("StKKFileKkfWrite::WriteKkf : Start; FileName[%s]", szFileName);
 
 	bool br = false;
 	do 
@@ -57,7 +57,7 @@ bool StKKFileKkfWrite::WriteKkf(const char* szFileName, StFBXModel* pModel)
 	} while (0);
 
 	ClearFileKkf();
-	SoLogDebug("StKKFileKkfWrite::WriteKkf : Finish; Success[%d]", br?1:0);
+	GELogDebug("StKKFileKkfWrite::WriteKkf : Finish; Success[%d]", br?1:0);
 	return br;
 }
 //----------------------------------------------------------------
@@ -84,7 +84,7 @@ bool StKKFileKkfWrite::Write_FillFileHead()
 	const StFBXBoneGroup* pBoneGroup = m_pFbxModel->GetBoneGroup();
 	if (pBoneAnim == 0)
 	{
-		SoLogError("StKKFileKkfWrite::Write_FillFileHead : Can not find BoneAnim!");
+		GELogError("StKKFileKkfWrite::Write_FillFileHead : Can not find BoneAnim!");
 		return false;
 	}
 
@@ -103,7 +103,7 @@ bool StKKFileKkfWrite::Write_GenerateBoneTransformBuff()
 	m_pBoneTransformBuff = (char*)malloc(BuffSize);
 	if (m_pBoneTransformBuff == 0)
 	{
-		SoLogError("StKKFileKkfWrite::Write_GenerateBoneTransformBuff : malloc fail! size[%d]", BuffSize);
+		GELogError("StKKFileKkfWrite::Write_GenerateBoneTransformBuff : malloc fail! size[%d]", BuffSize);
 		return false;
 	}
 
@@ -118,8 +118,8 @@ bool StKKFileKkfWrite::Write_GenerateBoneTransformBuff()
 		{
 			const StFBXBone* pBone = pBoneGroup->GetAt(j);
 			const StFBXBoneAnimation* pBoneAnim = pModelAnim->GetBoneAnimation(j);
-			SoMathMatrix3* pRotate = &(pBoneTransform[nAccCount].Rotate);
-			SoMathFloat3* pTranslate = &(pBoneTransform[nAccCount].Translate);
+			GEMathMatrix3* pRotate = &(pBoneTransform[nAccCount].Rotate);
+			GEMathFloat3* pTranslate = &(pBoneTransform[nAccCount].Translate);
 			//float* pInvTrans = pBoneTransform[nAccCount].InverseTranspose;
 			++nAccCount;
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "SoD3DShaderBase.h"
+#include "GED3DShaderBase.h"
 
-class FBXShadowMapShaderkkNoBone : public SoD3DShaderBase
+class FBXShadowMapShaderkkNoBone : public GED3DShaderBase
 {
 public:
 	FBXShadowMapShaderkkNoBone();

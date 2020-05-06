@@ -1,7 +1,7 @@
 //----------------------------------------------------------------
 #include "StFBXDefine.h"
-#include "SoStringHelp.h"
-#include "SoSimpleLog.h"
+#include "GEStringHelp.h"
+#include "GESimpleLog.h"
 //----------------------------------------------------------------
 StFBXMeshData::StFBXMeshData()
 :pVertexBuff(NULL)
@@ -35,7 +35,7 @@ StFBXMeshData::~StFBXMeshData()
 	}
 }
 //----------------------------------------------------------------
-void StFBXMeshData::SetVertexType(const SoBitFlag& kType)
+void StFBXMeshData::SetVertexType(const GEBitFlag& kType)
 {
 	kVertexType.SetValue(kType.GetValue());
 	//计算顶点结构的sizeof值。
@@ -104,7 +104,7 @@ StFBXBoneIndexSkinWeight::StFBXBoneIndexSkinWeight()
 //----------------------------------------------------------------
 StFBXControlPoint::StFBXControlPoint()
 {
-	kVertex = SoMathFloat3_Zero;
+	kVertex = GEMathFloat3_Zero;
 	for (int i = 0; i < StFBX_MaxCount_BoneIndexSkinWeightPerControlPoint; ++i)
 	{
 		kPairList[i].kBoneName.Clear();
@@ -117,7 +117,7 @@ void StFBXControlPoint::AddBoneNameSkinWeight(const char* szBoneName, float fSki
 {
 	if (szBoneName == NULL || szBoneName[0] == 0)
 	{
-		SoLogError("StFBXControlPoint::AddBoneNameSkinWeight : BoneName is Invalid");
+		GELogError("StFBXControlPoint::AddBoneNameSkinWeight : BoneName is Invalid");
 		return;
 	}
 
@@ -134,7 +134,7 @@ void StFBXControlPoint::AddBoneNameSkinWeight(const char* szBoneName, float fSki
 	}
 	if (bSuccess == false)
 	{
-		SoLogError("StFBXControlPoint::AddBoneNameSkinWeight : kPairList is full");
+		GELogError("StFBXControlPoint::AddBoneNameSkinWeight : kPairList is full");
 	}
 }
 //----------------------------------------------------------------
@@ -177,7 +177,7 @@ StFBXControlPoint* StFBXControlPointGroup::TakeNew()
 	}
 	else
 	{
-		SoLogError("StFBXControlPointGroup::TakeNew : kControlPointArray is full");
+		GELogError("StFBXControlPointGroup::TakeNew : kControlPointArray is full");
 		return NULL;
 	}
 }
@@ -214,7 +214,7 @@ void StFBXControlPointGroup::MakeBoneIndexByBoneName(const StFBXBoneGroup* pBone
 				//
 				if (nBoneIndex == -1)
 				{
-					SoLogError("StFBXControlPointGroup::MakeBoneIndexByBoneName : Can not find bone [%s]", szBoneName);
+					GELogError("StFBXControlPointGroup::MakeBoneIndexByBoneName : Can not find bone [%s]", szBoneName);
 				}
 			}
 		}
@@ -298,7 +298,7 @@ int StFBXBoneGroup::GetBoneIndexByBoneName(const char* szBoneName) const
 		for (int i = 0; i < nBoneValidCount; ++i)
 		{
 			StFBXBone* pBone = kBoneArray + i;
-			if (SoStrCmpNoCase(szBoneName, pBone->kBoneName.GetValue()) == 0)
+			if (GEStrCmpNoCase(szBoneName, pBone->kBoneName.GetValue()) == 0)
 			{
 				nIndex = i;
 				break;
@@ -321,7 +321,7 @@ StFBXBone* StFBXBoneGroup::TakeNew(int* pIndex)
 	}
 	else
 	{
-		SoLogError("StFBXBoneGroup::TakeNew : kBoneArray is full");
+		GELogError("StFBXBoneGroup::TakeNew : kBoneArray is full");
 		return NULL;
 	}
 }
@@ -390,7 +390,7 @@ StFBXKeyFrame* StFBXBoneAnimation::TakeNew()
 	}
 	else
 	{
-		SoLogError("StFBXBoneAnimation::TakeNew : kKeyFrameArray is full");
+		GELogError("StFBXBoneAnimation::TakeNew : kKeyFrameArray is full");
 		return NULL;
 	}
 }
@@ -463,7 +463,7 @@ StFBXBoneAnimation* StFBXModelAnimation::TakeNew()
 	}
 	else
 	{
-		SoLogError("StFBXModelAnimation::TakeNew : kBoneAnimationArray is full");
+		GELogError("StFBXModelAnimation::TakeNew : kBoneAnimationArray is full");
 		return NULL;
 	}
 }
@@ -524,7 +524,7 @@ int StFBXModelAnimation::GetKeyFrameIndexByTime(float fTime)
 		for (int i = 0; i < pBoneAnim->nFrameValidCount; ++i)
 		{
 			StFBXKeyFrame* pKeyFrame = pBoneAnim->GetAt(i);
-			if (fTime >= pKeyFrame->fKeyTime - SoMath_float_zero_critical)
+			if (fTime >= pKeyFrame->fKeyTime - GEMath_float_zero_critical)
 			{
 				nKeyFrameIndex = i;
 			}

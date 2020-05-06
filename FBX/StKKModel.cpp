@@ -157,7 +157,7 @@ int StKKModel::GetKeyFrameIndexByID(int nAnimID, float fTime) const
 	return nIndex;
 }
 //----------------------------------------------------------------
-void StKKModel::GetMeshBoundingBox(SoMathFloat3* pMinPos, SoMathFloat3* pMaxPos) const
+void StKKModel::GetMeshBoundingBox(GEMathFloat3* pMinPos, GEMathFloat3* pMaxPos) const
 {
 	if (m_pModelData)
 	{

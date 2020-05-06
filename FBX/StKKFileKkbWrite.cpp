@@ -5,7 +5,7 @@
 //----------------------------------------------------------------
 #include "StKKFileKkbWrite.h"
 #include "StFBXModel.h"
-#include "SoSimpleLog.h"
+#include "GESimpleLog.h"
 #include <cstdio>
 #include <string>
 //----------------------------------------------------------------
@@ -38,7 +38,7 @@ bool StKKFileKkbWrite::WriteKkb(const char* szFileName, StFBXModel* pModel)
 		return false;
 	}
 
-	SoLogDebug("StKKFileKkbWrite::WriteKkb : Start; FileName[%s]", szFileName);
+	GELogDebug("StKKFileKkbWrite::WriteKkb : Start; FileName[%s]", szFileName);
 
 	bool br = false;
 	do 
@@ -87,7 +87,7 @@ bool StKKFileKkbWrite::WriteKkb(const char* szFileName, StFBXModel* pModel)
 	} while (0);
 
 	ClearFileKkb();
-	SoLogDebug("StKKFileKkbWrite::WriteKkb : Finish; Success[%d]", br?1:0);
+	GELogDebug("StKKFileKkbWrite::WriteKkb : Finish; Success[%d]", br?1:0);
 	return br;
 }
 //----------------------------------------------------------------
@@ -148,7 +148,7 @@ bool StKKFileKkbWrite::Write_CheckVertexType()
 	}
 	else
 	{
-		SoLogError("StKKFileKkbWrite::Write_CheckVertexType : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_CheckVertexType : VertexType is invalid");
 		return false;
 	}
 }
@@ -174,7 +174,7 @@ bool StKKFileKkbWrite::Write_FillFileHead()
 		break;
 	default:
 		{
-			SoLogError("StKKFileKkbWrite::Write_FillFileHead : VertexType is invalid");
+			GELogError("StKKFileKkbWrite::Write_FillFileHead : VertexType is invalid");
 		}
 		break;
 	}
@@ -195,7 +195,7 @@ bool StKKFileKkbWrite::Write_GenerateVertexStructBuff()
 	}
 	else
 	{
-		SoLogError("StKKFileKkbWrite::Write_GenerateVertexStructBuff : malloc fail! VertexStructBuffSize[%d]", nVertexStructBuffSize);
+		GELogError("StKKFileKkbWrite::Write_GenerateVertexStructBuff : malloc fail! VertexStructBuffSize[%d]", nVertexStructBuffSize);
 		return false;
 	}
 }
@@ -229,7 +229,7 @@ bool StKKFileKkbWrite::Write_GeneratePosBuff()
 		}
 		break;
 	default:
-		SoLogError("StKKFileKkbWrite::Write_GeneratePosBuff : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_GeneratePosBuff : VertexType is invalid");
 		break;
 	}
 
@@ -265,9 +265,9 @@ bool StKKFileKkbWrite::Write_GeneratePosBuff()
 			float fPosY_B = pStruct_B[nPosIndexY];
 			float fPosZ_B = pStruct_B[nPosIndexZ];
 
-			if (SoMath_IsFloatZero(fPosX - fPosX_B)
-				&& SoMath_IsFloatZero(fPosY - fPosY_B)
-				&& SoMath_IsFloatZero(fPosZ - fPosZ_B))
+			if (GEMath_IsFloatZero(fPosX - fPosX_B)
+				&& GEMath_IsFloatZero(fPosY - fPosY_B)
+				&& GEMath_IsFloatZero(fPosZ - fPosZ_B))
 			{
 				pPosIndexFlagBuff[j] = i;
 				++nPosSameCount;
@@ -278,7 +278,7 @@ bool StKKFileKkbWrite::Write_GeneratePosBuff()
 
 	m_pPosBuff = (char*)malloc(StFBX_Sizeof_Vector3 * nPosCount);
 	m_kFileHead.PosCount = nPosCount;
-	SoMathFloat3* pPosFloat3 = (SoMathFloat3*)m_pPosBuff;
+	GEMathFloat3* pPosFloat3 = (GEMathFloat3*)m_pPosBuff;
 	int nAccPosCount = 0;
 	for (int i = 0; i < nPosIndexCount; ++i)
 	{
@@ -342,7 +342,7 @@ bool StKKFileKkbWrite::Write_GenerateNormalBuff()
 		}
 		break;
 	default:
-		SoLogError("StKKFileKkbWrite::Write_GenerateNormalBuff : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_GenerateNormalBuff : VertexType is invalid");
 		break;
 	}
 
@@ -378,9 +378,9 @@ bool StKKFileKkbWrite::Write_GenerateNormalBuff()
 			float fNormalY_B = pStruct_B[nNormalIndexY];
 			float fNormalZ_B = pStruct_B[nNormalIndexZ];
 
-			if (SoMath_IsFloatZero(fNormalX - fNormalX_B)
-				&& SoMath_IsFloatZero(fNormalY - fNormalY_B)
-				&& SoMath_IsFloatZero(fNormalZ - fNormalZ_B))
+			if (GEMath_IsFloatZero(fNormalX - fNormalX_B)
+				&& GEMath_IsFloatZero(fNormalY - fNormalY_B)
+				&& GEMath_IsFloatZero(fNormalZ - fNormalZ_B))
 			{
 				pNormalIndexFlagBuff[j] = i;
 				++nNormalSameCount;
@@ -391,7 +391,7 @@ bool StKKFileKkbWrite::Write_GenerateNormalBuff()
 
 	m_pNormalBuff = (char*)malloc(StFBX_Sizeof_Vector3 * nNormalCount);
 	m_kFileHead.NormalCount = nNormalCount;
-	SoMathFloat3* pNormalFloat3 = (SoMathFloat3*)m_pNormalBuff;
+	GEMathFloat3* pNormalFloat3 = (GEMathFloat3*)m_pNormalBuff;
 	int nAccNormalCount = 0;
 	for (int i = 0; i < nNormalIndexCount; ++i)
 	{
@@ -454,7 +454,7 @@ bool StKKFileKkbWrite::Write_GenerateTangentBuff()
 	}
 	break;
 	default:
-		SoLogError("StKKFileKkbWrite::Write_GenerateNormalBuff : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_GenerateNormalBuff : VertexType is invalid");
 		break;
 	}
 
@@ -490,9 +490,9 @@ bool StKKFileKkbWrite::Write_GenerateTangentBuff()
 			float fTangentY_B = pStruct_B[nTangentIndexY];
 			float fTangentZ_B = pStruct_B[nTangentIndexZ];
 
-			if (SoMath_IsFloatZero(fTangentX - fTangentX_B)
-				&& SoMath_IsFloatZero(fTangentY - fTangentY_B)
-				&& SoMath_IsFloatZero(fTangentZ - fTangentZ_B))
+			if (GEMath_IsFloatZero(fTangentX - fTangentX_B)
+				&& GEMath_IsFloatZero(fTangentY - fTangentY_B)
+				&& GEMath_IsFloatZero(fTangentZ - fTangentZ_B))
 			{
 				pTangentIndexFlagBuff[j] = i;
 				++nTangentSameCount;
@@ -503,7 +503,7 @@ bool StKKFileKkbWrite::Write_GenerateTangentBuff()
 
 	m_pTangentBuff = (char*)malloc(StFBX_Sizeof_Vector3 * nTangentCount);
 	m_kFileHead.TangentCount = nTangentCount;
-	SoMathFloat3* pTangentFloat3 = (SoMathFloat3*)m_pTangentBuff;
+	GEMathFloat3* pTangentFloat3 = (GEMathFloat3*)m_pTangentBuff;
 	int nAccTangentCount = 0;
 	for (int i = 0; i < nTangentIndexCount; ++i)
 	{
@@ -575,7 +575,7 @@ bool StKKFileKkbWrite::Write_GenerateUVBuff()
 	}
 		break;
 	default:
-		SoLogError("StKKFileKkbWrite::Write_GenerateUVBuff : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_GenerateUVBuff : VertexType is invalid");
 		break;
 	}
 
@@ -609,8 +609,8 @@ bool StKKFileKkbWrite::Write_GenerateUVBuff()
 			float fUVX_B = pStruct_B[nUVIndexX];
 			float fUVY_B = pStruct_B[nUVIndexY];
 
-			if (SoMath_IsFloatZero(fUVX - fUVX_B)
-				&& SoMath_IsFloatZero(fUVY - fUVY_B))
+			if (GEMath_IsFloatZero(fUVX - fUVX_B)
+				&& GEMath_IsFloatZero(fUVY - fUVY_B))
 			{
 				pUVIndexFlagBuff[j] = i;
 				++nUVSameCount;
@@ -621,7 +621,7 @@ bool StKKFileKkbWrite::Write_GenerateUVBuff()
 
 	m_pUVBuff = (char*)malloc(StFBX_Sizeof_UV * nUVCount);
 	m_kFileHead.UVCount = nUVCount;
-	SoMathFloat2* pUVFloat2 = (SoMathFloat2*)m_pUVBuff;
+	GEMathFloat2* pUVFloat2 = (GEMathFloat2*)m_pUVBuff;
 	int nAccUVCount = 0;
 	for (int i = 0; i < nUVIndexCount; ++i)
 	{
@@ -676,7 +676,7 @@ bool StKKFileKkbWrite::Write_GenerateBoneWeight()
 		}
 		break;
 	default:
-		SoLogError("StKKFileKkbWrite::Write_GenerateBoneWeight : VertexType is invalid");
+		GELogError("StKKFileKkbWrite::Write_GenerateBoneWeight : VertexType is invalid");
 		break;
 	}
 

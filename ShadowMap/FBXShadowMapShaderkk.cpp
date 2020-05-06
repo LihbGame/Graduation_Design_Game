@@ -1,5 +1,5 @@
 #include "FBXShadowMapShaderkk.h"
-#include "SoD3DShaderModelKK.h"
+#include "GED3DShaderModelKK.h"
 #include "d3dApp.h"
 #include "Camera.h"
 
@@ -42,7 +42,7 @@ bool FBXShadowMapShaderkk::InitShadowShaderKK()
 		return false;
 	}
 
-	SoSimpleLoadFile kShaderFile;
+	GESimpleLoadFile kShaderFile;
 	if (kShaderFile.LoadFile(ShadowShaderKK_File, false) == false)
 	{
 		return false;

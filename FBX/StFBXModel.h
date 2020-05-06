@@ -21,7 +21,7 @@ public:
 	int GetKeyFrameCount() const;
 	float GetAnimTimeLength();
 	//¼ÆËãMeshµÄ°üÎ§ºÐ¡£
-	void CalculateMeshBoundingBox(SoMathFloat3* pMinPos, SoMathFloat3* pMaxPos);
+	void CalculateMeshBoundingBox(GEMathFloat3* pMinPos, GEMathFloat3* pMaxPos);
 	
 protected:
 	StFBXMeshData* GetMeshData_Modify();

@@ -6,8 +6,8 @@
 #include "StKKFileKkbRead.h"
 #include "StFBXDefine.h"
 #include "d3dApp.h"
-#include "SoD3DTextureManager.h"
-#include "SoSimpleLog.h"
+#include "GED3DTextureManager.h"
+#include "GESimpleLog.h"
 //----------------------------------------------------------------
 bool StKKFileKkbRead::ReadKkb(const char* szFileName, StKKModelData* pModelData)
 {
@@ -26,11 +26,11 @@ bool StKKFileKkbRead::ReadKkb(const char* szFileName, StKKModelData* pModelData)
 
 	ID3D11Buffer* theVertexStructBuffer = 0;
 	ID3D11Buffer* theIndexBuffer = 0;
-	SoD3DTexture* theVertexValueTexture = 0;
+	GED3DTexture* theVertexValueTexture = 0;
 	int nTextureWidth = 0;
 	int nTextureHeight = 0;
 
-	SoLogDebug("StKKFileKkbRead::ReadKkb : Start; FileName[%s]", szFileName);
+	GELogDebug("StKKFileKkbRead::ReadKkb : Start; FileName[%s]", szFileName);
 
 	bool br = false;
 	do 
@@ -113,7 +113,7 @@ bool StKKFileKkbRead::ReadKkb(const char* szFileName, StKKModelData* pModelData)
 		pTextureData = 0;
 	}
 
-	SoLogDebug("StKKFileKkbRead::ReadKkb : Finish; Success[%d]", br?1:0);
+	GELogDebug("StKKFileKkbRead::ReadKkb : Finish; Success[%d]", br?1:0);
 	return br;
 }
 //----------------------------------------------------------------
@@ -122,7 +122,7 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 	FILE* fp = fopen(szFileName, "rb");
 	if (fp == 0)
 	{
-		SoLogError("StKKFileKkbRead::LoadFileData : fopen fail! [%s]", szFileName);
+		GELogError("StKKFileKkbRead::LoadFileData : fopen fail! [%s]", szFileName);
 		return false;
 	}
 
@@ -140,14 +140,14 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 		pFileHead = (StKkbFileHead*)malloc(SizeofFileHead);
 		if (pFileHead == 0)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", SizeofFileHead);
+			GELogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", SizeofFileHead);
 			break;
 		}
 
 		unsigned int ReadCount = fread(pFileHead, 1, SizeofFileHead, fp);
 		if (ReadCount != SizeofFileHead)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : fread FileHead fail!");
+			GELogError("StKKFileKkbRead::LoadFileData : fread FileHead fail!");
 			break;
 		}
 
@@ -163,7 +163,7 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 		}
 		if (bFileFlagOK == false)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : FileFlag check fail!");
+			GELogError("StKKFileKkbRead::LoadFileData : FileFlag check fail!");
 			break;
 		}
 
@@ -172,14 +172,14 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 		pVertexStructBuff = (char*)malloc(VertexStructBuffSize);
 		if (pVertexStructBuff == 0)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", VertexStructBuffSize);
+			GELogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", VertexStructBuffSize);
 			break;
 		}
 
 		ReadCount = fread(pVertexStructBuff, 1, VertexStructBuffSize, fp);
 		if (ReadCount != VertexStructBuffSize)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : fread VertexStructBuff fail!");
+			GELogError("StKKFileKkbRead::LoadFileData : fread VertexStructBuff fail!");
 			break;
 		}
 
@@ -200,14 +200,14 @@ bool StKKFileKkbRead::LoadFileData(const char* szFileName, StKkbFileHead** ppFil
 		pTextureData = (char*)malloc(SizeofNewSrcBuff);
 		if (pTextureData == 0)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", SizeofNewSrcBuff);
+			GELogError("StKKFileKkbRead::LoadFileData : malloc fail! size[%d]", SizeofNewSrcBuff);
 			break;
 		}
 
 		ReadCount = fread(pTextureData, 1, TextureDataSize, fp);
 		if (ReadCount != TextureDataSize)
 		{
-			SoLogError("StKKFileKkbRead::LoadFileData : fread TextureData fail!");
+			GELogError("StKKFileKkbRead::LoadFileData : fread TextureData fail!");
 			break;
 		}
 
@@ -269,7 +269,7 @@ bool StKKFileKkbRead::CreateVertexStructBuff(const StKkbFileHead* pFileHead, con
 	}
 	else
 	{
-		SoLogError("StKKFileKkbRead::CreateVertexStructBuff : CreateBuffer fail!");
+		GELogError("StKKFileKkbRead::CreateVertexStructBuff : CreateBuffer fail!");
 		return false;
 	}
 }
@@ -283,7 +283,7 @@ bool StKKFileKkbRead::CreateIndexBuff(const StKkbFileHead* pFileHead, ID3D11Buff
 	unsigned int* pIndexArray = (unsigned int*)malloc(SizeofIndexArray);
 	if (pIndexArray == NULL)
 	{
-		SoLogError("StKKFileKkbRead::CreateIndexBuff : malloc fail! size[%d]", SizeofIndexArray);
+		GELogError("StKKFileKkbRead::CreateIndexBuff : malloc fail! size[%d]", SizeofIndexArray);
 		return false;
 	}
 
@@ -328,14 +328,14 @@ bool StKKFileKkbRead::CreateIndexBuff(const StKkbFileHead* pFileHead, ID3D11Buff
 	}
 	else
 	{
-		SoLogError("StKKFileKkbRead::CreateIndexBuff : CreateBuffer fail!");
+		GELogError("StKKFileKkbRead::CreateIndexBuff : CreateBuffer fail!");
 		return false;
 	}
 }
 //----------------------------------------------------------------
-bool StKKFileKkbRead::CreateVertexValueTexture(int nWidth, int nHeight, const char* pSrcBuff, SoD3DTexture** ppTexture)
+bool StKKFileKkbRead::CreateVertexValueTexture(int nWidth, int nHeight, const char* pSrcBuff, GED3DTexture** ppTexture)
 {
-	SoD3DTexture* pTex = SoD3DTextureManager::Get()->CreateAnimDataTextureDynamic(nWidth, nHeight, (void*)pSrcBuff);
+	GED3DTexture* pTex = GED3DTextureManager::Get()->CreateAnimDataTextureDynamic(nWidth, nHeight, (void*)pSrcBuff);
 	if (pTex)
 	{
 		pTex->AddRefTexture();
@@ -344,7 +344,7 @@ bool StKKFileKkbRead::CreateVertexValueTexture(int nWidth, int nHeight, const ch
 	}
 	else
 	{
-		SoLogError("StKKFileKkbRead::CreateVertexValueTexture : CreateAnimDataTextureDynamic fail!");
+		GELogError("StKKFileKkbRead::CreateVertexValueTexture : CreateAnimDataTextureDynamic fail!");
 		return false;
 	}
 }
@@ -364,16 +364,16 @@ void StKKFileKkbRead::GenerateWidthHeight(int nPixelCount, int* pWidth, int* pHe
 	*pHeight = (nPixelCount + TryWidth - 1) / TryWidth;
 }
 //----------------------------------------------------------------
-void StKKFileKkbRead::CalculateMeshBoundingBox(const char* pSrcBuff, int nPosCount, SoMathFloat3* pMinPos, SoMathFloat3* pMaxPos)
+void StKKFileKkbRead::CalculateMeshBoundingBox(const char* pSrcBuff, int nPosCount, GEMathFloat3* pMinPos, GEMathFloat3* pMaxPos)
 {
-	float fMinX = SoMath_FloatMax;
-	float fMinY = SoMath_FloatMax;
-	float fMinZ = SoMath_FloatMax;
-	float fMaxX = SoMath_FloatMin;
-	float fMaxY = SoMath_FloatMin;
-	float fMaxZ = SoMath_FloatMin;
+	float fMinX = GEMath_FloatMax;
+	float fMinY = GEMath_FloatMax;
+	float fMinZ = GEMath_FloatMax;
+	float fMaxX = GEMath_FloatMin;
+	float fMaxY = GEMath_FloatMin;
+	float fMaxZ = GEMath_FloatMin;
 
-	SoMathFloat3* pPosList = (SoMathFloat3*)pSrcBuff;
+	GEMathFloat3* pPosList = (GEMathFloat3*)pSrcBuff;
 	for (int i = 0; i < nPosCount; ++i)
 	{
 		if (pPosList[i].x < fMinX)

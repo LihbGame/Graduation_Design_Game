@@ -6,8 +6,8 @@
 #include "StKKFileKkfRead.h"
 #include "StFBXDefine.h"
 #include "d3dApp.h"
-#include "SoD3DTextureManager.h"
-#include "SoSimpleLog.h"
+#include "GED3DTextureManager.h"
+#include "GESimpleLog.h"
 //----------------------------------------------------------------
 bool StKKFileKkfRead::ReadKkf(const char* szFileName, StKKModelAnimation* pModelAnim)
 {
@@ -23,11 +23,11 @@ bool StKKFileKkfRead::ReadKkf(const char* szFileName, StKKModelAnimation* pModel
 	StKkfFileHead* pFileHead = 0;
 	char* pTextureData = 0;
 
-	SoD3DTexture* theAnimTexture = 0;
+	GED3DTexture* theAnimTexture = 0;
 	int nTextureWidth = 0;
 	int nTextureHeight = 0;
 
-	SoLogDebug("StKKFileKkfRead::ReadKkf : Start; FileName[%s]", szFileName);
+	GELogDebug("StKKFileKkfRead::ReadKkf : Start; FileName[%s]", szFileName);
 
 	bool br = false;
 	do 
@@ -77,7 +77,7 @@ bool StKKFileKkfRead::ReadKkf(const char* szFileName, StKKModelAnimation* pModel
 		pTextureData = 0;
 	}
 
-	SoLogDebug("StKKFileKkfRead::ReadKkf : Finish; Success[%d]", br?1:0);
+	GELogDebug("StKKFileKkfRead::ReadKkf : Finish; Success[%d]", br?1:0);
 	return br;
 }
 //----------------------------------------------------------------
@@ -86,7 +86,7 @@ bool StKKFileKkfRead::LoadFileData(const char* szFileName, StKkfFileHead** ppFil
 	FILE* fp = fopen(szFileName, "rb");
 	if (fp == 0)
 	{
-		SoLogError("StKKFileKkfRead::LoadFileData : fopen fail! [%s]", szFileName);
+		GELogError("StKKFileKkfRead::LoadFileData : fopen fail! [%s]", szFileName);
 		return false;
 	}
 
@@ -103,14 +103,14 @@ bool StKKFileKkfRead::LoadFileData(const char* szFileName, StKkfFileHead** ppFil
 		pFileHead = (StKkfFileHead*)malloc(SizeofFileHead);
 		if (pFileHead == 0)
 		{
-			SoLogError("StKKFileKkfRead::LoadFileData : malloc fail! size[%d]", SizeofFileHead);
+			GELogError("StKKFileKkfRead::LoadFileData : malloc fail! size[%d]", SizeofFileHead);
 			break;
 		}
 
 		unsigned int ReadCount = fread(pFileHead, 1, SizeofFileHead, fp);
 		if (ReadCount != SizeofFileHead)
 		{
-			SoLogError("StKKFileKkfRead::LoadFileData : fread FileHead fail!");
+			GELogError("StKKFileKkfRead::LoadFileData : fread FileHead fail!");
 			break;
 		}
 
@@ -126,7 +126,7 @@ bool StKKFileKkfRead::LoadFileData(const char* szFileName, StKkfFileHead** ppFil
 		}
 		if (bFileFlagOK == false)
 		{
-			SoLogError("StKKFileKkfRead::LoadFileData : FileFlag check fail!");
+			GELogError("StKKFileKkfRead::LoadFileData : FileFlag check fail!");
 			break;
 		}
 
@@ -144,14 +144,14 @@ bool StKKFileKkfRead::LoadFileData(const char* szFileName, StKkfFileHead** ppFil
 		pTextureData = (char*)malloc(SizeofNewSrcBuff);
 		if (pTextureData == 0)
 		{
-			SoLogError("StKKFileKkfRead::LoadFileData : malloc fail! size[%d]", SizeofNewSrcBuff);
+			GELogError("StKKFileKkfRead::LoadFileData : malloc fail! size[%d]", SizeofNewSrcBuff);
 			break;
 		}
 
 		ReadCount = fread(pTextureData, 1, TextureDataSize, fp);
 		if (ReadCount != TextureDataSize)
 		{
-			SoLogError("StKKFileKkfRead::LoadFileData : fread TextureData fail!");
+			GELogError("StKKFileKkfRead::LoadFileData : fread TextureData fail!");
 			break;
 		}
 
@@ -184,9 +184,9 @@ bool StKKFileKkfRead::LoadFileData(const char* szFileName, StKkfFileHead** ppFil
 	return br;
 }
 //----------------------------------------------------------------
-bool StKKFileKkfRead::CreateAnimTexture(int nWidth, int nHeight, const char* pSrcBuff, SoD3DTexture** ppTexture)
+bool StKKFileKkfRead::CreateAnimTexture(int nWidth, int nHeight, const char* pSrcBuff, GED3DTexture** ppTexture)
 {
-	SoD3DTexture* pTex = SoD3DTextureManager::Get()->CreateAnimDataTextureDynamic(nWidth, nHeight, (void*)pSrcBuff);
+	GED3DTexture* pTex = GED3DTextureManager::Get()->CreateAnimDataTextureDynamic(nWidth, nHeight, (void*)pSrcBuff);
 	if (pTex)
 	{
 		pTex->AddRefTexture();
@@ -195,7 +195,7 @@ bool StKKFileKkfRead::CreateAnimTexture(int nWidth, int nHeight, const char* pSr
 	}
 	else
 	{
-		SoLogError("StKKFileKkfRead::CreateVertexValueTexture : CreateAnimDataTextureDynamic fail!");
+		GELogError("StKKFileKkfRead::CreateVertexValueTexture : CreateAnimDataTextureDynamic fail!");
 		return false;
 	}
 }

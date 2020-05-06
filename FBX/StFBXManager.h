@@ -3,8 +3,8 @@
 #define _StFBXManager_h_
 //----------------------------------------------------------------
 #include "fbxsdk.h"
-#include "SoMath.h"
-#include "SoBitFlag.h"
+#include "GEMath.h"
+#include "GEBitFlag.h"
 //----------------------------------------------------------------
 struct StFBXMeshData;
 struct StFBXControlPointGroup;
@@ -32,8 +32,8 @@ private:
 	//遍历每个Mesh，检查所有的Mesh是否含有相同的顶点结构，例如都含有法线数据，都含有两套UV数据。
 	//同时也检查每个Mesh的MappingMode值，目前只支持 EMappingMode::eByPolygonVertex 值。
 	//同时计算所有的Mesh的总顶点个数。
-	void ParseMeshVertexTotalCountAndVertexType(FbxNode* pNode, SoBitFlag* pVertexType, int* pTotalCount, bool* pAllMeshOK);
-	void ParseSingleMeshVertexType(FbxMesh* pFbxMesh, SoBitFlag* pVertexType, bool* pAllMeshOK, bool bFirstMesh);
+	void ParseMeshVertexTotalCountAndVertexType(FbxNode* pNode, GEBitFlag* pVertexType, int* pTotalCount, bool* pAllMeshOK);
+	void ParseSingleMeshVertexType(FbxMesh* pFbxMesh, GEBitFlag* pVertexType, bool* pAllMeshOK, bool bFirstMesh);
 
 
 	//递归遍历节点树，获取所有Mesh的顶点数据。
@@ -75,7 +75,7 @@ private:
 	//计算节点的GeometryTransformation。
 	void GetGeometryTransformation(FbxNode* pNode, FbxAMatrix* pMat);
 	//转换Matrix对象。
-	void ConvertFbxAMatrixToSoMathMatrix4(const FbxAMatrix* pFbxAMatrix, SoMathMatrix4* pSoMatrix);
+	void ConvertFbxAMatrixToSoMathMatrix4(const FbxAMatrix* pFbxAMatrix, GEMathMatrix4* pSoMatrix);
 	//根据BoneIndex和BoneName查找指定的骨骼。
 	void FindBoneByIndexAndName(FbxNode* pNode, int nBoneIndex, const char* szBoneName, FbxNode** ppResultNode, int* pAccBoneCount);
 
