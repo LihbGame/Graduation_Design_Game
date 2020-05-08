@@ -15,8 +15,8 @@ cbuffer cbPerFrame
 
 cbuffer cbFixed
 {
-    float3  gAccelW = { 0, -5.80000019, 0 };// Offset:    0, size:   12
-    float2  gQuadTexC[4] = { 0, 1, 1, 1, 0, 0, 1, 0 };// Offset:   16, size:   56
+    float3  gAccelW = { 0, 15, 0 };     // Offset:    0, size:   12
+    float2  gQuadTexC[4] = { 1, 0, 1, 1, 0, 0, 0, 1 };// Offset:   16, size:   56
 }
 
 //
@@ -181,7 +181,7 @@ GeometryShader gsStreamOut =
         if_z v[0][3].x
         
         #line 122
-          lt r0.y, l(0.005000), r0.x
+          lt r0.y, l(0.050000), r0.x
           if_nz r0.y
         
         #line 124
@@ -216,7 +216,7 @@ GeometryShader gsStreamOut =
             mul r0.yzw, r0.yyzw, l(0.000000, 4.000000, 4.000000, 4.000000)  // r0.y <- p.InitialVelW.x; r0.z <- p.InitialVelW.y; r0.w <- p.InitialVelW.z
         
         #line 131
-            mov r2.xy, l(5.000000,5.000000,0,0)  // r2.x <- p.SizeW.x; r2.y <- p.SizeW.y
+            mov r2.xy, l(15.000000,15.000000,0,0)  // r2.x <- p.SizeW.x; r2.y <- p.SizeW.y
         
         #line 132
             mov r1.w, l(0)  // r1.w <- p.Age
@@ -368,12 +368,12 @@ fxgroup
                 // {
                 //
                 //   float3 gAccelW;                    // Offset:    0 Size:    12
-                //      = 0x00000000 0xc0b9999a 0x00000000 
+                //      = 0x00000000 0x41700000 0x00000000 
                 //   float2 gQuadTexC[4];               // Offset:   16 Size:    56 [unused]
-                //      = 0x00000000 0x3f800000 0x00000000 0x00000000 
+                //      = 0x3f800000 0x00000000 0x00000000 0x00000000 
                 //        0x3f800000 0x3f800000 0x00000000 0x00000000 
                 //        0x00000000 0x00000000 0x00000000 0x00000000 
-                //        0x3f800000 0x00000000 
+                //        0x00000000 0x3f800000 
                 //
                 // }
                 //
@@ -500,12 +500,12 @@ fxgroup
                 // {
                 //
                 //   float3 gAccelW;                    // Offset:    0 Size:    12 [unused]
-                //      = 0x00000000 0xc0b9999a 0x00000000 
+                //      = 0x00000000 0x41700000 0x00000000 
                 //   float2 gQuadTexC[4];               // Offset:   16 Size:    56
-                //      = 0x00000000 0x3f800000 0x00000000 0x00000000 
+                //      = 0x3f800000 0x00000000 0x00000000 0x00000000 
                 //        0x3f800000 0x3f800000 0x00000000 0x00000000 
                 //        0x00000000 0x00000000 0x00000000 0x00000000 
-                //        0x3f800000 0x00000000 
+                //        0x00000000 0x3f800000 
                 //
                 // }
                 //

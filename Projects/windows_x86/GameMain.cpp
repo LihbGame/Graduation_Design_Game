@@ -447,7 +447,7 @@ void GameApp::UpdateScene(float dt)
 		BuildDynamicInstanceData();
 
 		//mCamera->SetPosition(PlayerWorldPosition.x + 60, 100, PlayerWorldPosition.z - 60);
-		//mFire.SetEmitPos(XMFLOAT3(PlayerWorldPosition.x-10, PlayerWorldPosition.y +5 , PlayerWorldPosition.z +10 ));
+		//mFire.SetEmitPos(XMFLOAT3(0,100,100));
 
 		mEyePosW = mCamera->GetPosition();
 
@@ -519,9 +519,9 @@ void GameApp::DrawScene()
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
 		// Draw the terrain
-		//mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
+		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
+		//mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
 
 		// Restore default render state.
 		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
@@ -529,14 +529,14 @@ void GameApp::DrawScene()
 
 		//fbx model
 		md3dImmediateContext->RSSetState(RenderStates::CullBackRS);
-		//RenderFbxModel();
+		RenderFbxModel();
 
 		//draw particle
-		md3dImmediateContext->OMSetBlendState(m_pBlendState, blendFactor, 0xFFFFFFFF);
+		md3dImmediateContext->RSSetState(0);
 		DrawParticle();
 
 		//water
-		DrawWater();
+		//DrawWater();
 
 		//render gui
 		m_pGameGUI->Render();
@@ -1256,7 +1256,7 @@ void GameApp::InitParticleSystem()
 	
 
 	std::vector<std::wstring> flares;
-	flares.push_back(L"Textures/flare0.dds");
+	flares.push_back(L"Textures/flare01.dds");
 	mFireTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, flares);
 	//Fire Particle
 	mFire.Init(md3dDevice, Effects::FireFX, mFireTexSRV, mRandomTexSRV, 50000);
@@ -1265,7 +1265,6 @@ void GameApp::InitParticleSystem()
 	std::vector<std::wstring> raindrops;
 	raindrops.push_back(L"Textures/raindrop.dds");
 	mRainTexSRV = d3dHelper::CreateTexture2DArraySRV(md3dDevice, md3dImmediateContext, raindrops);
-
 	mRain.Init(md3dDevice, Effects::RainFX, mRainTexSRV, mRandomTexSRV, 10000);
 }
 

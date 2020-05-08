@@ -18,16 +18,16 @@ cbuffer cbPerFrame
 cbuffer cbFixed
 {
 	// Net constant acceleration used to accerlate the particles.
-	float3 gAccelW = {0.0f, -5.8f, 0.0f};
+	float3 gAccelW = {0.0f, 15.0f, 0.0f};
 	
 	// Texture coordinates used to stretch texture over quad 
 	// when we expand point particle into a quad.
 	float2 gQuadTexC[4] = 
 	{
-		float2(0.0f, 1.0f),
+		float2(1.0f, 0.0f),
 		float2(1.0f, 1.0f),
 		float2(0.0f, 0.0f),
-		float2(1.0f, 0.0f)
+		float2(0.0f, 1.0f)
 	};
 };
  
@@ -119,7 +119,7 @@ void StreamOutGS(point Particle gin[1],
 	if( gin[0].Type == PT_EMITTER )
 	{	
 		// time to emit a new particle?
-		if( gin[0].Age > 0.005f )
+		if( gin[0].Age > 0.05f )
 		{
 			float3 vRandom = RandUnitVec3(0.0f);
 			vRandom.x *= 1.0f;
@@ -128,7 +128,7 @@ void StreamOutGS(point Particle gin[1],
 			Particle p;
 			p.InitialPosW = gEmitPosW.xyz;
 			p.InitialVelW = 4.0f*vRandom;
-			p.SizeW       = float2(5.0f, 5.0f);
+			p.SizeW       = float2(15.0f, 15.0f);
 			p.Age         = 0.0f;
 			p.Type        = PT_FLARE;
 			
