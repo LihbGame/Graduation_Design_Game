@@ -33,9 +33,6 @@
 #define GEMath_Sin GEMath_Sin3
 #define GEMath_Cos GEMath_Cos3
 //----------------------------------------------------------------
-//http://www.cnblogs.com/nsnow/archive/2010/08/09/1796111.html
-//http://kb.cnblogs.com/page/189867/
-//----------------------------------------------------------------
 union GEMath_SqrtUnionParam
 {
 	int intPart;
