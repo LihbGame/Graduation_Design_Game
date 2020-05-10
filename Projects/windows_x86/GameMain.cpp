@@ -536,7 +536,7 @@ void GameApp::DrawScene()
 		DrawParticle();
 
 		//water
-		//DrawWater();
+		DrawWater();
 
 		//render gui
 		m_pGameGUI->Render();
