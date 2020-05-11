@@ -3,6 +3,7 @@
 #include "LightHelper.h"
 #include "Effects.h"
 #include "Vertex.h"
+#include "RenderStates.h"
 #include <fstream>
 #include <sstream>
 
@@ -147,7 +148,7 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	mGrass.Draw(dc, cam, lights);
 
 
-
+	
 	dc->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST);
 	dc->IASetInputLayout(InputLayouts::Terrain);
 
@@ -202,7 +203,7 @@ void HeightmapTerrain::Draw(ID3D11DeviceContext* dc, const Camera& cam, Directio
 	dc->DSSetShader(0, 0, 0);
 
 
-	
+	dc->RSSetState(0);
 
 }
 

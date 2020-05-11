@@ -29,12 +29,16 @@ cbuffer cbPerObject
 }
 
 //
-// 7 local object(s)
+// 8 local object(s)
 //
 Texture2DArray gLayerMapArray;
 Texture2D gBlendMap;
 Texture2D gHeightMap;
 Texture2D gGrassMap;
+RasterizerState BackCull
+{
+    CullMode = uint(BACK /* 3 */);
+};
 SamplerState samAnisotropic
 {
     Filter   = uint(ANISOTROPIC /* 85 */);
@@ -117,21 +121,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -255,14 +259,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -278,30 +282,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -312,7 +316,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -322,73 +326,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -404,42 +408,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -448,7 +452,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -458,20 +462,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -480,7 +484,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -490,20 +494,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -512,7 +516,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -522,20 +526,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -544,7 +548,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -554,20 +558,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -576,7 +580,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -587,13 +591,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -609,7 +613,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -755,7 +759,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -769,7 +773,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -783,41 +787,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -941,47 +945,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -990,7 +994,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -999,77 +1003,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -1126,44 +1130,45 @@ fxgroup
                 movc r1.xyzw, r9.xxxx, r1.xyzw, r13.xyzw
                 movc r7.xyzw, r9.xxxx, r7.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r1.xyzw, r1.xyzw  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z; r1.w <- D.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z; r7.w <- S.w
                 
-                #line 369
+                #line 380
                 add r3.xyzw, r3.xyzw, r6.xyzw
                 
-                #line 370
+                #line 381
                 add r1.xyzw, r1.xyzw, r4.xyzw  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z; r1.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r4.xyzw, r5.xyzw, r7.xyzw  // r4.x <- spec.x; r4.y <- spec.y; r4.z <- spec.z; r4.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r1.xyzw, r4.xyzw, r1.xyzw  // r1.x <- litColor.x; r1.y <- litColor.y; r1.z <- litColor.z; r1.w <- litColor.w
                 
-                #line 383
+                #line 394
                 mov r0.x, -cb0[4].w
                 add r0.x, r0.x, r0.w
                 div r0.x, r0.x, cb0[5].x
                 max r0.x, r0.x, l(0.000000)
                 min r0.x, r0.x, l(1.000000)  // r0.x <- fogLerp
                 
-                #line 386
+                #line 397
                 mov r2.xyzw, -r1.xyzw
                 add r2.xyzw, r2.xyzw, cb0[6].xyzw
                 mul r0.xyzw, r0.xxxx, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 129 instruction slots used
                             
             };
+            RasterizerState = BackCull;
         }
 
     }
@@ -1222,21 +1227,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -1360,14 +1365,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -1383,30 +1388,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -1417,7 +1422,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -1427,73 +1432,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -1509,42 +1514,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -1553,7 +1558,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -1563,20 +1568,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -1585,7 +1590,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -1595,20 +1600,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -1617,7 +1622,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -1627,20 +1632,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -1649,7 +1654,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -1659,20 +1664,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -1681,7 +1686,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -1692,13 +1697,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -1714,7 +1719,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -1860,7 +1865,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -1874,7 +1879,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -1888,41 +1893,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -2046,47 +2051,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -2095,7 +2100,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -2104,77 +2109,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -2231,26 +2236,26 @@ fxgroup
                 movc r7.xyzw, r1.wwww, r7.xyzw, r13.xyzw
                 movc r0.xyzw, r1.wwww, r0.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- D.x; r7.y <- D.y; r7.z <- D.z; r7.w <- D.w
                 mov r0.xyzw, r0.xyzw  // r0.x <- S.x; r0.y <- S.y; r0.z <- S.z; r0.w <- S.w
                 
-                #line 369
+                #line 380
                 add r1.xyzw, r3.xyzw, r6.xyzw  // r1.x <- ambient.x; r1.y <- ambient.y; r1.z <- ambient.z; r1.w <- ambient.w
                 
-                #line 370
+                #line 381
                 add r3.xyzw, r4.xyzw, r7.xyzw  // r3.x <- diffuse.x; r3.y <- diffuse.y; r3.z <- diffuse.z; r3.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r0.xyzw, r0.xyzw, r5.xyzw  // r0.x <- spec.x; r0.y <- spec.y; r0.z <- spec.z; r0.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 120 instruction slots used
@@ -2314,21 +2319,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -2452,14 +2457,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -2475,30 +2480,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -2509,7 +2514,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -2519,73 +2524,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -2601,42 +2606,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -2645,7 +2650,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -2655,20 +2660,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -2677,7 +2682,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -2687,20 +2692,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -2709,7 +2714,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -2719,20 +2724,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -2741,7 +2746,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -2751,20 +2756,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -2773,7 +2778,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -2784,13 +2789,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -2806,7 +2811,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -2952,7 +2957,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -2966,7 +2971,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -2980,41 +2985,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -3138,47 +3143,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -3187,7 +3192,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -3196,77 +3201,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -3323,26 +3328,26 @@ fxgroup
                 movc r7.xyzw, r1.wwww, r7.xyzw, r13.xyzw
                 movc r0.xyzw, r1.wwww, r0.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- D.x; r7.y <- D.y; r7.z <- D.z; r7.w <- D.w
                 mov r0.xyzw, r0.xyzw  // r0.x <- S.x; r0.y <- S.y; r0.z <- S.z; r0.w <- S.w
                 
-                #line 369
+                #line 380
                 add r1.xyzw, r3.xyzw, r6.xyzw  // r1.x <- ambient.x; r1.y <- ambient.y; r1.z <- ambient.z; r1.w <- ambient.w
                 
-                #line 370
+                #line 381
                 add r3.xyzw, r4.xyzw, r7.xyzw  // r3.x <- diffuse.x; r3.y <- diffuse.y; r3.z <- diffuse.z; r3.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r0.xyzw, r0.xyzw, r5.xyzw  // r0.x <- spec.x; r0.y <- spec.y; r0.z <- spec.z; r0.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 120 instruction slots used
@@ -3406,21 +3411,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -3544,14 +3549,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -3567,30 +3572,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -3601,7 +3606,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -3611,73 +3616,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -3693,42 +3698,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -3737,7 +3742,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -3747,20 +3752,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -3769,7 +3774,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -3779,20 +3784,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -3801,7 +3806,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -3811,20 +3816,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -3833,7 +3838,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -3843,20 +3848,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -3865,7 +3870,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -3876,13 +3881,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -3898,7 +3903,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -4044,7 +4049,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -4058,7 +4063,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -4072,41 +4077,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -4230,47 +4235,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -4279,7 +4284,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -4288,77 +4293,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -4415,39 +4420,39 @@ fxgroup
                 movc r1.xyzw, r9.xxxx, r1.xyzw, r13.xyzw
                 movc r7.xyzw, r9.xxxx, r7.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r1.xyzw, r1.xyzw  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z; r1.w <- D.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z; r7.w <- S.w
                 
-                #line 369
+                #line 380
                 add r3.xyzw, r3.xyzw, r6.xyzw
                 
-                #line 370
+                #line 381
                 add r1.xyzw, r1.xyzw, r4.xyzw  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z; r1.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r4.xyzw, r5.xyzw, r7.xyzw  // r4.x <- spec.x; r4.y <- spec.y; r4.z <- spec.z; r4.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r1.xyzw, r4.xyzw, r1.xyzw  // r1.x <- litColor.x; r1.y <- litColor.y; r1.z <- litColor.z; r1.w <- litColor.w
                 
-                #line 383
+                #line 394
                 mov r0.x, -cb0[4].w
                 add r0.x, r0.x, r0.w
                 div r0.x, r0.x, cb0[5].x
                 max r0.x, r0.x, l(0.000000)
                 min r0.x, r0.x, l(1.000000)  // r0.x <- fogLerp
                 
-                #line 386
+                #line 397
                 mov r2.xyzw, -r1.xyzw
                 add r2.xyzw, r2.xyzw, cb0[6].xyzw
                 mul r0.xyzw, r0.xxxx, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 129 instruction slots used
@@ -4511,21 +4516,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -4649,14 +4654,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -4672,30 +4677,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -4706,7 +4711,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -4716,73 +4721,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -4798,42 +4803,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -4842,7 +4847,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -4852,20 +4857,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -4874,7 +4879,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -4884,20 +4889,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -4906,7 +4911,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -4916,20 +4921,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -4938,7 +4943,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -4948,20 +4953,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -4970,7 +4975,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -4981,13 +4986,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -5003,7 +5008,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -5149,7 +5154,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -5163,7 +5168,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -5177,41 +5182,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -5335,47 +5340,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -5384,7 +5389,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -5393,77 +5398,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -5520,39 +5525,39 @@ fxgroup
                 movc r1.xyzw, r9.xxxx, r1.xyzw, r13.xyzw
                 movc r7.xyzw, r9.xxxx, r7.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r1.xyzw, r1.xyzw  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z; r1.w <- D.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z; r7.w <- S.w
                 
-                #line 369
+                #line 380
                 add r3.xyzw, r3.xyzw, r6.xyzw
                 
-                #line 370
+                #line 381
                 add r1.xyzw, r1.xyzw, r4.xyzw  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z; r1.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r4.xyzw, r5.xyzw, r7.xyzw  // r4.x <- spec.x; r4.y <- spec.y; r4.z <- spec.z; r4.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r1.xyzw, r4.xyzw, r1.xyzw  // r1.x <- litColor.x; r1.y <- litColor.y; r1.z <- litColor.z; r1.w <- litColor.w
                 
-                #line 383
+                #line 394
                 mov r0.x, -cb0[4].w
                 add r0.x, r0.x, r0.w
                 div r0.x, r0.x, cb0[5].x
                 max r0.x, r0.x, l(0.000000)
                 min r0.x, r0.x, l(1.000000)  // r0.x <- fogLerp
                 
-                #line 386
+                #line 397
                 mov r2.xyzw, -r1.xyzw
                 add r2.xyzw, r2.xyzw, cb0[6].xyzw
                 mul r0.xyzw, r0.xxxx, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 129 instruction slots used
@@ -5616,21 +5621,21 @@ fxgroup
                 //   o1.x <- <VS return value>.Tex.x; o1.y <- <VS return value>.Tex.y; o1.z <- <VS return value>.BoundsY.x; o1.w <- <VS return value>.BoundsY.y; 
                 //   o0.x <- <VS return value>.PosW.x; o0.y <- <VS return value>.PosW.y; o0.z <- <VS return value>.PosW.z
                 //
-                #line 93 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 104 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, v0.xzxx  // r0.x <- vout.PosW.x; r0.y <- vout.PosW.z
                 
-                #line 97
+                #line 108
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, v1.xyxx, t0.yzxw, s0, r0.z
                 mov r0.z, r0.z  // r0.z <- vout.PosW.y
                 
-                #line 100
+                #line 111
                 mov r1.xy, v1.xyxx  // r1.x <- vout.Tex.x; r1.y <- vout.Tex.y
                 
-                #line 101
+                #line 112
                 mov r1.zw, v2.xxxy  // r1.z <- vout.BoundsY.x; r1.w <- vout.BoundsY.y
                 
-                #line 103
+                #line 114
                 mov o1.xy, r1.xyxx
                 mov o1.zw, r1.zzzw
                 mov o0.xz, r0.xxyx
@@ -5754,14 +5759,14 @@ fxgroup
                 //   v[3][0].x <- p[3].PosW.x; v[3][0].y <- p[3].PosW.y; v[3][0].z <- p[3].PosW.z; 
                 //   v[3][1].x <- p[3].Tex.x; v[3][1].y <- p[3].Tex.y; v[3][1].z <- p[3].BoundsY.x; v[3][1].w <- p[3].BoundsY.y
                 //
-                #line 235 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 246 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, vOutputControlPointID
                 mov r0.yzw, v[r0.x + 0][0].xxyz  // r0.y <- hout.PosW.x; r0.z <- hout.PosW.y; r0.w <- hout.PosW.z
                 
-                #line 236
+                #line 247
                 mov r1.xy, v[r0.x + 0][1].xyxx  // r1.x <- hout.Tex.x; r1.y <- hout.Tex.y
                 
-                #line 238
+                #line 249
                 mov o0.xyz, r0.yzwy
                 mov o1.xy, r1.xyxx
                 ret 
@@ -5777,30 +5782,30 @@ fxgroup
                 dcl_temps 7
                 dcl_indexableTemp x0[6], 4
                 
-                #line 166
+                #line 177
                 mov r0.y, vicp[0][1].z  // r0.y <- minY
                 
-                #line 167
+                #line 178
                 mov r1.y, vicp[0][1].w  // r1.y <- maxY
                 
-                #line 171
+                #line 182
                 mov r0.xz, vicp[2][0].xxzx  // r0.x <- vMin.x; r0.z <- vMin.z
                 mov r0.y, r0.y  // r0.y <- vMin.y
                 
-                #line 172
+                #line 183
                 mov r1.xz, vicp[1][0].xxzx  // r1.x <- vMax.x; r1.z <- vMax.z
                 mov r1.y, r1.y  // r1.y <- vMax.y
                 
-                #line 174
+                #line 185
                 add r2.xyz, r0.xyzx, r1.xyzx
                 mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- boxCenter.x; r2.y <- boxCenter.y; r2.z <- boxCenter.z
                 
-                #line 175
+                #line 186
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 176
+                #line 187
                 nop 
                 mov r2.xyz, r2.xyzx
                 mov r0.xyz, r0.xyzx
@@ -5811,7 +5816,7 @@ fxgroup
                 mov x0[4].xyzw, cb0[14].xyzw
                 mov x0[5].xyzw, cb0[15].xyzw
                 
-                #line 138
+                #line 149
                 mov r0.w, l(0)  // r0.w <- i
                 mov r1.y, l(0)  // r1.y <- <AabbOutsideFrustumTest return value>
                 mov r1.x, r0.w  // r1.x <- i
@@ -5821,73 +5826,73 @@ fxgroup
                   mov r1.z, l(0)
                   breakc_z r1.w
                 
-                #line 142
+                #line 153
                   nop 
                   mov r3.xyz, r2.xyzx
                   mov r4.xyz, r0.xyzx
                   mov r5.xyzw, x0[r1.x + 0].xyzw
                 
-                #line 121
+                #line 132
                   mov r6.xyz, -r5.xyzx
                   max r6.xyz, r5.xyzx, r6.xyzx  // r6.x <- n.x; r6.y <- n.y; r6.z <- n.z
                 
-                #line 124
+                #line 135
                   dp3 r1.w, r4.xyzx, r6.xyzx
                   add r1.w, r1.w, l(15.000000)  // r1.w <- r
                 
-                #line 127
+                #line 138
                   mov r3.w, l(1.000000)
                   dp4 r2.w, r3.xyzw, r5.xyzw  // r2.w <- s
                 
-                #line 132
+                #line 143
                   add r1.w, r1.w, r2.w
                   lt r1.w, r1.w, l(0.000000)  // r1.w <- <AabbBehindPlaneTest return value>
                 
-                #line 142
+                #line 153
                   if_nz r1.w
                 
-                #line 144
+                #line 155
                     mov r1.y, l(-1)
                     mov r1.z, l(-1)
                     break 
                 
-                #line 145
+                #line 156
                   endif 
                 
-                #line 138
+                #line 149
                   iadd r1.x, r1.x, l(1)
                 
-                #line 146
+                #line 157
                   mov r1.z, r1.w
                 endloop 
                 
-                #line 148
+                #line 159
                 if_z r1.z
                   mov r1.y, l(0)
                 endif 
                 
-                #line 176
+                #line 187
                 if_nz r1.y
                 
-                #line 178
+                #line 189
                   mov r0.x, l(0)  // r0.x <- pt.EdgeTess[0]
                 
-                #line 179
+                #line 190
                   mov r0.y, l(0)  // r0.y <- pt.EdgeTess[1]
                 
-                #line 180
+                #line 191
                   mov r1.x, l(0)  // r1.x <- pt.EdgeTess[2]
                 
-                #line 181
+                #line 192
                   mov r1.y, l(0)  // r1.y <- pt.EdgeTess[3]
                 
-                #line 183
+                #line 194
                   mov r1.z, l(0)  // r1.z <- pt.InsideTess[0]
                 
-                #line 184
+                #line 195
                   mov r1.w, l(0)  // r1.w <- pt.InsideTess[1]
                 
-                #line 186
+                #line 197
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -5903,42 +5908,42 @@ fxgroup
                   mov o5.x, r0.w
                   ret 
                 
-                #line 187
+                #line 198
                 else   // Prior locations: r0.x <- boxExtents.x; r0.y <- boxExtents.y; r0.z <- boxExtents.z
                 
-                #line 198
+                #line 209
                   add r0.xyz, vicp[2][0].xyzx, vicp[0][0].xyzx
                   mul r0.xyz, r0.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r0.x <- e0.x; r0.y <- e0.y; r0.z <- e0.z
                 
-                #line 199
+                #line 210
                   add r1.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   mul r1.xyz, r1.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r1.x <- e1.x; r1.y <- e1.y; r1.z <- e1.z
                 
-                #line 200
+                #line 211
                   add r2.xyz, vicp[3][0].xyzx, vicp[1][0].xyzx
                   mul r2.xyz, r2.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r2.x <- e2.x; r2.y <- e2.y; r2.z <- e2.z
                 
-                #line 201
+                #line 212
                   add r3.xyz, vicp[3][0].xyzx, vicp[2][0].xyzx
                   mul r3.xyz, r3.xyzx, l(0.500000, 0.500000, 0.500000, 0.000000)  // r3.x <- e3.x; r3.y <- e3.y; r3.z <- e3.z
                 
-                #line 202
+                #line 213
                   add r4.xyz, vicp[1][0].xyzx, vicp[0][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[2][0].xyzx
                   add r4.xyz, r4.xyzx, vicp[3][0].xyzx
                   mul r4.xyz, r4.xyzx, l(0.250000, 0.250000, 0.250000, 0.000000)  // r4.x <- c.x; r4.y <- c.y; r4.z <- c.z
                 
-                #line 204
+                #line 215
                   nop 
                   mov r0.xyz, r0.xyzx
                 
-                #line 108
+                #line 119
                   mov r5.xyz, -cb0[4].xyzx
                   add r0.xyz, r0.xyzx, r5.xyzx
                   dp3 r0.x, r0.xyzx, r0.xyzx
                   sqrt r0.x, r0.x  // r0.x <- d
                 
-                #line 113
+                #line 124
                   mov r0.y, -cb0[7].x
                   add r0.x, r0.y, r0.x
                   mov r0.y, -cb0[7].x
@@ -5947,7 +5952,7 @@ fxgroup
                   max r0.x, r0.x, l(0.000000)
                   min r0.x, r0.x, l(1.000000)  // r0.x <- s
                 
-                #line 115
+                #line 126
                   itof r0.y, l(2)
                   mov r0.z, -cb0[7].w
                   add r0.z, r0.z, cb0[7].z
@@ -5957,20 +5962,20 @@ fxgroup
                   mul r0.x, r0.y, r0.x
                   exp r0.x, r0.x  // r0.x <- <CalcTessFactor return value>
                 
-                #line 204
+                #line 215
                   mov r0.x, r0.x  // r0.x <- pt.EdgeTess[0]
                 
-                #line 205
+                #line 216
                   nop 
                   mov r1.xyz, r1.xyzx
                 
-                #line 108
+                #line 119
                   mov r0.yzw, -cb0[4].xxyz
                   add r0.yzw, r0.yyzw, r1.xxyz
                   dp3 r0.y, r0.yzwy, r0.yzwy
                   sqrt r0.y, r0.y  // r0.y <- d
                 
-                #line 113
+                #line 124
                   mov r0.z, -cb0[7].x
                   add r0.y, r0.z, r0.y
                   mov r0.z, -cb0[7].x
@@ -5979,7 +5984,7 @@ fxgroup
                   max r0.y, r0.y, l(0.000000)
                   min r0.y, r0.y, l(1.000000)  // r0.y <- s
                 
-                #line 115
+                #line 126
                   itof r0.z, l(2)
                   mov r0.w, -cb0[7].w
                   add r0.w, r0.w, cb0[7].z
@@ -5989,20 +5994,20 @@ fxgroup
                   mul r0.y, r0.z, r0.y
                   exp r0.y, r0.y  // r0.y <- <CalcTessFactor return value>
                 
-                #line 205
+                #line 216
                   mov r0.y, r0.y  // r0.y <- pt.EdgeTess[1]
                 
-                #line 206
+                #line 217
                   nop 
                   mov r2.xyz, r2.xyzx
                 
-                #line 108
+                #line 119
                   mov r1.xyz, -cb0[4].xyzx
                   add r1.xyz, r1.xyzx, r2.xyzx
                   dp3 r0.z, r1.xyzx, r1.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -6011,7 +6016,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r1.x, -cb0[7].w
                   add r1.x, r1.x, cb0[7].z
@@ -6021,20 +6026,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.x, r0.z  // r1.x <- <CalcTessFactor return value>
                 
-                #line 206
+                #line 217
                   mov r1.x, r1.x  // r1.x <- pt.EdgeTess[2]
                 
-                #line 207
+                #line 218
                   nop 
                   mov r3.xyz, r3.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r3.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -6043,7 +6048,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -6053,20 +6058,20 @@ fxgroup
                   mul r0.z, r0.w, r0.z
                   exp r1.y, r0.z  // r1.y <- <CalcTessFactor return value>
                 
-                #line 207
+                #line 218
                   mov r1.y, r1.y  // r1.y <- pt.EdgeTess[3]
                 
-                #line 209
+                #line 220
                   nop 
                   mov r4.xyz, r4.xyzx
                 
-                #line 108
+                #line 119
                   mov r2.xyz, -cb0[4].xyzx
                   add r2.xyz, r2.xyzx, r4.xyzx
                   dp3 r0.z, r2.xyzx, r2.xyzx
                   sqrt r0.z, r0.z  // r0.z <- d
                 
-                #line 113
+                #line 124
                   mov r0.w, -cb0[7].x
                   add r0.z, r0.w, r0.z
                   mov r0.w, -cb0[7].x
@@ -6075,7 +6080,7 @@ fxgroup
                   max r0.z, r0.z, l(0.000000)
                   min r0.z, r0.z, l(1.000000)  // r0.z <- s
                 
-                #line 115
+                #line 126
                   itof r0.w, l(2)
                   mov r2.x, -cb0[7].w
                   add r2.x, r2.x, cb0[7].z
@@ -6086,13 +6091,13 @@ fxgroup
                   exp r1.w, r0.z  // r1.w <- <CalcTessFactor return value>
                   mov r1.z, r1.w  // r1.z <- <CalcTessFactor return value>
                 
-                #line 209
+                #line 220
                   mov r1.z, r1.z  // r1.z <- pt.InsideTess[0]
                 
-                #line 210
+                #line 221
                   mov r1.w, r1.w  // r1.w <- pt.InsideTess[1]
                 
-                #line 212
+                #line 223
                   mov r1.x, r1.x  // r1.x <- <ConstantHS return value>.EdgeTess[2]
                   mov r1.y, r1.y  // r1.y <- <ConstantHS return value>.EdgeTess[3]
                   mov r1.z, r1.z  // r1.z <- <ConstantHS return value>.InsideTess[0]
@@ -6108,7 +6113,7 @@ fxgroup
                   mov o5.x, r0.w  // o5.x <- <ConstantHS return value>.InsideTess[1]
                   ret 
                 
-                #line 213
+                #line 224
                 endif 
                 ret 
                 // Approximately 219 instruction slots used
@@ -6254,7 +6259,7 @@ fxgroup
                 //   vicp[3][0].x <- quad[3].PosW.x; vicp[3][0].y <- quad[3].PosW.y; vicp[3][0].z <- quad[3].PosW.z; 
                 //   vicp[3][1].x <- quad[3].Tex.x; vicp[3][1].y <- quad[3].Tex.y
                 //
-                #line 260 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 271 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.xy, -vicp[0][0].xzxx
                 add r0.xy, r0.xyxx, vicp[1][0].xzxx
                 mul r0.xy, r0.xyxx, vDomain.xxxx
@@ -6268,7 +6273,7 @@ fxgroup
                 mul r0.zw, r0.zzzw, vDomain.yyyy
                 add r0.xz, r0.zzwz, r0.xxyx  // r0.x <- dout.PosW.x; r0.z <- dout.PosW.z
                 
-                #line 265
+                #line 276
                 mov r1.xy, -vicp[0][1].xyxx
                 add r1.xy, r1.xyxx, vicp[1][1].xyxx
                 mul r1.xy, r1.xyxx, vDomain.xxxx
@@ -6282,41 +6287,41 @@ fxgroup
                 mul r1.zw, r1.zzzw, vDomain.yyyy
                 add r1.xy, r1.zwzz, r1.xyxx  // r1.x <- dout.Tex.x; r1.y <- dout.Tex.y
                 
-                #line 271
+                #line 282
                 mul r1.zw, r1.xxxy, cb0[9].xxxy  // r1.z <- dout.TiledTex.x; r1.w <- dout.TiledTex.y
                 
-                #line 274
+                #line 285
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r1.xyxx, t0.yxzw, s0, r2.x
                 mov r0.y, r0.y  // r0.y <- dout.PosW.y
                 
-                #line 276
+                #line 287
                 ine r2.x, l(0, 0, 0, 0), cb0[16].x
                 if_nz r2.x
                 
-                #line 278
+                #line 289
                   mov r2.xyz, l(0,1.000000,0,0)  // r2.x <- ClipPlane.x; r2.y <- ClipPlane.y; r2.z <- ClipPlane.z
                 
-                #line 279
+                #line 290
                   dp3 r2.x, r0.xyzx, r2.xyzx  // r2.x <- dout.ClipValue
                 
-                #line 280
+                #line 291
                 else 
                 
-                #line 283
+                #line 294
                   mov r2.x, l(1.000000)  // r2.x <- dout.ClipValue
                 
-                #line 284
+                #line 295
                 endif 
                 
-                #line 291
+                #line 302
                 mov r0.w, l(1.000000)
                 dp4 r3.x, r0.xyzw, cb1[0].xyzw  // r3.x <- dout.PosH.x
                 dp4 r3.y, r0.xyzw, cb1[1].xyzw  // r3.y <- dout.PosH.y
                 dp4 r3.z, r0.xyzw, cb1[2].xyzw  // r3.z <- dout.PosH.z
                 dp4 r3.w, r0.xyzw, cb1[3].xyzw  // r3.w <- dout.PosH.w
                 
-                #line 293
+                #line 304
                 mov o0.xyzw, r3.xyzw
                 mov o2.xy, r1.xyxx
                 mov o2.zw, r1.zzzw
@@ -6440,47 +6445,47 @@ fxgroup
                 //   v3.x <- pin.ClipValue; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 303 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 314 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r0.x, -cb0[8].x
                 mov r0.y, l(0)
                 add r0.xy, r0.xyxx, v2.xyxx  // r0.x <- leftTex.x; r0.y <- leftTex.y
                 
-                #line 304
+                #line 315
                 mov r1.x, cb0[8].x
                 mov r1.y, l(0)
                 add r0.zw, r1.xxxy, v2.xxxy  // r0.z <- rightTex.x; r0.w <- rightTex.y
                 
-                #line 305
+                #line 316
                 mov r1.x, l(0)
                 mov r1.y, cb0[8].y
                 add r1.xy, r1.xyxx, v2.xyxx  // r1.x <- bottomTex.x; r1.y <- bottomTex.y
                 
-                #line 306
+                #line 317
                 mov r2.y, -cb0[8].y
                 mov r2.x, l(0)
                 add r1.zw, r2.xxxy, v2.xxxy  // r1.z <- topTex.x; r1.w <- topTex.y
                 
-                #line 308
+                #line 319
                 itof r2.x, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.x, r0.xyxx, t2.xyzw, s2, r2.x
                 mov r0.x, r0.x  // r0.x <- leftY
                 
-                #line 309
+                #line 320
                 itof r0.y, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.y, r0.zwzz, t2.yxzw, s2, r0.y
                 mov r0.y, r0.y  // r0.y <- rightY
                 
-                #line 310
+                #line 321
                 itof r0.z, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.z, r1.xyxx, t2.yzxw, s2, r0.z
                 mov r0.z, r0.z  // r0.z <- bottomY
                 
-                #line 311
+                #line 322
                 itof r0.w, l(0)
                 sample_l_indexable(texture2d)(float,float,float,float) r0.w, r1.zwzz, t2.yzwx, s2, r0.w
                 mov r0.w, r0.w  // r0.w <- topY
                 
-                #line 313
+                #line 324
                 mul r1.y, cb0[8].z, l(2.000000)
                 mov r0.x, -r0.x
                 add r1.z, r0.x, r0.y
@@ -6489,7 +6494,7 @@ fxgroup
                 rsq r0.x, r0.x
                 mul r1.xyz, r0.xxxx, r1.xyzx  // r1.x <- tangent.z; r1.y <- tangent.x; r1.z <- tangent.y
                 
-                #line 314
+                #line 325
                 mov r0.x, -r0.w
                 add r0.x, r0.x, r0.z
                 mul r0.y, cb0[8].z, l(-2.000000)
@@ -6498,77 +6503,77 @@ fxgroup
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx  // r0.x <- bitan.y; r0.y <- bitan.z; r0.z <- bitan.x
                 
-                #line 315
+                #line 326
                 mul r2.xyz, r0.yzxy, r1.zxyz
                 mul r0.xyz, r0.xyzx, r1.xyzx
                 mov r0.xyz, -r0.xyzx
                 add r0.xyz, r0.xyzx, r2.xyzx  // r0.x <- normalW.x; r0.y <- normalW.y; r0.z <- normalW.z
                 
-                #line 319
+                #line 330
                 mov r1.xyz, -v1.xyzx
                 add r1.xyz, r1.xyzx, cb0[4].xyzx  // r1.x <- toEye.x; r1.y <- toEye.y; r1.z <- toEye.z
                 
-                #line 322
+                #line 333
                 dp3 r0.w, r1.xyzx, r1.xyzx
                 sqrt r0.w, r0.w  // r0.w <- distToEye
                 
-                #line 325
+                #line 336
                 div r1.xyz, r1.xyzx, r0.wwww
                 
-                #line 332
+                #line 343
                 sample_indexable(texture2d)(float,float,float,float) r2.xyzw, v2.zwzz, t3.xyzw, s0  // r2.x <- c0.x; r2.y <- c0.y; r2.z <- c0.z; r2.w <- c0.w
                 
-                #line 335
+                #line 346
                 mov r3.xy, v2.zwzz
                 mov r3.z, l(1.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r3.xyz, r3.xyzx, t0.xyzw, s1
                 mov r3.xyz, r3.xyzx  // r3.x <- c2.x; r3.y <- c2.y; r3.z <- c2.z
                 
-                #line 336
+                #line 347
                 mov r4.xy, v2.zwzz
                 mov r4.z, l(2.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r4.xyzw, r4.xyzx, t0.xyzw, s1  // r4.x <- c3.x; r4.y <- c3.y; r4.z <- c3.z; r4.w <- c3.w
                 
-                #line 337
+                #line 348
                 mov r5.xy, v2.zwzz
                 mov r5.z, l(3.000000)
                 sample_indexable(texture2darray)(float,float,float,float) r5.xyzw, r5.xyzx, t0.xyzw, s1  // r5.x <- c4.x; r5.y <- c4.y; r5.z <- c4.z; r5.w <- c4.w
                 
-                #line 341
+                #line 352
                 sample_indexable(texture2d)(float,float,float,float) r6.xyz, v2.xyxx, t1.yzwx, s0
                 mov r6.xyz, r6.xyzx  // r6.x <- t.y; r6.y <- t.z; r6.z <- t.w
                 
-                #line 344
+                #line 355
                 mov r2.xyzw, r2.xyzw  // r2.x <- texColor.x; r2.y <- texColor.y; r2.z <- texColor.z; r2.w <- texColor.w
                 
-                #line 346
+                #line 357
                 mov r7.xyz, -r2.xyzx
                 add r3.xyz, r3.xyzx, r7.xyzx
                 mul r3.xyz, r3.xyzx, r6.xxxx
                 add r2.xyz, r2.xyzx, r3.xyzx
                 
-                #line 347
+                #line 358
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r4.xyzw
                 mul r3.xyzw, r3.xyzw, r6.yyyy
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 348
+                #line 359
                 mov r3.xyzw, -r2.xyzw
                 add r3.xyzw, r3.xyzw, r5.xyzw
                 mul r3.xyzw, r3.xyzw, r6.zzzz
                 add r2.xyzw, r2.xyzw, r3.xyzw
                 
-                #line 359
+                #line 370
                 mov r3.xyzw, l(0,0,0,0)  // r3.x <- ambient.x; r3.y <- ambient.y; r3.z <- ambient.z; r3.w <- ambient.w
                 
-                #line 360
+                #line 371
                 mov r4.xyzw, l(0,0,0,0)  // r4.x <- diffuse.x; r4.y <- diffuse.y; r4.z <- diffuse.z; r4.w <- diffuse.w
                 
-                #line 361
+                #line 372
                 mov r5.xyzw, l(0,0,0,0)  // r5.x <- spec.x; r5.y <- spec.y; r5.z <- spec.z; r5.w <- spec.w
                 
-                #line 366
+                #line 377
                 nop 
                 mov r6.xyzw, cb1[4].xyzw
                 mov r7.xyzw, cb1[5].xyzw
@@ -6625,39 +6630,39 @@ fxgroup
                 movc r1.xyzw, r9.xxxx, r1.xyzw, r13.xyzw
                 movc r7.xyzw, r9.xxxx, r7.xyzw, r14.xyzw
                 
-                #line 366 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
+                #line 377 "D:\noesisGUI\Src\Packages\Samples\Menu3D\Projects\windows_x86\shader\Terrain.fx"
                 mov r6.xyzw, r6.xyzw  // r6.x <- A.x; r6.y <- A.y; r6.z <- A.z; r6.w <- A.w
                 mov r1.xyzw, r1.xyzw  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z; r1.w <- D.w
                 mov r7.xyzw, r7.xyzw  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z; r7.w <- S.w
                 
-                #line 369
+                #line 380
                 add r3.xyzw, r3.xyzw, r6.xyzw
                 
-                #line 370
+                #line 381
                 add r1.xyzw, r1.xyzw, r4.xyzw  // r1.x <- diffuse.x; r1.y <- diffuse.y; r1.z <- diffuse.z; r1.w <- diffuse.w
                 
-                #line 371
+                #line 382
                 add r4.xyzw, r5.xyzw, r7.xyzw  // r4.x <- spec.x; r4.y <- spec.y; r4.z <- spec.z; r4.w <- spec.w
                 
-                #line 374
+                #line 385
                 add r1.xyzw, r1.xyzw, r3.xyzw
                 mul r1.xyzw, r1.xyzw, r2.xyzw
                 add r1.xyzw, r4.xyzw, r1.xyzw  // r1.x <- litColor.x; r1.y <- litColor.y; r1.z <- litColor.z; r1.w <- litColor.w
                 
-                #line 383
+                #line 394
                 mov r0.x, -cb0[4].w
                 add r0.x, r0.x, r0.w
                 div r0.x, r0.x, cb0[5].x
                 max r0.x, r0.x, l(0.000000)
                 min r0.x, r0.x, l(1.000000)  // r0.x <- fogLerp
                 
-                #line 386
+                #line 397
                 mov r2.xyzw, -r1.xyzw
                 add r2.xyzw, r2.xyzw, cb0[6].xyzw
                 mul r0.xyzw, r0.xxxx, r2.xyzw
                 add r0.xyzw, r0.xyzw, r1.xyzw  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z; r0.w <- litColor.w
                 
-                #line 388
+                #line 399
                 mov o0.xyzw, r0.xyzw
                 ret 
                 // Approximately 129 instruction slots used

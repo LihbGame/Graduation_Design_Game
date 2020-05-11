@@ -189,6 +189,9 @@ void DrawGS(point VertexOut gin[1],
 			float3 Width = HalfWidth * right;
 
 
+
+			
+
 			v[0] = float4(PosW - Width + Height * 0, 1.0f);
 			v[0].xz += wind.xy * windCoEff;
 			v[0].y -= windForce * windCoEff * 0.8;

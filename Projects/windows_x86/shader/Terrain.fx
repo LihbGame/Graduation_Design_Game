@@ -46,6 +46,14 @@ Texture2D gBlendMap;
 Texture2D gHeightMap;
 Texture2D gGrassMap;
 
+RasterizerState BackCull
+{
+	CullMode = back;
+};
+
+
+
+
 SamplerState samAnisotropic
 {
 	Filter = ANISOTROPIC;
@@ -62,6 +70,9 @@ SamplerState samLinear
 	AddressU = WRAP;
 	AddressV = WRAP;
 };
+
+
+
 
 SamplerState samHeightmap
 {
@@ -397,6 +408,7 @@ technique11 Light1
         SetDomainShader( CompileShader( ds_5_0, DS() ) );
 		SetGeometryShader( NULL );
         SetPixelShader( CompileShader( ps_5_0, PS(1, true) ) );
+		SetRasterizerState(BackCull);
     }
 }
 

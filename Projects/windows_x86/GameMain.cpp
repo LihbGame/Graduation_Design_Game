@@ -521,7 +521,8 @@ void GameApp::DrawScene()
 		// Draw the terrain
 		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
-		//mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
+
+		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
 
 		// Restore default render state.
 		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
