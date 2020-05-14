@@ -258,6 +258,10 @@ GameApp::GameApp(HINSTANCE hInstance)
 	
 	WaveParams = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
+
+	XMFLOAT4 ff = XMFLOAT4(-1.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR gg=XMVector3Orthogonal(XMLoadFloat4(&ff));
+
 	
 	//camera init
 	if (mCamera == NULL)
