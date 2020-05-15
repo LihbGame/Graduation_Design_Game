@@ -38,7 +38,7 @@ void Terrain::InitTerrain(ID3D11Device* md3dDevice,int MapSize, int UnitMapOffse
 			{
 				if (sence[index].SenceData[i][j] == '+')
 				{
-					boxOffset = XMMatrixTranslation(offsetX + i * UnitMapOffset, 0.0f, offsetZ + j * UnitMapOffset);
+					boxOffset = XMMatrixTranslation(offsetX + i * UnitMapOffset, 7.5f, offsetZ + j * UnitMapOffset);
 					XMStoreFloat4x4(&temp.World, boxScale * boxOffset);
 					temp.TexIndex = rand() % 4;
 					//实例化数据
@@ -81,9 +81,9 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 	float offsetZ = 0.0f;
 	for (int index = 0; index < sence.size(); ++index)
 	{
-		offsetX = sence[index].SenceOffset.x;
+		offsetX = sence[index].SenceOffset.x ;
 		offsetY = sence[index].SenceOffset.y;
-		offsetZ = sence[index].SenceOffset.z;
+		offsetZ = sence[index].SenceOffset.z ;
 		for (int i = 0; i < MapSize; ++i)
 		{
 			for (int j = 0; j < MapSize; ++j)
@@ -96,7 +96,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 				if (temp == '1')
 				{
 					sence[index].ModelInfo[temp].Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.055f, 0.055f, 0.055f));
-					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX , 15.0f, offsetZ));
 					//动态物体
 				}
 				//Model 2 (树)
@@ -105,7 +105,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 					//静态物体
 					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(0.15f, 0.15f, 0.15f)
-						* XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+						* XMMatrixTranslation(offsetX, 15.0f, offsetZ));
 				}
 				//Model 3 (白鹤)
 				else if (temp == '3')
@@ -122,7 +122,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(0.007f, 0.007f, 0.007f)
-						* XMMatrixTranslation(offsetX, 3.5f, offsetZ));
+						* XMMatrixTranslation(offsetX, 10.5f, offsetZ));
 				}
 				//Model 5  (房屋1)
 				else if (temp == '5')
@@ -130,7 +130,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 					//静态物体
 					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixScaling(2.0f, 2.0f, 2.0f)
-						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+						* XMMatrixTranslation(offsetX, 15.0f, offsetX));
 				}
 				//Model 6 (神像)
 				else if (temp == '6')
@@ -139,7 +139,7 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(5.0f, 5.0f, 5.0f)
-						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+						* XMMatrixTranslation(offsetX, 15.0f, offsetX));
 				}
 				//Model 7 (小孩石像)
 				else if (temp == '7')
@@ -148,14 +148,14 @@ void Terrain::InitModel(ID3D11Device* md3dDevice, int MapSize, int UnitMapOffset
 					sence[index].ModelInfo[temp].Mat_World.push_back(XMMatrixRotationX(-MathHelper::Pi / 2)
 						* XMMatrixRotationY(MathHelper::RandF(0.0f, 3.14f))
 						* XMMatrixScaling(6.0f, 6.0f, 6.0f)
-						* XMMatrixTranslation(offsetX, 7.5f, offsetX));
+						* XMMatrixTranslation(offsetX, 15.0f, offsetX));
 				}
 				//Model 8 PLAYER MODEL
 				else if (temp == '8')
 				{
 					//动态物体
 					sence[index].ModelInfo[temp].Mat_tansform_Rot_Scal.push_back(XMMatrixRotationX(-MathHelper::Pi / 2) * XMMatrixScaling(0.1f, 0.1f, 0.1f));
-					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 7.5f, offsetZ));
+					sence[index].ModelInfo[temp].Mat_tansform_Translation.push_back(XMMatrixTranslation(offsetX, 15.0f, offsetZ));
 				}
 				//reset offset
 				offsetX = sence[index].SenceOffset.x;

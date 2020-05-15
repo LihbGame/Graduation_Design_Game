@@ -48,7 +48,7 @@ bool CGameMap::FindNextDirection(DIRECT* newdir, int startX, int startY, int tar
 	VPath path;
 	if ((startX == targetX) && (startY == targetY))
 	{
-		return false;
+	return false;
 	}
 	FindPath(startX, startY, targetX, targetY, path);
 	if (path.empty()) {

@@ -242,7 +242,7 @@ GameApp::GameApp(HINSTANCE hInstance)
 	: D3DApp(hInstance), LoadProgress(0),mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(Render_Options::TexturesAndFog),
 	mTheta(1.3f * MathHelper::Pi), mPhi(0.4f * MathHelper::Pi), mRadius(80.0f), 
-	mCamera(nullptr), PlayerPositionIndex(0,0), Mapindex(0,0), First(true), Endindex(0,0), unitlen(0),isMove(false)
+	mCamera(nullptr), PlayerPositionIndex(3,4), Mapindex(-1,-1), First(true), Endindex(-1,-1), unitlen(0),isMove(false)
 {
 	mMainWndCaption = L"Game Demo";
 	mEnable4xMsaa = true;
@@ -258,9 +258,6 @@ GameApp::GameApp(HINSTANCE hInstance)
 	
 	WaveParams = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
-
-	XMFLOAT4 ff = XMFLOAT4(-1.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR gg=XMVector3Orthogonal(XMLoadFloat4(&ff));
 
 	
 	//camera init
@@ -526,7 +523,7 @@ void GameApp::DrawScene()
 		mTerrain.Render(md3dImmediateContext,gDirLights,mShadowMap,false);
 		md3dImmediateContext->OMSetDepthStencilState(0, 0);
 
-		mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
+		//mHMapTerrain.Draw(md3dImmediateContext,*mCamera,&gDirLights,false);
 
 		// Restore default render state.
 		//md3dImmediateContext->RSSetState(RenderStates::WireframeRS);
@@ -911,9 +908,9 @@ bool GameApp::FindPath()
 					isMove = true;
 				}
 			
-				m_PlayerInfo[0]->Mat_tansform_Translation[0] = XMMatrixTranslation(x, 7.5f, z);
+				m_PlayerInfo[0]->Mat_tansform_Translation[0] = XMMatrixTranslation(x, 15.0f, z);
 				//更新玩家位置信息
-				PlayerWorldPosition = XMFLOAT3(x, 7.5f, z);
+				PlayerWorldPosition = XMFLOAT3(x, 15.0f, z);
 			}
 		}
 	}
@@ -1022,7 +1019,7 @@ void GameApp::InitFbxModel()
 	}
 	//Model 2 (树)
 	{
-		m_Models[1].CreateFileFbx("model/Blue_Tree_02a.FBX");
+		//m_Models[1].CreateFileFbx("model/Blue_Tree_02a.FBX");
 		m_Models[1].CreateFileKkb("model/Blue_Tree_02a.kkb");
 		m_Models[1].CreateImage(L"model/Blue_Tree2.dds");
 		m_Models[1].CreateNormalTexture(L"model/Blue_Tree2_NRM.dds");
@@ -1037,28 +1034,28 @@ void GameApp::InitFbxModel()
 	}
 	//Model 4 (石山)
 	{
-		m_Models[3].CreateFileFbx("model/shan06.FBX");
+		//m_Models[3].CreateFileFbx("model/shan06.FBX");
 		m_Models[3].CreateFileKkb("model/shan06.kkb");
 		m_Models[3].CreateImage(L"model/zzTex3.dds");
 		m_Models[3].CreateNormalTexture(L"model/zzTex3_NRM.dds");
 	}
 	//Model 5  (房屋1)
 	{
-		m_Models[4].CreateFileFbx("model/a.FBX");
+		//m_Models[4].CreateFileFbx("model/a.FBX");
 		m_Models[4].CreateFileKkb("model/a.kkb");
 		m_Models[4].CreateImage(L"model/UB25201.dds");
 		m_Models[4].CreateNormalTexture(L"model/UB25201_NRM.dds");
 	}
 	//Model 6 (神像)
 	{
-		m_Models[5].CreateFileFbx("model/aa.FBX");
+		//m_Models[5].CreateFileFbx("model/aa.FBX");
 		m_Models[5].CreateFileKkb("model/aa.kkb");
 		m_Models[5].CreateImage(L"model/UC42002.dds");
 		m_Models[5].CreateNormalTexture(L"model/UC42002_NRM.dds");
 	}
 	//Model 7 (小孩石像)
 	{
-		m_Models[6].CreateFileFbx("model/child.FBX");
+		//m_Models[6].CreateFileFbx("model/child.FBX");
 		m_Models[6].CreateFileKkb("model/child.kkb");
 		m_Models[6].CreateImage(L"model/UC40701.dds");
 		m_Models[6].CreateNormalTexture(L"model/UC40701_NRM.dds");
@@ -1331,7 +1328,7 @@ void GameApp::HeightmapTerrainInit()
 	TerrainInfo.LayerMapFilename3 = L"Textures/lightdirt.dds";
 	TerrainInfo.LayerMapFilename4 = L"Textures/snow.dds";
 	TerrainInfo.BlendMapFilename = L"Textures/blend.dds";
-	TerrainInfo.HeightScale = 100.0f;
+	TerrainInfo.HeightScale = 80.0f;
 	TerrainInfo.HeightmapWidth = 2049;
 	TerrainInfo.HeightmapHeight = 2049;
 	TerrainInfo.CellSpacing = 1.0f;
