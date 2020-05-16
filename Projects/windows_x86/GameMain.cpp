@@ -1012,51 +1012,51 @@ void GameApp::InitFbxModel()
 	//Model 1  (Ö©Öë¹Ö)
 	{
 		m_Models[0].CreateFileFbx("model/GiantSpider.FBX");
-		m_Models[0].CreateFileKkb("model/GiantSpider.kkb");
-		m_Models[0].CreateFileKkf("model/GiantSpider@Idle.kkf",Anim_State::Idle);
+		m_Models[0].CreateFileKkb("model/GiantSpider.MODEL");
+		m_Models[0].CreateFileKkf("model/GiantSpider@Idle.ANIME",Anim_State::Idle);
 		m_Models[0].CreateImage(L"model/GiantSpider_04.dds");
 		m_Models[0].CreateNormalTexture(L"model/GiantSpider_04_NRM.dds");
 	}
 	//Model 2 (Ê÷)
 	{
-		//m_Models[1].CreateFileFbx("model/Blue_Tree_02a.FBX");
-		m_Models[1].CreateFileKkb("model/Blue_Tree_02a.kkb");
+		m_Models[1].CreateFileFbx("model/Blue_Tree_02a.FBX");
+		m_Models[1].CreateFileKkb("model/Blue_Tree_02a.MODEL");
 		m_Models[1].CreateImage(L"model/Blue_Tree2.dds");
 		m_Models[1].CreateNormalTexture(L"model/Blue_Tree2_NRM.dds");
 	}
 	//Model 3 (°×º×)
 	{
 		m_Models[2].CreateFileFbx("model/BaiLu_Fei_Loop.FBX");
-		m_Models[2].CreateFileKkb("model/BaiLu_Fei_Loop.kkb");
-		m_Models[2].CreateFileKkf("model/BaiLu_Fei_Loop.kkf",Anim_State::Idle);
+		m_Models[2].CreateFileKkb("model/BaiLu_Fei_Loop.MODEL");
+		m_Models[2].CreateFileKkf("model/BaiLu_Fei_Loop.ANIME",Anim_State::Idle);
 		m_Models[2].CreateImage(L"model/bailu.dds");
 		m_Models[2].CreateNormalTexture(L"model/bailu_NRM.dds");
 	}
 	//Model 4 (Ê¯É½)
 	{
-		//m_Models[3].CreateFileFbx("model/shan06.FBX");
-		m_Models[3].CreateFileKkb("model/shan06.kkb");
+		m_Models[3].CreateFileFbx("model/shan06.FBX");
+		m_Models[3].CreateFileKkb("model/shan06.MODEL");
 		m_Models[3].CreateImage(L"model/zzTex3.dds");
 		m_Models[3].CreateNormalTexture(L"model/zzTex3_NRM.dds");
 	}
 	//Model 5  (·¿ÎÝ1)
 	{
-		//m_Models[4].CreateFileFbx("model/a.FBX");
-		m_Models[4].CreateFileKkb("model/a.kkb");
+		m_Models[4].CreateFileFbx("model/a.FBX");
+		m_Models[4].CreateFileKkb("model/a.MODEL");
 		m_Models[4].CreateImage(L"model/UB25201.dds");
 		m_Models[4].CreateNormalTexture(L"model/UB25201_NRM.dds");
 	}
 	//Model 6 (ÉñÏñ)
 	{
-		//m_Models[5].CreateFileFbx("model/aa.FBX");
-		m_Models[5].CreateFileKkb("model/aa.kkb");
+		m_Models[5].CreateFileFbx("model/aa.FBX");
+		m_Models[5].CreateFileKkb("model/aa.MODEL");
 		m_Models[5].CreateImage(L"model/UC42002.dds");
 		m_Models[5].CreateNormalTexture(L"model/UC42002_NRM.dds");
 	}
 	//Model 7 (Ð¡º¢Ê¯Ïñ)
 	{
-		//m_Models[6].CreateFileFbx("model/child.FBX");
-		m_Models[6].CreateFileKkb("model/child.kkb");
+		m_Models[6].CreateFileFbx("model/child.FBX");
+		m_Models[6].CreateFileKkb("model/child.MODEL");
 		m_Models[6].CreateImage(L"model/UC40701.dds");
 		m_Models[6].CreateNormalTexture(L"model/UC40701_NRM.dds");
 	}
@@ -1064,9 +1064,9 @@ void GameApp::InitFbxModel()
 	{
 
 		m_Models[7].CreateFileFbx("model/TraumaGuard.FBX");
-		m_Models[7].CreateFileKkb("model/TraumaGuard.kkb");
-		m_Models[7].CreateFileKkf("model/TraumaGuard_Run.kkf", Anim_State::Run);
-		m_Models[7].CreateFileKkf("model/TraumaGuard_ActiveIdleLoop.kkf", Anim_State::Idle);
+		m_Models[7].CreateFileKkb("model/TraumaGuard.MODEL");
+		m_Models[7].CreateFileKkf("model/TraumaGuard_Run.ANIME", Anim_State::Run);
+		m_Models[7].CreateFileKkf("model/TraumaGuard_ActiveIdleLoop.ANIME", Anim_State::Idle);
 		m_Models[7].CreateImage(L"model/TraumaGuard_Albedo.dds");
 		m_Models[7].CreateNormalTexture(L"model/TraumaGuard_Normal.dds");
 		m_Models[7].SetModelTansInfo(m_PlayerInfo[0]);

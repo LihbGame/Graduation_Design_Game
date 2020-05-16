@@ -412,10 +412,12 @@ void Model::ConvertFbx2KK()
 
 	do 
 	{
-		buff[nPos+1] = 'k';
-		buff[nPos+2] = 'k';
-		buff[nPos+3] = 'b';
-		buff[nPos+4] = 0;
+		buff[nPos + 1] = 'M';
+		buff[nPos + 2] = 'O';
+		buff[nPos + 3] = 'D';
+		buff[nPos + 4] = 'E';
+		buff[nPos + 5] = 'L';
+		buff[nPos + 6] = 0;
 		pKkbWrite = new StKKFileKkbWrite;
 		if (pKkbWrite->WriteKkb(buff, g_pFbxModel) == false)
 		{
@@ -425,10 +427,12 @@ void Model::ConvertFbx2KK()
 
 		if (g_pFbxModel->GetKeyFrameCount() > 0)
 		{
-			buff[nPos+1] = 'k';
-			buff[nPos+2] = 'k';
-			buff[nPos+3] = 'f';
-			buff[nPos+4] = 0;
+			buff[nPos + 1] = 'A';
+			buff[nPos + 2] = 'N';
+			buff[nPos + 3] = 'I';
+			buff[nPos + 4] = 'M';
+			buff[nPos + 5] = 'E';
+			buff[nPos + 6] = 0;
 			pKkfWrite = new StKKFileKkfWrite;
 			if (pKkfWrite->WriteKkf(buff, g_pFbxModel) == false)
 			{
