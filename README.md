@@ -2,6 +2,5 @@
 
 
 
-![demo](ScreenShot1.png)
-![demo](ScreenShot2.png)
+![demo](图片1.png)
 
